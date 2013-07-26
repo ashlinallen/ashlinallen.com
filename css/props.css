@@ -1,0 +1,163 @@
+#theHeavens,
+#theStars {
+    height:100%;
+    width:100%;
+    position:absolute;
+    min-height:600px;
+    overflow:hidden;
+    -webkit-backface-visibility: hidden;
+    background-position:center center;
+    background-attachment:fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#theClouds {
+    width:600px;
+    height:600px;
+    margin-top:-275px;
+    position:absolute;
+    left:50%;
+    background-size:600px 600px;
+    margin-left:-300px;
+    opacity:0.6;
+    background-image:url("../img/cloud_ring.png");
+    display:none;
+}
+
+#theStars {
+    background-position:-50px -50px;
+    background-size:110%;
+    background-image:url("../img/stars_big.png");
+}
+
+#theHeavens {
+    background-image:url("../img/htmlbg.png");
+}
+
+#planetEarth {
+    position:absolute;
+    left:50%;
+    margin-left:-200px;
+    margin-top:-250px;
+    width:400px;
+    height:400px;
+    background-image:url("../img/earth.png");
+    background-size:400px;
+    transform:rotate(-4000deg);
+    -ms-transform:rotate(-4000deg);
+    -webkit-transform:rotate(-4000deg);
+}
+
+#planetEarth > a {
+    margin:0 auto;
+    position:absolute;
+    display:block;
+    cursor:pointer;
+}
+
+#ourHero {
+    position:relative;
+    top:-240px;
+    left:50%;
+    margin-left:-21px;
+    width:42px;
+    height:76px;
+    background-size:42px 76px;
+    z-index:1;
+}
+
+#ourHero > #status {
+    height:50px;
+    width:50px;
+    background-image:url("../img/hearts.gif");
+    position:absolute;
+    top:-45px;
+    right:-30px;
+    transform:rotate(8deg);
+    -ms-transform:rotate(8deg);
+    -webkit-transform:rotate(8deg);
+    display:none;
+}
+
+#ourHero.walking {
+    background-image:url("../img/ash_walking.gif");
+}
+
+#ourHero.standing {
+    background-image:url("../img/ash_standing.gif");
+}
+
+#ourHero.flipped {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+#heroProficiencyActor {
+    background-image:url("../img/ash_standing.gif");
+    width:72px;
+    height:130px;
+    float:left;
+    margin-top:10px;
+    background-size:72px 130px;
+}
+
+#computers {
+    width:60px;
+    height:60px;
+    bottom:-20px;
+    left:125px;
+    background-image:url("../img/computer.gif");
+    background-size:60px 60px;
+}
+
+#nature {
+    width:120px;
+    height:77px;
+    top:-4px;
+    background-image:url("../img/mountain.png");
+    background-size:120px 77px;
+}
+
+#games {
+    width:62px;
+    height:48px;
+    top:60px;
+    right:20px;
+    background-image:url("../img/snes.png");
+    background-size:62px 48px;
+}
+
+#sheri {
+    width:34px;
+    height:70px;
+    top:165px;
+    right:-42px;
+    background-image:url("../img/sheri_standing.gif");
+    background-size:34px 70px;
+}
+
+#cars {
+    width:79px;
+    height:28px;
+    top:-11px;
+    right:116px;
+    background-image:url("../img/fiero.png");
+    background-size:79px 28px;
+}
+
+.meteor {
+    width:180px;
+    height:4px;
+    z-index:0;
+    position:absolute;
+    background-image:url("../img/meteors.gif");
+    background-size:180px 4px;
+    -webkit-transform:rotate(-45deg);
+}
