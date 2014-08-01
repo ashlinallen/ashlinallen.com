@@ -182,7 +182,7 @@ function debug(string) {
                 
                 //Animate the infoPanel into hiding.
                 infoPanelOpen = false;
-                $("#infoPanel").stop().show().transition(
+                $("#infoPanel").stop().transition(
                     {
                         top: "-100px", 
 						opacity: 0,
@@ -193,6 +193,7 @@ function debug(string) {
                         if(typeof callbackFn == "function"){
                             callbackFn.call(this, data);
                         }
+						$("#infoPanel").hide();
 						$("#verticalCenter").removeClass("zoomIn").addClass("zoomOut"); //.stop().transition({scale: 1, duration:3000});
                     }
                 );
