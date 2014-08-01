@@ -7,7 +7,7 @@ function debug(string) {
 (function () {
     //Constants and variables.
     var worldTurns = true;
-    var trayOpen = false;
+    var infoPanelOpen = false;
     var earthInTransit = false;
     var curEarthAngle = -4000;
     var animationSpeed = 800;
@@ -66,7 +66,7 @@ function debug(string) {
     //Move the heavens!
     doc.on("mousemove", "#theHeavens", 
         function (e) {
-            if (trayOpen) {
+            if (infoPanelOpen) {
                 return false;
             }
 
@@ -91,20 +91,20 @@ function debug(string) {
             
             var interestId = $(this).attr("id");
             
-            $(this).closeTray(
+            $(this).closeInfoPanel(
                 $(this).animateEarthTo(interestId)
             );
         }
     );
     
-    //Hide tray when clicking theHeavens or the close icon in the tray <i>
-    doc.on("mouseup", "#theHeavens, #tray>div>i", 
+    //Hide infoPanel when clicking theHeavens or the close icon in the infoPanel <i>
+    doc.on("mouseup", "#theHeavens, #infoPanel>div>i", 
         function () {
             if (earthInTransit) {
                 return false;
             }
             
-            $(this).closeTray(
+            $(this).closeInfoPanel(
                 worldTurns = true
             );
         }
@@ -157,7 +157,7 @@ function debug(string) {
                             curEarthAngle = adjustedTargetAngle;
                             earthInTransit = false;
                             ourHero.actorAnimate("standing");
-                            $("#" + interestId + "Content").openTray();
+                            $("#" + interestId + "Content").openInfoPanel();
                             
                             if (targetAngle == -82) {
                                 heroStatus.show();
@@ -174,17 +174,18 @@ function debug(string) {
     })(jQuery);
 
     (function ($) {
-        $.fn.closeTray = 
+        $.fn.closeInfoPanel = 
             function (callbackFn) {
-                var trayHeight = "-" + ($("#tray").height() + 5) + "px";
-                $("#tray i").hide();
+				if (!infoPanelOpen) { return; };
+                $("#infoPanel i").hide();
                 heroStatus.hide();
                 
-                //Animate the tray into hiding.
-                trayOpen = false;
-                $("#tray").stop().transition(
+                //Animate the infoPanel into hiding.
+                infoPanelOpen = false;
+                $("#infoPanel").stop().show().transition(
                     {
-                        top: trayHeight, 
+                        top: "-100px", 
+						opacity: 0,
                         duration: 1000,
                         easing: animationTransition
                     },
@@ -192,6 +193,7 @@ function debug(string) {
                         if(typeof callbackFn == "function"){
                             callbackFn.call(this, data);
                         }
+						$("#verticalCenter").removeClass("zoomIn").addClass("zoomOut"); //.stop().transition({scale: 1, duration:3000});
                     }
                 );
                     
@@ -207,19 +209,20 @@ function debug(string) {
     })(jQuery);
     
     (function ($) {
-        $.fn.openTray = 
+        $.fn.openInfoPanel = 
             function (callbackFn) {
-                //Clone our interest content to the tray and show it.
-                $("#tray").empty();
-                $(this).clone().appendTo("#tray").show();
+                //Clone our interest content to the infoPanel and show it.
+                $("#infoPanel").empty();
+                $(this).clone().appendTo("#infoPanel").show();
                 
-                //Animate the tray so that it's visible.
-                $("#tray i").show();
-                trayOpen = true;
+                //Animate the infoPanel so that it's visible.
+                $("#infoPanel i").show();
+                infoPanelOpen = true;
                 worldTurns = false;
-                $("#tray").stop().transition(
+                $("#infoPanel").stop().show().transition(
                     {
-                        top: "0px", 
+                        top: "-80px", 
+						opacity: 1,
                         duration: 800,
                         easing: animationTransition
                     },
@@ -227,6 +230,7 @@ function debug(string) {
                         if(typeof callbackFn == "function"){
                             callbackFn.call(this, data);
                         }
+						$("#verticalCenter").removeClass("zoomOut").addClass("zoomIn"); //.stop().transition({scale: 2, duration:3000});
                     }
                 );
                         
@@ -234,11 +238,12 @@ function debug(string) {
                 //Animate the heavens so that the top isn't cut off.
                 $("#theHeavens").stop().transition(
                     {
-                        marginTop: "100px", 
-                        duration: 800,
-                        easing: animationTransition
+                        //marginTop: "100px", 
+                        //duration: 800,
+                        //easing: animationTransition
                     }
                 );
+				
             };
     })(jQuery);
 
