@@ -92,8 +92,8 @@
 #iss {
 	width: 150px;
 	height: 139px;
-	right: 5px;
-	bottom: 50px;
+	right: 0px;
+	bottom: 0px;
 	position: absolute;
 	background-image: url("../img/iss.gif");
 	background-size: 150px 139px;
