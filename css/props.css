@@ -32,11 +32,12 @@
 #theStars {
     background-image:url("../img/stars_big.png");
     background-size:auto 130%;
+	background-repeat:repeat;
 }
 
 #theHeavens {
     background-image:url("../img/htmlbg.png");
-	background-size:1920px 1200px;
+	background-size:1920px 1920px;
 }
 
 #planetEarth {
