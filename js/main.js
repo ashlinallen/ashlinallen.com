@@ -51,16 +51,16 @@ function debug(string) {
     
     //Spin on!
     setInterval(
-        function () {   
-            if (worldTurns) {
-                curEarthAngle -= 0.3;
-                ourHero.actorAnimate("walking");
-                planetEarth.transition({
-                    rotate: curEarthAngle + "deg",
-                    duration: 0
-                });
-            };
-        }, 40
+        //function () {   
+        //    if (worldTurns) {
+        //        curEarthAngle -= 0.3;
+        //        ourHero.actorAnimate("walking");
+        //        planetEarth.transition({
+        //            rotate: curEarthAngle + "deg",
+        //            duration: 0
+        //        });
+        //    };
+        //}, 40
     );
 
     //Move the heavens!

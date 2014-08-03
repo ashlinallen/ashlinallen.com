@@ -17,20 +17,20 @@
 #theClouds {
     width:600px;
     height:600px;
-    margin-top:-275px;
+    margin-top:-300px;
+    margin-left:-300px;
+    background-image:url("../img/cloud_ring.png");
+    background-size:600px 600px;
     position:absolute;
     left:50%;
-    background-size:600px 600px;
-    margin-left:-300px;
     opacity:0.6;
-    background-image:url("../img/cloud_ring.png");
     display:none;
 }
 
 #theStars {
     background-position:-50px -50px;
-    background-size:110%;
     background-image:url("../img/stars_big.png");
+    background-size:110%;
 }
 
 #theHeavens {
@@ -38,12 +38,12 @@
 }
 
 #planetEarth {
-    position:absolute;
-    left:50%;
-    margin-left:-200px;
-    margin-top:-250px;
     width:400px;
     height:400px;
+    left:50%;
+    position:absolute;
+    margin-left:-200px;
+    margin-top:-200px;
     background-image:url("../img/earth.png");
     background-size:400px;
     transform:rotate(-4000deg);
@@ -59,17 +59,17 @@
 }
 
 #moon {
+    width:900px;
+    height:900px;
+    left:50%;
+    position:absolute;
+    margin-top:-450px;
+    margin-left:-450px;
     background-image:url("../img/moon.gif");
+    background-size:100px 96px;
     background-size:100px 96px;
 	background-repeat:no-repeat;
 	background-position:bottom left;
-    width:900px;
-    height:900px;
-    margin-top:-450px;
-    position:absolute;
-    left:50%;
-    background-size:100px 96px;
-    margin-left:-450px;
 	-webkit-animation: spinR 360s infinite linear;
 
 }
@@ -77,54 +77,54 @@
 #lowEarthOrbit {
     width:600px;
     height:600px;
-    margin-top:-360px;
-    position:absolute;
     left:50%;
-    background-size:600px 600px;
+    position:absolute;
+    margin-top:-300px;
     margin-left:-300px;
+    background-size:600px 600px;
 	-webkit-animation: spin 180s infinite linear;
 }
 
 #spaceShuttle {
-    background-image:url("../img/spaceshuttle.gif");
-    background-size:75px 40px;
     width:75px;
     height:40px;
     left:125px;
+    background-image:url("../img/spaceshuttle.gif");
+    background-size:75px 40px;
 }
 
 #iss {
-	background-image: url("../img/iss.gif");
-	background-size: 150px 139px;
 	width: 150px;
 	height: 139px;
 	right: 5px;
 	bottom: 50px;
 	position: absolute;
+	background-image: url("../img/iss.gif");
+	background-size: 150px 139px;
 }
 
 #ourHero {
-    position:absolute;
-    top:-320px;
-    left:50%;
-    margin-left:-21px;
     width:42px;
     height:76px;
+    top:-270px;
+    left:50%;
+    position:absolute;
+    margin-left:-21px;
     background-size:42px 76px;
     z-index:1;
 }
 
 #ourHero > #status {
-    height:50px;
     width:50px;
-    background-image:url("../img/hearts.gif");
-    position:absolute;
+    height:50px;
     top:-45px;
     right:-30px;
+    background-image:url("../img/hearts.gif");
+    position:absolute;
+    display:none;
     transform:rotate(8deg);
     -ms-transform:rotate(8deg);
     -webkit-transform:rotate(8deg);
-    display:none;
 }
 
 #ourHero.walking {
@@ -142,15 +142,6 @@
     transform: scaleX(-1);
     filter: FlipH;
     -ms-filter: "FlipH";
-}
-
-#heroProficiencyActor {
-    background-image:url("../img/ash_standing.gif");
-    width:72px;
-    height:130px;
-    float:left;
-    margin-top:10px;
-    background-size:72px 130px;
 }
 
 #computers {
@@ -201,8 +192,8 @@
     width:180px;
     height:4px;
     z-index:0;
-    position:absolute;
     background-image:url("../img/meteors.gif");
     background-size:180px 4px;
     -webkit-transform:rotate(-45deg);
+    position:absolute;
 }
