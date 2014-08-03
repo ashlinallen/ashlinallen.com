@@ -58,9 +58,54 @@
     cursor:pointer;
 }
 
+#moon {
+    background-image:url("../img/moon.gif");
+    background-size:100px 96px;
+	background-repeat:no-repeat;
+	background-position:bottom left;
+    width:900px;
+    height:900px;
+    margin-top:-450px;
+    position:absolute;
+    left:50%;
+    background-size:100px 96px;
+    margin-left:-450px;
+	-webkit-animation: spinR 360s infinite linear;
+
+}
+
+#lowEarthOrbit {
+    width:600px;
+    height:600px;
+    margin-top:-360px;
+    position:absolute;
+    left:50%;
+    background-size:600px 600px;
+    margin-left:-300px;
+	-webkit-animation: spin 180s infinite linear;
+}
+
+#spaceShuttle {
+    background-image:url("../img/spaceshuttle.gif");
+    background-size:75px 40px;
+    width:75px;
+    height:40px;
+    left:125px;
+}
+
+#iss {
+	background-image: url("../img/iss.gif");
+	background-size: 150px 139px;
+	width: 150px;
+	height: 139px;
+	right: 5px;
+	bottom: 50px;
+	position: absolute;
+}
+
 #ourHero {
-    position:relative;
-    top:-240px;
+    position:absolute;
+    top:-320px;
     left:50%;
     margin-left:-21px;
     width:42px;

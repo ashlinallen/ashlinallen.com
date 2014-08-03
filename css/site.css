@@ -151,3 +151,12 @@ a:focus {
 		0% { -moz-transform: scale(2); margin-top:200px; margin-right:400px; }
 		100% { -moz-transform: scale(1); margin-top:0pxk; margin-right:0px; }
     }
+	
+@-webkit-keyframes spin {
+    0%   {-webkit-transform: rotate(360deg)}
+    100% {-webkit-transform: rotate(0deg)}
+}
+@-webkit-keyframes spinR {
+    0%   {-webkit-transform: rotate(0deg)}
+    100% {-webkit-transform: rotate(360deg)}
+}
