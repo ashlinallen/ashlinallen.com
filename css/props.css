@@ -1,3 +1,10 @@
+#ourHero, #moon, #lowEarthOrbit, #planetEarth {
+	left:50%;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
 #theHeavens,
 #theStars {
     height:100%;
@@ -7,11 +14,6 @@
     overflow:hidden;
     -webkit-backface-visibility: hidden;
     background-position:center center;
-    background-attachment:fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
 }
 
 #theClouds {
@@ -28,22 +30,20 @@
 }
 
 #theStars {
-    background-position:-50px -50px;
     background-image:url("../img/stars_big.png");
-    background-size:110%;
+    background-size:auto 130%;
 }
 
 #theHeavens {
     background-image:url("../img/htmlbg.png");
+	background-size:1920px 1200px;
 }
 
 #planetEarth {
     width:400px;
     height:400px;
-    left:50%;
-    position:absolute;
-    margin-left:-200px;
-    margin-top:-200px;
+	margin-left:-200px;
+	margin-top:-200px;
     background-image:url("../img/earth.png");
     background-size:400px;
     transform:rotate(-4000deg);
@@ -61,26 +61,21 @@
 #moon {
     width:900px;
     height:900px;
-    left:50%;
-    position:absolute;
-    margin-top:-450px;
-    margin-left:-450px;
+	margin-left:-450px;
+	margin-top:-450px;
     background-image:url("../img/moon.gif");
     background-size:100px 96px;
     background-size:100px 96px;
 	background-repeat:no-repeat;
 	background-position:bottom left;
 	-webkit-animation: spinR 360s infinite linear;
-
 }
 
 #lowEarthOrbit {
     width:600px;
     height:600px;
-    left:50%;
-    position:absolute;
-    margin-top:-300px;
-    margin-left:-300px;
+	margin-left:-300px;
+	margin-top:-300px;
     background-size:600px 600px;
 	-webkit-animation: spin 180s infinite linear;
 }
@@ -106,9 +101,7 @@
 #ourHero {
     width:42px;
     height:76px;
-    top:-270px;
-    left:50%;
-    position:absolute;
+    margin-top:-228px;
     margin-left:-21px;
     background-size:42px 76px;
     z-index:1;
@@ -136,10 +129,10 @@
 }
 
 #ourHero.flipped {
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
+    -moz-transform: scaleX(-1) translateY(-50%);
+    -o-transform: scaleX(-1) translateY(-50%);
+    -webkit-transform: scaleX(-1) translateY(-50%);
+    transform: scaleX(-1) translateY(-50%);
     filter: FlipH;
     -ms-filter: "FlipH";
 }

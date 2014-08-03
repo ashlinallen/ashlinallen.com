@@ -51,16 +51,16 @@ function debug(string) {
     
     //Spin on!
     setInterval(
-        //function () {   
-        //    if (worldTurns) {
-        //        curEarthAngle -= 0.3;
-        //        ourHero.actorAnimate("walking");
-        //        planetEarth.transition({
-        //            rotate: curEarthAngle + "deg",
-        //            duration: 0
-        //        });
-        //    };
-        //}, 40
+        function () {   
+            if (worldTurns) {
+                curEarthAngle -= 0.3;
+                ourHero.actorAnimate("walking");
+                planetEarth.transition({
+                    rotate: curEarthAngle + "deg",
+                    duration: 0
+                });
+            };
+        }, 40
     );
 
     //Move the heavens!
@@ -194,7 +194,7 @@ function debug(string) {
                             callbackFn.call(this, data);
                         }
 						$("#infoPanel").hide();
-						$("#verticalCenter").removeClass("zoomIn").addClass("zoomOut"); //.stop().transition({scale: 1, duration:3000});
+						$("#theHeavens").removeClass("zoomIn").addClass("zoomOut"); //.stop().transition({scale: 1, duration:3000});
                     }
                 );
                     
@@ -231,7 +231,7 @@ function debug(string) {
                         if(typeof callbackFn == "function"){
                             callbackFn.call(this, data);
                         }
-						$("#verticalCenter").removeClass("zoomOut").addClass("zoomIn"); //.stop().transition({scale: 2, duration:3000});
+						$("#theHeavens").removeClass("zoomOut").addClass("zoomIn"); //.stop().transition({scale: 2, duration:3000});
                     }
                 );
                         
