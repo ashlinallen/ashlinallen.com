@@ -33,7 +33,7 @@ body, html {
 a:focus {
     background-color:#8f8fff;
 }
-
+		
 #infoPanel {
 	position: relative;
 	height: 600px;
@@ -99,56 +99,13 @@ a:focus {
     width:200px;
     background-color:#AFAFAF;
 }
-
-
-
-
-.zoomIn{
-    -webkit-animation-name: zoomInX;
-    -webkit-animation-duration:2s;
-    -webkit-animation-iteration-count:1;
-	-webkit-animation-fill-mode: forwards;
-    -moz-animation-name: zoomIn;
-    -moz-animation-duration:2s;
-    -moz-animation-iteration-count:1;
-    -moz-animation-fill-mode: forwards;
-}
-    @-webkit-keyframes zoomInX{
-		0% { -webkit-transform: scale(1); margin-top:0px; margin-right:0px; }
-		100% { -webkit-transform: scale(2); margin-top:200px; margin-right:400px; }
-    }
-        
-    @-moz-keyframes zoomIn{
-		0% { -moz-transform: scale(1); margin-top:0px; margin-right:0px; }
-		100% { -moz-transform: scale(2); margin-top:200px; margin-right:400px; }
-    }
-
-.zoomOut{
-    -webkit-animation-name: zoomOutX;
-    -webkit-animation-duration:2s;
-    -webkit-animation-iteration-count:1;
-	-webkit-animation-fill-mode: forwards;
-    -moz-animation-name: zoomOut;
-    -moz-animation-duration:2s;
-    -moz-animation-iteration-count:1;
-    -moz-animation-fill-mode: forwards;
-}
-    @-webkit-keyframes zoomOutX{
-		0% { -webkit-transform: scale(2); margin-top:200px; margin-right:400px; }
-		100% { -webkit-transform: scale(1); margin-top:0px; margin-right:0px; }
-    }
-        
-    @-moz-keyframes zoomOut{
-		0% { -moz-transform: scale(2); margin-top:200px; margin-right:400px; }
-		100% { -moz-transform: scale(1); margin-top:0pxk; margin-right:0px; }
-    }
 	
-	@-webkit-keyframes spin {
-		0%   {-webkit-transform: rotate(360deg)}
-		100% {-webkit-transform: rotate(0deg)}
-	}
-	
-	@-webkit-keyframes spinR {
-		0%   {-webkit-transform: rotate(0deg)}
-		100% {-webkit-transform: rotate(360deg)}
-	}
+@-webkit-keyframes spin {
+	0%   {-webkit-transform: rotate(360deg)}
+	100% {-webkit-transform: rotate(0deg)}
+}
+
+@-webkit-keyframes spinR {
+	0%   {-webkit-transform: rotate(0deg)}
+	100% {-webkit-transform: rotate(360deg)}
+}
