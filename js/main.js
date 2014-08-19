@@ -1,14 +1,23 @@
 (function () {
-	var isWebkit = /Webkit/i.test(navigator.userAgent),
+	var $doc = $(document),
+		$win = $(window),
+		
+		$theStars = $("#theStars"),
+		$theHeavens = $("#theHeavens"),
+		$planetEarth = $("#planetEarth"),
+		$ourHero = $("#ourHero"),
+		$heroStatus = $("#ourHero>#status"),
+		
+		isWebkit = /Webkit/i.test(navigator.userAgent),
 		isChrome = /Chrome/i.test(navigator.userAgent),
 		isMobile = !!("ontouchstart" in window),
 		isAndroid = /Android/i.test(navigator.userAgent),
 		isIE = document.documentMode,
-		screenWidth = window.innerWidth,
-		screenHeight = window.innerHeight,
-		chromeHeight = screenHeight - (document.documentElement.clientHeight || screenHeight),
+		
+		keys = [],
+		interests = {},
 		$stars,
-		$container = $("#theStars"),
+		
 		enableStarMovement = true,
 		worldTurns = true,
 		infoPanelOpen = false,
@@ -16,15 +25,13 @@
 		enableStarMovement = true,
 		curEarthAngle = -4000,
 		animationSpeed = 800,
-		animationTransition = "easeInOutSine",
-		keys = [],
 		konami = "38,38,40,40,37,39,37,39,66,65",
-		interests = {},
-		doc = $(document),
-		win = $(window),
-		planetEarth = $("#planetEarth"),
-		ourHero = $("#ourHero"),
-		heroStatus = $("#ourHero>#status");
+		animationEasing = "easeInOutSine",
+		currentInterest,
+		
+		screenWidth = window.innerWidth,
+		screenHeight = window.innerHeight,
+		chromeHeight = screenHeight - (document.documentElement.clientHeight || screenHeight);
 	
     (function ($) {
         $.fn.rotate = 
@@ -36,15 +43,17 @@
 				);
             };
 			
-        $.fn.animateEarthTo = 
+        $.fn.rotateEarthToInterest = 
             function (interestId) {
 				if (earthInTransit) { return false; };
+				
+				currentInterest = interests[interestId].name;
 			
-                var targetAngle = interests[interestId].locationAngle;
-                var remainder = curEarthAngle % 360;
-                var completedRotations = (curEarthAngle - remainder) / 360;
-                var shortestAngle = targetAngle - remainder;
-                var fullRotations = (360 * completedRotations);
+                var targetAngle = interests[interestId].locationAngle,
+					remainder = curEarthAngle % 360,
+					completedRotations = ((curEarthAngle - remainder) / 360),
+					shortestAngle = targetAngle - remainder,
+					fullRotations = (360 * completedRotations);
                 
                 //Rotate clockwise?
                 if (shortestAngle > 180) {
@@ -67,15 +76,17 @@
                     worldTurns = false;
                     earthInTransit = true;
 
+					$heroStatus.hide();
+					
                     if (adjustedTargetAngle > curEarthAngle) {
                         //Face our hero left if we're rotating clockwise.
-                        ourHero.actorAnimate("walking", true);
+                        $ourHero.actorAnimate("walking", true);
                     } else {
                         //Face our hero right if we're rotating counter-clockwise.
-                        ourHero.actorAnimate("walking");
+                        $ourHero.actorAnimate("walking");
                     }
-                    
-                    planetEarth
+					
+                    $planetEarth
 					.stop()
 					.animate(
                         { 
@@ -86,34 +97,17 @@
 							complete: 
 								function () {
 									curEarthAngle = adjustedTargetAngle;
-									ourHero.actorAnimate("standing");
 									
-									if (targetAngle === -82) {
-										heroStatus.show();
+									$ourHero.actorAnimate("standing");
+									
+									if (currentInterest === 'sheri') {
+										$heroStatus.show();
 									} else {
-										heroStatus.hide();
+										$heroStatus.hide();
 									}
 									
-									$("#theHeavens")
-									.stop()
-									.animate(
-										{ 
-											scale: 2, 
-											y: 500,
-											z:1
-										}, 
-										{ 
-											duration: 2000 
-										}
-									);
+									$("#" + interestId + "Content").openInfoPanel();
 									
-									setTimeout(function () {
-										$("#" + interestId + "Content").openInfoPanel();
-									}, 1000);
-									
-									setTimeout(function () {
-										earthInTransit = false;
-									}, 3000);
 								}
 						}
 					);
@@ -123,56 +117,57 @@
                     earthInTransit = false;
                 }
             };
-			
-        $.fn.closeInfoPanel = 
-            function (callbackFn) {
-				if (!infoPanelOpen) { return; };
-                $("#infoPanel i").hide();
-                heroStatus.hide();
-                
-                //Animate the infoPanel into hiding.
-                infoPanelOpen = false;
-				
-                $("#infoPanel").stop().animate(
-                    {
-                        top: "-100px", 
-						opacity: 0
-					},
-					{
-                        duration: 1000,
-                        easing: animationTransition,
-						complete: 
+		
+		$.fn.zoomIn = 
+			function(callbackFn) {
+				$theHeavens
+				.stop()
+				.animate(
+					{ 
+						scale: 2, 
+						y: 500,
+						z:1
+					}, 
+					{ 
+						duration: 2000,
+						complete:
 							function () {
 								if(typeof callbackFn === "function"){
 									callbackFn.call(this, data);
 								}
-								
-								$("#infoPanel").hide();
-								
-								$("#theHeavens")
-								.stop()
-								.animate(
-									{ 
-										scale: 1, 
-										y: 0,
-										z:1
-									}, 
-									{ 
-										duration: 2000 
-									}
-								);
-								
-								setTimeout(function () {
-									infoPanelOpen = false;
-								}, 2000);
+							} 
+					}
+				);
+			};
+		
+		$.fn.zoomOut =
+			function (callbackFn) {
+				$theHeavens
+				.stop()
+				.animate(
+					{ 
+						scale: 1, 
+						y: 0,
+						z:1
+					}, 
+					{ 
+						duration: 2000,
+						complete:
+							function () {
+								if(typeof callbackFn === "function"){
+									callbackFn.call(this, data);
+								}
 							}
-                    }
-                );
-            };
+					}
+				);
+			};
 			
         $.fn.openInfoPanel = 
             function (callbackFn) {
-				if (infoPanelOpen) { return false; };
+				if (infoPanelOpen) { return; };
+				
+				var pos = $ourHero.position(),
+					width = $ourHero.outerWidth();
 				
 				worldTurns = false;
 				
@@ -181,9 +176,6 @@
 				
 				$(this).clone().appendTo("#infoPanel").show();
 				
-    var pos = ourHero.position();
-    var width = ourHero.outerWidth();
-	
 				$("#infoPanel")
 				.stop()
 				.show()
@@ -195,19 +187,50 @@
 					},
 					{
 						duration: 800,
-						easing: animationTransition,
+						easing: animationEasing,
+						complete: 
+							function () {
+								if(typeof callbackFn === "function"){
+									callbackFn.call(this, data);
+								}
+								earthInTransit = false
+								infoPanelOpen = true;
+							}
+					}
+				);
+            };
+			
+        $.fn.closeInfoPanel = 
+            function (callbackFn) {
+				if (!infoPanelOpen) { return; };
+				
+                $("#infoPanel i").hide();
+                
+                //Animate the infoPanel into hiding.
+                infoPanelOpen = false;
+				
+                $("#infoPanel").stop().animate(
+                    {
+                        top: "-100px", 
+						opacity: 0
+					},
+					{
+                        duration: 800,
+                        easing: animationEasing,
 						complete: 
 							function () {
 								if(typeof callbackFn === "function"){
 									callbackFn.call(this, data);
 								}
 								
-								setTimeout(function () {
-									infoPanelOpen = true;
-								}, 2000);
+								$("#infoPanel").hide(0, '', 
+									function() { 
+										infoPanelOpen = false 
+									}
+								);
 							}
-					}
-				);
+                    }
+                );
             };
 			
         $.fn.actorAnimate = 
@@ -228,14 +251,14 @@
 			}
     })(jQuery);
 		
-    $(document).on("mousemove", $container, 
+    $doc.on("mousemove", $theStars, 
         function (e) {
 			if (enableStarMovement) {
 				enableStarMovement = false;
 				
 				var mousePos = mouseCoords(e),
-					bgPosX = (50 * (mousePos.x / $(window).width())),
-					bgPosY = (50 * (mousePos.y / $(window).height()));
+					bgPosX = (50 * (mousePos.x / window.innerWidth)),
+					bgPosY = (50 * (mousePos.y / window.innerHeight));
 				
 				$stars
 					.animate(
@@ -257,36 +280,40 @@
         }
     );
 
-    //Interesting.
-    doc.on("click", "#planetEarth>a", 
+    $doc.on("click", "#planetEarth>a", 
         function () {
             if (earthInTransit) { return false; };
             
-            var interestId = $(this).attr("id");
-            
-            $(this).closeInfoPanel(
-                $(this).animateEarthTo(interestId)
-            );
+			var interestId = $(this).attr("id");
+				
+			if (!infoPanelOpen) {
+				$(this).closeInfoPanel(
+					$(this).rotateEarthToInterest(interestId)
+				);
+			} else {
+				$(this).rotateEarthToInterest(interestId);
+			}
         }
     );
     
-    //Hide infoPanel when clicking theHeavens or the close icon in the infoPanel
-    doc.on("mouseup", "#theHeavens, #infoPanel>span>i", 
+    $doc.on("mouseup", "#theHeavens, #infoPanel>span>i", 
         function () {
-            if (earthInTransit) {
-                return false;
-            }
+            if (earthInTransit) { return false; };
             
-            $(this).closeInfoPanel(
-                worldTurns = true
-            );
+			if (infoPanelOpen) {
+				$heroStatus.hide();
+				
+				$(this).closeInfoPanel(
+					worldTurns = true
+				);
+			}
         }
     );
 	
-	//You know what to do.  ;)
-    doc.on("keydown",
+    $doc.on("keydown",
         function (e) {
             keys.push(e.keyCode);
+			
             if (keys.toString().indexOf(konami) >= 0) {
                 alert("konami'd");
                 keys = [];
@@ -294,32 +321,27 @@
         }
     );
 	
-	win.on("resize",
+	$win.on("resize",
 		function() {
 			screenWidth = window.innerWidth;
 			screenHeight = window.innerHeight;
 			
 			setStarPositions();
 		}
-	);
+	)
 	
-    //Interest object constructor
-    function Interest(name, locationAngle, rotation)
-    {
+    function Interest(name, locationAngle, rotation) {
         this.name = name;
         this.locationAngle = locationAngle;
 		this.rotation = rotation;
 		this.el = $("#" + this.name);
     }
 	
-	//LEFT OFF HERE. REVIEW UPWARD.
-	
-	//Rotate the earth and make sure the sprite is in its "walking" animation.
 	function rotateEarth() {
 		if (worldTurns) {
 			curEarthAngle -= 0.3;
-			planetEarth.rotate(curEarthAngle, 0);
-			ourHero.actorAnimate("walking");
+			$planetEarth.rotate(curEarthAngle, 0);
+			$ourHero.actorAnimate("walking");
 		};
 	}; 
 	
@@ -333,7 +355,7 @@
 		
 		$stars = $(starsHtml);
 		
-		$stars.appendTo($container);
+		$stars.appendTo($theStars);
 		
 		setStarPositions();
 	}
@@ -406,11 +428,10 @@
 		}, timeoutDuration);
 	};
 	
-	//Meteor builder.
     function meteor(startX, startY) {
         var d = $('<span />');
 		d.addClass("meteor")
-			.appendTo($("#theHeavens"))
+			.appendTo($theHeavens)
 			.css("top", startY)
 			.css("left", startX)
 			.animate(
@@ -429,7 +450,6 @@
 			);
     };
 		
-	//Create meteors at a random location and interval.
 	function meteorShower() {
 		var rand = Math.round((Math.random() * (3000 - 500)) + 1000),
 			startX = rInt(-50, (screenWidth + 50)),
@@ -440,7 +460,6 @@
 		}, rand);
 	};
 	
-	//Instantiate interests and iterate over them to set their rotation.
 	function initiateInterests() {
 		//Create array of interests.
 		interests = {
@@ -462,7 +481,6 @@
 		};
 	};
 	
-	//Doc ready.
 	$(function() {
 		initiateInterests();
 		
