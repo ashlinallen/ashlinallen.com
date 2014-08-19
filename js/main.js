@@ -145,11 +145,10 @@
                 //Clone our interest content to the infoPanel and show it.
                 $("#infoPanel").empty();
                 
-                $(this).clone().appendTo("#infoPanel").show();
+                $(this).clone().appendTo("#infoPanel");
                 
                 $("#infoPanel")
                 .stop()
-                .show()
                 .animate(
                     {
                         opacity: 1,
