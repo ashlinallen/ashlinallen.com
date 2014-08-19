@@ -322,7 +322,7 @@
             .animate(
                 { 
                     scale: 2, 
-                    y: 500,
+                    top: 500,
                     z:1
                 }, 
                 { 
@@ -343,7 +343,7 @@
             .animate(
                 { 
                     scale: 1, 
-                    y: 0,
+                    top: 0,
                     z:1
                 }, 
                 { 
