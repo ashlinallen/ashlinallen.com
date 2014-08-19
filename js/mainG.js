@@ -1,11 +1,4 @@
-function debug(string) {
-    var curDebugHtml = $("#debugCol").html();
-    $("#debugCol").show();
-    $("#debugCol").html(curDebugHtml + "\n<br>\n" + string + "\n");
-}
-
 (function () {
-
 	var isWebkit = /Webkit/i.test(navigator.userAgent),
 		isChrome = /Chrome/i.test(navigator.userAgent),
 		isMobile = !!("ontouchstart" in window),
@@ -16,26 +9,22 @@ function debug(string) {
 		chromeHeight = screenHeight - (document.documentElement.clientHeight || screenHeight),
 		$stars,
 		$container = $("#theStars"),
-		enableStarMovement = true;
-
-
-    //Constants and variables.
-    var worldTurns = true;
-    var infoPanelOpen = false;
-    var earthInTransit = false;
-	var enableStarMovement = true;
-    var curEarthAngle = -4000;
-    var animationSpeed = 800;
-    var animationTransition = "easeInOutSine";
-    var keys = [];
-    var konami = "38,38,40,40,37,39,37,39,66,65";
-	var interests = {};
-    
-    //Frequently used elements
-    var doc = $(document);
-    var planetEarth = $("#planetEarth");
-    var ourHero = $("#ourHero");
-    var heroStatus = $("#ourHero>#status");
+		enableStarMovement = true,
+		worldTurns = true,
+		infoPanelOpen = false,
+		earthInTransit = false,
+		enableStarMovement = true,
+		curEarthAngle = -4000,
+		animationSpeed = 800,
+		animationTransition = "easeInOutSine",
+		keys = [],
+		konami = "38,38,40,40,37,39,37,39,66,65",
+		interests = {},
+		doc = $(document),
+		win = $(window),
+		planetEarth = $("#planetEarth"),
+		ourHero = $("#ourHero"),
+		heroStatus = $("#ourHero>#status");
 	
     (function ($) {
         $.fn.rotate = 
@@ -277,7 +266,7 @@ function debug(string) {
     );
     
     //Hide infoPanel when clicking theHeavens or the close icon in the infoPanel
-    doc.on("mouseup", "#theHeavens, #infoPanel>div>i", 
+    doc.on("mouseup", "#theHeavens, #infoPanel>span>i", 
         function () {
             if (earthInTransit) {
                 return false;
@@ -300,6 +289,10 @@ function debug(string) {
         }
     );
 	
+	win.resize(function() {
+		setStarPositions();
+	});
+	
     //Interest object constructor
     function Interest(name, locationAngle, rotation)
     {
@@ -316,33 +309,14 @@ function debug(string) {
 			planetEarth.rotate(curEarthAngle, 0);
 			ourHero.actorAnimate("walking");
 		};
-	};
-
-	function r (min, max) {
-	    return Math.floor(Math.random() * (max - min + 1)) + min;
-	}
-	
-	function randomFloatBetween(minValue,maxValue){
-		return parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)),maxValue).toFixed(2));
-	}
-	
-    //Returns int for .x and .y
-    function mouseCoords(ev) {
-        if (ev.pageX || ev.pageY) {
-            return { x: ev.pageX, y: ev.pageY };
-        }
-        return {
-            x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
-            y: ev.clientY + document.body.scrollTop - document.body.clientTop
-        };
-    }    
+	}; 
 	
 	function initializeStars() {
 		var starsCount = isMobile ? (isAndroid ? 20 : 40) : (isChrome ? 100 : 70),
 			starsHtml = "";
 
 		for (var i = 0; i < starsCount; i++) {
-			starsHtml += "<div class='star' />";
+			starsHtml += "<span class='star' />";
 		}
 		
 		$stars = $(starsHtml);
@@ -351,18 +325,34 @@ function debug(string) {
 			$stars.css("boxShadow", "0px 0px 6px 1px #FFF");
 		}
 		
+		
+		$stars.appendTo($container);
+		setStarPositions();
+	}
+	
+	function setStarPositions() {
+		screenWidth = window.innerWidth;
+		screenHeight = window.innerHeight;
+		
 		for (i = 0; i < $stars.length; i++) {
-			var op = randomFloatBetween(0.0, 1.0),
-			x = r(-100, (screenWidth + 100)),
-			y = r(-100, (screenHeight + 100)),
-			s = randomFloatBetween(0.1, 1.0),
-			el = $stars[i]
-			red = r(0,255),
-			grn = r(0,255),
-			blu = r(0,255),
-			rgb = "rgb(" + red + "," + grn + "," + blu + ")"
-			bs = "0px 0px 6px 1px rgb(" + red + "," + grn + "," + blu + ")";
+			var op = rFloat(0.0, 1.0),
+			x = rInt(-50, (screenWidth + 50)),
+			y = rInt(-50, (screenHeight + 50)),
+			s = rFloat(0.1, 1.0),
+			el = $stars[i],
+			red = rInt(0,255),
+			green = rInt(0,255),
+			blue = rInt(0,255),
+			white = rInt(1,3),
+			rgb = "rgb(" + red + "," + green + "," + blue + ")";
 			
+			var white = rInt(1,7);
+			if (white >= 1 && white <= 6) {
+				rgb = "rgb(255,255,255)";
+			}
+			
+			var bs = "0px 0px 6px 1px " + rgb;
+		
 			TweenLite.to($stars[i], 0, {
 				css:{
 					x:x, 
@@ -370,35 +360,39 @@ function debug(string) {
 					z:1, 
 					scale:s, 
 					opacity: op,
-					boxShadow: bs
-					//backgroundColor: rgb,
-					//boxShadow: bs
+					boxShadow: bs,
+					backgroundColor: rgb
 				}, onComplete:twinkle(el)
 			});
 		}
-		
-		$stars.appendTo($container);
 	}
 	
 	function twinkle(el) {
-		var op = randomFloatBetween(0.0, 1.0),
-		adur = randomFloatBetween(0.2,2.0),
-		tdur = r(500, 1000),
-		red = r(0,255),
-		grn = r(0,255),
-		blu = r(0,255),
-		rgb = "rgb(" + red + "," + grn + "," + blu + ")",
-		bs = "0px 0px 6px 1px rgb(" + red + "," + grn + "," + blu + ")";
+		var op = rFloat(0.0, 1.0),
+		animationDuration = rFloat(0.2,2.0),
+		timeoutDuration = rInt(500, 1000),
+		red = rInt(0,255),
+		green = rInt(0,255),
+		blue = rInt(0,255),
+		white = rInt(1,3),
+		rgb = "rgb(" + red + "," + green + "," + blue + ")";
+		
+		//6 in 7 odds of getting a white star.
+		var white = rInt(1,7);
+		if (white >= 1 && white <= 6) {
+			rgb = "rgb(255,255,255)";
+		}
+		
+		var bs = "0px 0px 6px 1px " + rgb;
 		
 		setTimeout(function() {
-			TweenLite.to($(el), adur, {
+			TweenLite.to($(el), animationDuration, {
 				css:{
 					opacity: op,
-					boxShadow: bs
-					//backgroundColor: rgb,
-					//boxShadow: bs
+					boxShadow: bs,
+					backgroundColor: rgb
 				}, onComplete:twinkle($(el))});
-		}, tdur);
+		}, timeoutDuration);
 	};
 	
 	//Meteor builder.
@@ -463,11 +457,11 @@ function debug(string) {
 		
 		initializeStars();
 		
+		meteorShower();
+		
 		setInterval(function(){
 			enableStarMovement = true;
 			rotateEarth();
 		}, 60);
-		
-		meteorShower();
 	});
 }());

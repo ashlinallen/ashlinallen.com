@@ -18,9 +18,8 @@
 
 .star {
 	position: fixed;
-	width: 5px;
-	height: 5px;
-	background-color: #fff;
+	width: 3px;
+	height: 3px;
 }
 
 #theClouds {
@@ -107,10 +106,6 @@
     margin-left:-21px;
     background-size:42px 76px;
     z-index:1;
-}
-
-#moon, #lowEarthOrbit {
-	opacity: 0.75;
 }
 
 #ourHero > #status {
