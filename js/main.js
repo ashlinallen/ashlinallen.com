@@ -94,7 +94,7 @@
 									
 									$ourHero.updateHeroStatus(adjustedTargetAngle);
 									
-									$("#" + interestId + "Content").openInfoPanel();
+									zoomIn($("#" + interestId + "Content").openInfoPanel());
 								}
 						}
 					);
@@ -109,17 +109,21 @@
 			function(adjTargetAngle) {
 				$heroStatus.hide();
 				
-				if (adjTargetAngle > curEarthAngle) {
-					//Face our hero left if we're rotating clockwise.
-					$(this).actorAnimate("walking", true);
+				if (adjTargetAngle != null) {
+					if (adjTargetAngle > curEarthAngle) {
+						//Face our hero left if we're rotating clockwise.
+						$(this).actorAnimate("walking", true);
+					} else {
+						//Face our hero right if we're rotating counter-clockwise.
+						$(this).actorAnimate("walking");
+					}
+					
+					if (curEarthAngle === adjTargetAngle) {
+						//We're at our interest, so just stand still.
+						$(this).actorAnimate("standing");
+					}
 				} else {
-					//Face our hero right if we're rotating counter-clockwise.
 					$(this).actorAnimate("walking");
-				}
-				
-				if (curEarthAngle === adjTargetAngle) {
-					//We're at our interest, so just stand still.
-					$(this).actorAnimate("standing");
 				}
 				
 				if (currentInterest === 'sheri') {
@@ -127,50 +131,6 @@
 				} else {
 					$heroStatus.hide();
 				}
-			};
-		
-		$.fn.zoomIn = 
-			function(callbackFn) {
-				$theHeavens
-				.stop()
-				.animate(
-					{ 
-						scale: 2, 
-						y: 500,
-						z:1
-					}, 
-					{ 
-						duration: 2000,
-						complete:
-							function () {
-								if(typeof callbackFn === "function"){
-									callbackFn.call(this, data);
-								}
-							} 
-					}
-				);
-			};
-		
-		$.fn.zoomOut =
-			function (callbackFn) {
-				$theHeavens
-				.stop()
-				.animate(
-					{ 
-						scale: 1, 
-						y: 0,
-						z:1
-					}, 
-					{ 
-						duration: 2000,
-						complete:
-							function () {
-								if(typeof callbackFn === "function"){
-									callbackFn.call(this, data);
-								}
-							}
-					}
-				);
 			};
 			
         $.fn.openInfoPanel = 
@@ -214,6 +174,8 @@
         $.fn.closeInfoPanel = 
             function (callbackFn) {
 				if (!infoPanelOpen) { return; };
+				
+				currentInterest = '';
 				
                 $("#infoPanel i").hide();
                 
@@ -264,7 +226,7 @@
 		
     $doc.on("mousemove", $theStars, 
         function (e) {
-			if (enableStarMovement) {
+			if (enableStarMovement && !infoPanelOpen) {
 				enableStarMovement = false;
 				
 				var mousePos = mouseCoords(e),
@@ -298,6 +260,8 @@
 			var interestId = $(this).attr("id");
 				
 			if (!infoPanelOpen) {
+				$ourHero.updateHeroStatus();
+				
 				$(this).closeInfoPanel(
 					$(this).rotateEarthToInterest(interestId)
 				);
@@ -308,15 +272,19 @@
     );
     
     $doc.on("mouseup", "#theHeavens, #infoPanel>span>i", 
-        function () {
+        function (e) {
             if (earthInTransit) { return false; };
             
 			if (infoPanelOpen) {
-				$heroStatus.hide();
-				
 				$(this).closeInfoPanel(
 					worldTurns = true
 				);
+				
+				if(e.target.tagName.toLowerCase() != 'a') {
+					zoomOut();
+				}
+				
+				$ourHero.updateHeroStatus();
 			}
         }
     );
@@ -348,6 +316,48 @@
 		this.el = $("#" + this.name);
     }
 	
+	function zoomIn(callbackFn) {
+			$theHeavens
+			.stop()
+			.animate(
+				{ 
+					scale: 2, 
+					y: 500,
+					z:1
+				}, 
+				{ 
+					duration: 2000,
+					complete:
+						function () {
+							if(typeof callbackFn === "function"){
+								callbackFn.call(this, data);
+							}
+						} 
+				}
+			);
+		};
+	
+	function zoomOut(callbackFn) {
+			$theHeavens
+			.stop()
+			.animate(
+				{ 
+					scale: 1, 
+					y: 0,
+					z:1
+				}, 
+				{ 
+					duration: 2000,
+					complete:
+						function () {
+							if(typeof callbackFn === "function"){
+								callbackFn.call(this, data);
+							}
+						}
+				}
+			);
+		};
+		
 	function rotateEarth() {
 		if (worldTurns) {
 			curEarthAngle -= 0.3;
