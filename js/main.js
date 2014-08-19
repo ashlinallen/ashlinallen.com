@@ -47,7 +47,7 @@
             function (interestId) {
 				if (earthInTransit) { return false; };
 				
-				currentInterest = interests[interestId].name;
+				currentInterest = '';
 			
                 var targetAngle = interests[interestId].locationAngle,
 					remainder = curEarthAngle % 360,
@@ -76,15 +76,7 @@
                     worldTurns = false;
                     earthInTransit = true;
 
-					$heroStatus.hide();
-					
-                    if (adjustedTargetAngle > curEarthAngle) {
-                        //Face our hero left if we're rotating clockwise.
-                        $ourHero.actorAnimate("walking", true);
-                    } else {
-                        //Face our hero right if we're rotating counter-clockwise.
-                        $ourHero.actorAnimate("walking");
-                    }
+					$ourHero.updateHeroStatus(adjustedTargetAngle);
 					
                     $planetEarth
 					.stop()
@@ -96,18 +88,13 @@
 							duration: 1500,
 							complete: 
 								function () {
+									currentInterest = interests[interestId].name;
+				
 									curEarthAngle = adjustedTargetAngle;
 									
-									$ourHero.actorAnimate("standing");
-									
-									if (currentInterest === 'sheri') {
-										$heroStatus.show();
-									} else {
-										$heroStatus.hide();
-									}
+									$ourHero.updateHeroStatus(adjustedTargetAngle);
 									
 									$("#" + interestId + "Content").openInfoPanel();
-									
 								}
 						}
 					);
@@ -117,6 +104,30 @@
                     earthInTransit = false;
                 }
             };
+			
+		$.fn.updateHeroStatus =
+			function(adjTargetAngle) {
+				$heroStatus.hide();
+				
+				if (adjTargetAngle > curEarthAngle) {
+					//Face our hero left if we're rotating clockwise.
+					$(this).actorAnimate("walking", true);
+				} else {
+					//Face our hero right if we're rotating counter-clockwise.
+					$(this).actorAnimate("walking");
+				}
+				
+				if (curEarthAngle === adjTargetAngle) {
+					//We're at our interest, so just stand still.
+					$(this).actorAnimate("standing");
+				}
+				
+				if (currentInterest === 'sheri') {
+					$heroStatus.show();
+				} else {
+					$heroStatus.hide();
+				}
+			};
 		
 		$.fn.zoomIn = 
 			function(callbackFn) {
