@@ -132,6 +132,7 @@
                 
                 //Animate the infoPanel into hiding.
                 infoPanelOpen = false;
+				
                 $("#infoPanel").stop().animate(
                     {
                         top: "-100px", 
@@ -147,7 +148,6 @@
 								}
 								
 								$("#infoPanel").hide();
-								
 								
 								$("#theHeavens")
 								.stop()
@@ -181,13 +181,17 @@
 				
 				$(this).clone().appendTo("#infoPanel").show();
 				
+    var pos = ourHero.position();
+    var width = ourHero.outerWidth();
+	
 				$("#infoPanel")
 				.stop()
 				.show()
 				.animate(
 					{
-						top: "-80px", 
-						opacity: 1
+						opacity: 1,
+						top: pos.top + "px",
+						left: (pos.left + width) + "px"
 					},
 					{
 						duration: 800,
@@ -206,21 +210,22 @@
 				);
             };
 			
-        $.fn.actorAnimate = function (state, hflip, callbackFn) {
-            var flip = (typeof hflip === "undefined") ? "false" : hflip;
-            
-			$(this).removeClass();
-			
-			$(this).addClass(state);
-            
-            if (flip === true) {
-                $(this).addClass("flipped");
-            }
-            
-            if(typeof callbackFn === "function"){
-                callbackFn.call(this, data);
-            }
-        }
+        $.fn.actorAnimate = 
+			function (state, hflip, callbackFn) {
+				var flip = (typeof hflip === "undefined") ? "false" : hflip;
+				
+				$(this).removeClass();
+				
+				$(this).addClass(state);
+				
+				if (flip === true) {
+					$(this).addClass("flipped");
+				}
+				
+				if(typeof callbackFn === "function"){
+					callbackFn.call(this, data);
+				}
+			}
     })(jQuery);
 		
     $(document).on("mousemove", $container, 
@@ -228,9 +233,9 @@
 			if (enableStarMovement) {
 				enableStarMovement = false;
 				
-				var mousePos = mouseCoords(e);
-				var bgPosX = (50 * (mousePos.x / $(window).width()));
-				var bgPosY = (50 * (mousePos.y / $(window).height()));
+				var mousePos = mouseCoords(e),
+					bgPosX = (50 * (mousePos.x / $(window).width())),
+					bgPosY = (50 * (mousePos.y / $(window).height()));
 				
 				$stars
 					.animate(
@@ -289,9 +294,14 @@
         }
     );
 	
-	win.resize(function() {
-		setStarPositions();
-	});
+	win.on("resize",
+		function() {
+			screenWidth = window.innerWidth;
+			screenHeight = window.innerHeight;
+			
+			setStarPositions();
+		}
+	);
 	
     //Interest object constructor
     function Interest(name, locationAngle, rotation)
@@ -301,6 +311,8 @@
 		this.rotation = rotation;
 		this.el = $("#" + this.name);
     }
+	
+	//LEFT OFF HERE. REVIEW UPWARD.
 	
 	//Rotate the earth and make sure the sprite is in its "walking" animation.
 	function rotateEarth() {
@@ -320,38 +332,34 @@
 		}
 		
 		$stars = $(starsHtml);
-	
-		if (isWebkit) {
-			$stars.css("boxShadow", "0px 0px 6px 1px #FFF");
-		}
-		
 		
 		$stars.appendTo($container);
+		
 		setStarPositions();
 	}
 	
 	function setStarPositions() {
-		screenWidth = window.innerWidth;
-		screenHeight = window.innerHeight;
-		
 		for (i = 0; i < $stars.length; i++) {
-			var op = rFloat(0.0, 1.0),
-			x = rInt(-50, (screenWidth + 50)),
-			y = rInt(-50, (screenHeight + 50)),
-			s = rFloat(0.1, 1.0),
-			el = $stars[i],
-			red = rInt(0,255),
-			green = rInt(0,255),
-			blue = rInt(0,255),
-			white = rInt(1,3),
-			rgb = "rgb(" + red + "," + green + "," + blue + ")";
+			var x = rInt(-50, (screenWidth + 50)),
+				y = rInt(-50, (screenHeight + 50)),
+				s = rFloat(0.1, 1.0),
+				el = $stars[i],
+				rgb = "rgb(255,255,255)",
+				colorLottery = rInt(1,7),
+				op = rFloat(0.0, 1.0),
+				bs = "0px";
 			
-			var white = rInt(1,7);
-			if (white >= 1 && white <= 6) {
-				rgb = "rgb(255,255,255)";
+			//1 in 7 odds of getting a color star.
+			if (colorLottery === 7) {
+				var red = rInt(0,255),
+					green = rInt(0,255),
+					blue = rInt(0,255),
+					rgb = "rgb(" + red + "," + green + "," + blue + ")";
 			}
 			
-			var bs = "0px 0px 6px 1px " + rgb;
+			if (isWebkit) {
+				bs = "0px 0px 6px 1px " + rgb;
+			}
 		
 			TweenLite.to($stars[i], 0, {
 				css:{
@@ -362,28 +370,30 @@
 					opacity: op,
 					boxShadow: bs,
 					backgroundColor: rgb
-				}, onComplete:twinkle(el)
+				}, onComplete: twinkle(el)
 			});
 		}
 	}
 	
 	function twinkle(el) {
-		var op = rFloat(0.0, 1.0),
-		animationDuration = rFloat(0.2,2.0),
-		timeoutDuration = rInt(500, 1000),
-		red = rInt(0,255),
-		green = rInt(0,255),
-		blue = rInt(0,255),
-		white = rInt(1,3),
-		rgb = "rgb(" + red + "," + green + "," + blue + ")";
+		var animationDuration = rFloat(0.2,2.0),
+			timeoutDuration = rInt(500, 1000),
+			rgb = "rgb(255,255,255)",
+			colorLottery = rInt(1,7),
+			op = rFloat(0.0, 1.0),
+				bs = "0px";
 		
-		//6 in 7 odds of getting a white star.
-		var white = rInt(1,7);
-		if (white >= 1 && white <= 6) {
-			rgb = "rgb(255,255,255)";
+		//1 in 7 odds of getting a color star.
+		if (colorLottery === 7) {
+			var red = rInt(0,255),
+				green = rInt(0,255),
+				blue = rInt(0,255),
+				rgb = "rgb(" + red + "," + green + "," + blue + ")";
 		}
 		
-		var bs = "0px 0px 6px 1px " + rgb;
+		if (isWebkit) {
+			bs = "0px 0px 6px 1px " + rgb;
+		}
 		
 		setTimeout(function() {
 			TweenLite.to($(el), animationDuration, {
@@ -391,56 +401,57 @@
 					opacity: op,
 					boxShadow: bs,
 					backgroundColor: rgb
-				}, onComplete:twinkle($(el))});
+				}, onComplete:twinkle($(el))
+			});
 		}, timeoutDuration);
 	};
 	
 	//Meteor builder.
-    function meteor(startX, startY)
-    {
+    function meteor(startX, startY) {
         var d = $('<span />');
 		d.addClass("meteor")
-		.appendTo($("#theHeavens"))
-		.css("top", startY)
-		.css("left", startX)
-		.animate(
-			{ 
-				x: "-300px", 
-				y: "300px",
-				rotationZ: "-45deg"
-			},
-			{
-				duration: 200,
-				complete: 
-					function () { 
-						$(this).remove();
-					}
-			}
-		);
-    }
+			.appendTo($("#theHeavens"))
+			.css("top", startY)
+			.css("left", startX)
+			.animate(
+				{ 
+					x: "-300px", 
+					y: "300px"
+				},
+				{
+					duration: 300,
+					complete: 
+						function () { 
+							$(this).remove();
+							meteorShower();
+						}
+				}	
+			);
+    };
 		
-	//Make it rain.
+	//Create meteors at a random location and interval.
 	function meteorShower() {
-		var rand = Math.round(Math.random() * (3000 - 500)) + 1000;
-		var startX = Math.round(Math.random() * $(window).width());
-		var startY = Math.round(Math.random() * $(window).height());
-		
+		var rand = Math.round((Math.random() * (3000 - 500)) + 1000),
+			startX = rInt(-50, (screenWidth + 50)),
+			startY = rInt(-50, (screenHeight + 50));
+			
 		setTimeout(function () {
 			meteor(startX, startY);
-			meteorShower();
 		}, rand);
 	};
 	
 	//Instantiate interests and iterate over them to set their rotation.
 	function initiateInterests() {
+		//Create array of interests.
 		interests = {
 			sheri: new Interest("sheri", -82, 90),
 			computers: new Interest("computers", 180, 186),
 			nature: new Interest("nature", 55, -43),
 			games: new Interest("games", -40, 55),
 			cars: new Interest("cars", 0, 19)
-		}
+		};
 	
+		//Set up interest rotations. Maybe move this to CSS?
 		for (var key in interests) {
 			if (interests.hasOwnProperty(key))
 			{
@@ -448,7 +459,7 @@
 				
 				interest.el.rotate(interest.rotation, 0);
 			}
-		}
+		};
 	};
 	
 	//Doc ready.
