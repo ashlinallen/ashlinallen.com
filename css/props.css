@@ -148,6 +148,9 @@
     left:125px;
     background-image:url("../img/computer.gif");
     background-size:60px 60px;
+    -ms-transform: rotate(186deg);
+    -webkit-transform: rotate(186deg);
+    transform: rotate(186deg);
 }
 
 #nature {
@@ -156,6 +159,9 @@
     top:-4px;
     background-image:url("../img/mountain.png");
     background-size:120px 77px;
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 #games {
@@ -165,6 +171,9 @@
     right:20px;
     background-image:url("../img/snes.png");
     background-size:62px 48px;
+    -ms-transform: rotate(55deg);
+    -webkit-transform: rotate(55deg);
+    transform: rotate(55deg);
 }
 
 #sheri {
@@ -174,6 +183,9 @@
     right:-42px;
     background-image:url("../img/sheri_standing.gif");
     background-size:34px 70px;
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 #cars {
@@ -183,6 +195,9 @@
     right:116px;
     background-image:url("../img/fiero.png");
     background-size:79px 28px;
+    -ms-transform: rotate(19deg);
+    -webkit-transform: rotate(19deg);
+    transform: rotate(19deg);
 }
 
 .meteor {
@@ -191,6 +206,8 @@
     z-index:0;
     background-image:url("../img/meteors.gif");
     background-size:180px 4px;
-    -webkit-transform:rotate(-45deg);
     position:absolute;
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }

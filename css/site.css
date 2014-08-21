@@ -41,7 +41,6 @@ a:focus {
 	border: 1px solid rgb(255, 0, 255);
 	margin-left: 96px;
 	top: -100px;
-	display:none;
 	opacity:0;
 	background-color:#c0c0c0;
 }
