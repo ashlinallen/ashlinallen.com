@@ -49,40 +49,21 @@
                 
                 currentInterest = '';
                 
-                var targetAngle = interests[interestId].locationAngle,
-                    remainder = curEarthAngle % 360,
-                    completedRotations = ((curEarthAngle - remainder) / 360),
-                    shortestAngle = targetAngle - remainder,
-                    fullRotations = (360 * completedRotations);
+                var targetAngle = getTargetAngle(interestId);
                 
-                //Rotate clockwise?
-                if (shortestAngle > 180) {
-                    shortestAngle -= 360;
-                }
-
-                //Rotate counter-clockwise?
-                if (shortestAngle < -180) {
-                    shortestAngle += 360
-                }
-
-                //Create our final rotation angle, accounting for current
-                //    count of rotations and the shortest direction
-                //    (clockwise or counter-clockwise.)
-                var adjustedTargetAngle = (remainder + shortestAngle) + fullRotations;
-                
-                if (curEarthAngle != adjustedTargetAngle) {
+                if (curEarthAngle != targetAngle) {
                     //We're not currently at this interest, so we need to 
                     //    go to a new interest.
                     worldTurns = false;
                     earthInTransit = true;
 
-                    $ourHero.updateHeroStatus(adjustedTargetAngle);
+                    $ourHero.updateHeroStatus(targetAngle);
                     
                     $planetEarth
                     .stop()
                     .animate(
                         { 
-                            rotationZ: adjustedTargetAngle + "deg" 
+                            rotationZ: targetAngle + "deg" 
                         },
                         { 
                             duration: 1500,
@@ -90,9 +71,9 @@
                                 function () {
                                     currentInterest = interests[interestId].name;
                                     
-                                    curEarthAngle = adjustedTargetAngle;
+                                    curEarthAngle = targetAngle;
                                     
-                                    $ourHero.updateHeroStatus(adjustedTargetAngle);
+                                    $ourHero.updateHeroStatus(targetAngle);
                                     
                                     zoomIn($("#" + interestId + "Content").openInfoPanel());
                                 }
@@ -106,11 +87,11 @@
             };
             
         $.fn.updateHeroStatus =
-            function(adjTargetAngle) {
+            function(targetAngle) {
                 $heroStatus.hide();
                 
-                if (adjTargetAngle != null) {
-                    if (adjTargetAngle > curEarthAngle) {
+                if (targetAngle != null) {
+                    if (targetAngle > curEarthAngle) {
                         //Face our hero left if we're rotating clockwise.
                         $(this).actorAnimate("walking", true);
                     } else {
@@ -118,7 +99,7 @@
                         $(this).actorAnimate("walking");
                     }
                     
-                    if (curEarthAngle === adjTargetAngle) {
+                    if (curEarthAngle === targetAngle) {
                         //We're at our interest, so just stand still.
                         $(this).actorAnimate("standing");
                     }
@@ -234,9 +215,10 @@
                     bgPosY = (50 * (mousePos.y / window.innerHeight));
                 
                 for (i = 0; i < $stars.length; i++) {
-                    var scale = $stars[i].getAttribute("data-scale");
+                    var star = $stars[i],
+                        scale = getScale(star);
                     
-                    TweenLite.to($stars[i], 0.6, {
+                    TweenLite.to(star, 0.6, {
                         css:{
                             top:bgPosY * scale,
                             left:bgPosX * scale
@@ -250,7 +232,7 @@
             }
         }
     );
-
+    
     $doc.on("click", "#planetEarth>a", 
         function () {
             if (earthInTransit) { return false; };
@@ -364,6 +346,31 @@
         };
     }; 
     
+    function getTargetAngle(interestId) {
+        var targetAngle = interests[interestId].locationAngle,
+            remainder = curEarthAngle % 360,
+            completedRotations = ((curEarthAngle - remainder) / 360),
+            shortestAngle = targetAngle - remainder,
+            fullRotations = (360 * completedRotations);
+        
+        //Rotate clockwise?
+        if (shortestAngle > 180) {
+            shortestAngle -= 360;
+        }
+
+        //Rotate counter-clockwise?
+        if (shortestAngle < -180) {
+            shortestAngle += 360
+        }
+
+        //Create our final rotation angle, accounting for current
+        //    count of rotations and the shortest direction
+        //    (clockwise or counter-clockwise.)
+        var adjustedTargetAngle = (remainder + shortestAngle) + fullRotations;
+        
+        return adjustedTargetAngle;
+    };
+    
     function initializeStars() {
         var starsCount = isMobile ? (isAndroid ? 20 : 40) : (isChrome ? 100 : 70),
             starsHtml = "";
@@ -392,10 +399,7 @@
             
             //1 in 7 odds of getting a color star.
             if (colorLottery === 7) {
-                var red = rInt(0,255),
-                    green = rInt(0,255),
-                    blue = rInt(0,255),
-                    rgb = "rgb(" + red + "," + green + "," + blue + ")";
+                rgb = rRGB();
             }
             
             if (isWebkit) {
@@ -424,14 +428,11 @@
             rgb = "rgb(255,255,255)",
             colorLottery = rInt(1,7),
             op = rFloat(0.0, 1.0),
-                bs = "0px";
+            bs = "0px";
         
         //1 in 7 odds of getting a color star.
         if (colorLottery === 7) {
-            var red = rInt(0,255),
-                green = rInt(0,255),
-                blue = rInt(0,255),
-                rgb = "rgb(" + red + "," + green + "," + blue + ")";
+            rgb = rRGB();
         }
         
         if (isWebkit) {
@@ -472,13 +473,13 @@
     };
         
     function meteorShower() {
-        var rand = Math.round((Math.random() * (3000 - 500)) + 1000),
+        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 1000),
             startX = rInt(-50, (screenWidth + 50)),
             startY = rInt(-50, (screenHeight + 50));
             
         setTimeout(function () {
             meteor(startX, startY);
-        }, rand);
+        }, rTimeout);
     };
     
     function initiateInterests() {

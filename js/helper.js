@@ -4,8 +4,18 @@ function rInt(minValue, maxValue) {
 };
 
 //Returns float between min/max.
-function rFloat(minValue, maxValue){
+function rFloat(minValue, maxValue) {
 	return parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)),maxValue).toFixed(2));
+};
+
+//Returns random RGB
+function rRGB() {
+    var red = rInt(0,255),
+        green = rInt(0,255),
+        blue = rInt(0,255),
+        rgb = "rgb(" + red + "," + green + "," + blue + ")";
+    
+    return rgb;
 };
 
 //Returns int for .x and .y
@@ -25,3 +35,20 @@ function debug(string) {
     $("#debugCol").show();
     $("#debugCol").html(curDebugHtml + "\n<br>\n" + string + "\n");
 }
+
+//Get element scale from transform3D matrix
+function getScale(el) {
+    var st = window.getComputedStyle(el, null);
+    var tr = st.getPropertyValue("-webkit-transform") ||
+             st.getPropertyValue("-moz-transform") ||
+             st.getPropertyValue("-ms-transform") ||
+             st.getPropertyValue("-o-transform") ||
+             st.getPropertyValue("transform");
+
+    var values = tr.split('(')[1].split(')')[0].split(','),
+        a = values[0],
+        b = values[1],
+        scale = Math.sqrt(a*a + b*b);
+        
+    return scale;
+};
