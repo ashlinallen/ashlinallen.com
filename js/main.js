@@ -20,7 +20,6 @@
         earthInTransit = false,
         curEarthAngle = -4000,
         konami = "38,38,40,40,37,39,37,39,66,65",
-        animationEasing = "easeInOutSine",
         currentInterest,
         screenWidth = window.innerWidth,
         screenHeight = window.innerHeight;
