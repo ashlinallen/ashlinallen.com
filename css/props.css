@@ -85,6 +85,7 @@
     width:75px;
     height:40px;
     left:125px;
+    position:absolute;
     background-image:url("../img/spaceshuttle.gif");
     background-size:75px 40px;
 }

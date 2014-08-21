@@ -145,10 +145,11 @@
                 //Clone our interest content to the infoPanel and show it.
                 $("#infoPanel").empty();
                 
-                $(this).clone().appendTo("#infoPanel");
+                $(this).clone().appendTo("#infoPanel").show();
                 
                 $("#infoPanel")
                 .stop()
+                .show()
                 .animate(
                     {
                         opacity: 1,
@@ -232,22 +233,20 @@
                     bgPosX = (50 * (mousePos.x / window.innerWidth)),
                     bgPosY = (50 * (mousePos.y / window.innerHeight));
                 
-                $stars
-                    .animate(
-                        { 
-                            top:bgPosY,
-                            left:bgPosX
+                for (i = 0; i < $stars.length; i++) {
+                    var scale = $stars[i].getAttribute("data-scale");
+                    
+                    TweenLite.to($stars[i], 0.6, {
+                        css:{
+                            top:bgPosY * scale,
+                            left:bgPosX * scale
                         }, 
-                        {
-                            duration: 30, 
-                            queue: false, 
-                            complete: 
-                                function() { 
-                                    enableStarMovement = true; 
-                                    twinkle($(this));
-                                } 
-                        }
-                    );
+                        onComplete: 
+                            function() { 
+                                enableStarMovement = true; 
+                            }
+                    });
+                }
             }
         }
     );
@@ -414,6 +413,8 @@
                     backgroundColor: rgb
                 }, onComplete: twinkle(el)
             });
+            
+            $stars[i].setAttribute("data-scale", s);
         }
     }
     
