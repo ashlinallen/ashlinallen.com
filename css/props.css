@@ -65,8 +65,7 @@
 	margin-left:-450px;
 	margin-top:-450px;
     background-image:url("../img/moon.gif");
-    background-size:100px 96px;
-    background-size:100px 96px;
+    background-size:125px 125px;
 	background-repeat:no-repeat;
 	background-position:bottom left;
 	-webkit-animation: spinR 360s infinite linear;

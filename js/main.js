@@ -11,7 +11,6 @@
         isWebkit = /Webkit/i.test(navigator.userAgent),
         isChrome = /Chrome/i.test(navigator.userAgent),
         isMobile = !!("ontouchstart" in window),
-        isAndroid = /Android/i.test(navigator.userAgent),
         isIE = document.documentMode,
         keys = [],
         interests = {},
@@ -23,6 +22,8 @@
         currentInterest,
         screenWidth = window.innerWidth,
         screenHeight = window.innerHeight;
+    
+    //isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows()
     
     (function ($) {
         $.fn.rotate = 
@@ -47,6 +48,8 @@
                 
                 currentInterest = '';
                 
+                $(this).closeInfoPanel();
+                
                 var targetAngle = getTargetAngle(interestId);
                 
                 if (curEarthAngle != targetAngle) {
@@ -70,17 +73,15 @@
                                     
                                     $ourHero.updateHeroStatus(targetAngle);
                                     
-                                    zoomIn($("#" + interestId + "Content").openInfoPanel());
+                                    zoomIn(function() { $("#" + interestId + "Content").openInfoPanel() });
                                     
+                                    earthInTransit = false;
+                    
                                     if(typeof callbackFn === "function"){
                                         callbackFn.call(this, data);
                                     }
                                 } 
                     });
-                } else { 
-                    //The world keeps turning.
-                    worldTurns = true;
-                    earthInTransit = false;
                 }
             };
             
@@ -116,8 +117,10 @@
             function (callbackFn) {
                 if (infoPanelOpen) { return; };
                 
-                var pos = $ourHero.position(),
-                    width = $ourHero.outerWidth();
+                var infoPanelLeft = (screenWidth / 2) + ($ourHero.outerWidth()),
+                    infoPanelTop = $ourHero.position().top;
+                    
+                $infoPanel.css("left", infoPanelLeft);
                 
                 worldTurns = false;
                 
@@ -131,8 +134,7 @@
                 TweenLite.to($infoPanel, 0.8, {
                     css:{
                         opacity: 1,
-                        top: pos.top + "px",
-                        left: (pos.left + width) + "px"
+                        top: infoPanelTop + "px"
                     }, onComplete: 
                             function () {
                                 if(typeof callbackFn === "function"){
@@ -148,10 +150,6 @@
             function (callbackFn) {
                 if (!infoPanelOpen) { return; };
                 
-                currentInterest = '';
-                
-                infoPanelOpen = false;
-                
                 TweenLite.to($infoPanel, 0.8, {
                     css:{
                         top: "-100px", 
@@ -164,7 +162,7 @@
                                 
                                 $("#infoPanel").hide(0, '', 
                                     function() { 
-                                        infoPanelOpen = false 
+                                        infoPanelOpen = false;
                                     }
                                 );
                             }
@@ -195,7 +193,7 @@
         
     $doc.on("mousemove", $theStars, 
         function (e) {
-            if (!infoPanelOpen) {
+            if (!infoPanelOpen && !earthInTransit) {
                 
                 var mousePos = mouseCoords(e),
                     bgPosX = (50 * (mousePos.x / window.innerWidth)),
@@ -221,16 +219,16 @@
             if (earthInTransit) { return false; };
             
             var interestId = $(this).attr("id");
-                
-            if (!infoPanelOpen) {
-                $ourHero.updateHeroStatus();
-                
-                $(this).closeInfoPanel(
-                    $(this).rotateEarthToInterest(interestId)
-                );
+            
+            if (interestId === currentInterest) {
+                currentInterest = '';
+                worldTurns = true;
+                zoomOut();
             } else {
                 $(this).rotateEarthToInterest(interestId);
             }
+            
+            $ourHero.updateHeroStatus();
         }
     );
     
@@ -238,15 +236,10 @@
         function (e) {
             if (earthInTransit) { return false; };
             
-            if (infoPanelOpen) {
-                $(this).closeInfoPanel(
-                    worldTurns = true
-                );
-                
-                if(e.target.tagName.toLowerCase() != 'a') {
-                    zoomOut();
-                }
-                
+            if (e.target.tagName.toLowerCase() != 'a') {
+                currentInterest = '';
+                worldTurns = true;
+                zoomOut();
                 $ourHero.updateHeroStatus();
             }
         }
@@ -289,13 +282,15 @@
                     onComplete: 
                         function () {
                             if(typeof callbackFn === "function"){
-                                callbackFn.call(this, data);
+                                callbackFn.call(this);
                             }
                         } 
             });
         };
     
     function zoomOut(callbackFn) {
+            $(this).closeInfoPanel();
+            
             TweenLite.to($theHeavens, 2, {
                 css:{
                     scale: 1, 
@@ -306,7 +301,7 @@
                     onComplete: 
                         function () {
                             if(typeof callbackFn === "function"){
-                                callbackFn.call(this, data);
+                                callbackFn.call(this);
                             }
                         }
             });
@@ -352,7 +347,7 @@
     };
     
     function initializeStars() {
-        var starsCount = isMobile ? (isAndroid ? 20 : 40) : (isChrome ? 100 : 70),
+        var starsCount = isMobile ? (isMobile.Android() ? 20 : 40) : (isChrome ? 100 : 70),
             starsHtml = "";
 
         for (var i = 0; i < starsCount; i++) {
