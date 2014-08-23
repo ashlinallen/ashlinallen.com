@@ -36,7 +36,7 @@
                     }, onComplete: 
                             function () {
                                 if(typeof callbackFn === "function"){
-                                    callbackFn.call(this, data);
+                                    callbackFn.call(this);
                                 }
                             } 
                 });
@@ -60,25 +60,20 @@
 
                     $ourHero.updateHeroStatus(targetAngle);
                     
-                    TweenLite.to($planetEarth, 2, {
+                    TweenLite.to($planetEarth, 1.5, {
                         css:{
                             rotationZ: targetAngle + "deg"
                         },
-                            ease:Power1.easeInOut,
                             onComplete: 
                                 function () {
                                     currentInterest = interests[interestId].name;
-                                    
                                     curEarthAngle = targetAngle;
-                                    
                                     $ourHero.updateHeroStatus(targetAngle);
-                                    
                                     zoomIn(function() { $("#" + interestId + "Content").openInfoPanel() });
-                                    
                                     earthInTransit = false;
-                    
+                                    
                                     if(typeof callbackFn === "function"){
-                                        callbackFn.call(this, data);
+                                        callbackFn.call(this);
                                     }
                                 } 
                     });
@@ -115,8 +110,6 @@
             
         $.fn.openInfoPanel = 
             function (callbackFn) {
-                if (infoPanelOpen) { return; };
-                
                 var infoPanelLeft = (screenWidth / 2) + ($ourHero.outerWidth()),
                     infoPanelTop = $ourHero.position().top;
                     
@@ -137,34 +130,33 @@
                         top: infoPanelTop + "px"
                     }, onComplete: 
                             function () {
-                                if(typeof callbackFn === "function"){
-                                    callbackFn.call(this, data);
-                                }
                                 earthInTransit = false
                                 infoPanelOpen = true;
+                                
+                                if(typeof callbackFn === "function"){
+                                    callbackFn.call(this);
+                                }
                             }
                 });
             };
             
         $.fn.closeInfoPanel = 
             function (callbackFn) {
-                if (!infoPanelOpen) { return; };
-                
                 TweenLite.to($infoPanel, 0.8, {
                     css:{
                         top: "-100px", 
                         opacity: 0
                     }, onComplete: 
                             function () {
-                                if(typeof callbackFn === "function"){
-                                    callbackFn.call(this, data);
-                                }
-                                
                                 $("#infoPanel").hide(0, '', 
                                     function() { 
                                         infoPanelOpen = false;
                                     }
                                 );
+                                
+                                if(typeof callbackFn === "function"){
+                                    callbackFn.call(this);
+                                }
                             }
                 });
             };
@@ -181,19 +173,20 @@
                 
                 if (!$(this).hasClass(cssClass)) {
                     $(this).removeClass();
-                    
                     $(this).addClass(cssClass);
                 }
                 
                 if(typeof callbackFn === "function"){
-                    callbackFn.call(this, data);
+                    callbackFn.call(this);
                 }
             }
     })(jQuery);
         
     $doc.on("mousemove", $theStars, 
         function (e) {
-            if (!infoPanelOpen && !earthInTransit) {
+            //somehow this needs to check if theheavens is animating
+            
+            if (!infoPanelOpen) {
                 
                 var mousePos = mouseCoords(e),
                     bgPosX = (50 * (mousePos.x / window.innerWidth)),
@@ -268,7 +261,6 @@
     function Interest(name, locationAngle) {
         this.name = name;
         this.locationAngle = locationAngle;
-        this.el = $("#" + this.name);
     }
     
     function zoomIn(callbackFn) {
@@ -420,7 +412,7 @@
                     opacity: op,
                     backgroundColor: rgb,
                     boxShadow: bs
-                }, onComplete:twinkle($(el))
+                }, onComplete: twinkle(el)
             });
         }, timeoutDuration);
     };
