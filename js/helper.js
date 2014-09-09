@@ -30,10 +30,13 @@ function mouseCoords(ev) {
 };
 
 //Dump values to debug panel.
-function debug(string) {
+function debug(string, clear) {
     var curDebugHtml = $("#debugCol").html();
+    if (clear) {
+        curDebugHtml = "";
+    }
     $("#debugCol").show();
-    $("#debugCol").html(curDebugHtml + "\n<br>\n" + string + "\n");
+    $("#debugCol").html("\n" + string + "\n<br>\n" + curDebugHtml);
 }
 
 //Get element scale from transform3D matrix

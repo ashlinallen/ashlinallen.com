@@ -36,8 +36,6 @@
 }
 
 #theHeavens {
-    background-image:url("../img/htmlbg.png");
-	background-size:1920px 1920px;
 }
 
 #planetEarth {
@@ -197,6 +195,12 @@
     -ms-transform: rotate(19deg);
     -webkit-transform: rotate(19deg);
     transform: rotate(19deg);
+}
+
+#containerTester {
+    width:100%;
+    height:100%;
+    position:absolute;
 }
 
 .meteor {

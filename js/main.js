@@ -17,152 +17,18 @@
         worldTurns = true,
         infoPanelOpen = false,
         earthInTransit = false,
+        animating = false,
+        zoomed = false,
         curEarthAngle = -4000,
         konami = "38,38,40,40,37,39,37,39,66,65",
         currentInterest,
         screenWidth = window.innerWidth,
         screenHeight = window.innerHeight;
-    
-    //isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows()
+        //isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows()
     
     (function ($) {
-        $.fn.rotate = 
-            function (degree, duration) {
-                var deg = degree + "deg";
-                
-                TweenLite.to($(this), duration, {
-                    css:{
-                        rotationZ: deg
-                    }, onComplete: 
-                            function () {
-                                if(typeof callbackFn === "function"){
-                                    callbackFn.call(this);
-                                }
-                            } 
-                });
-            };
-            
-        $.fn.rotateEarthToInterest = 
-            function (interestId) {
-                if (earthInTransit) { return false; };
-                
-                currentInterest = '';
-                
-                $(this).closeInfoPanel();
-                
-                var targetAngle = getTargetAngle(interestId);
-                
-                if (curEarthAngle != targetAngle) {
-                    //We're not currently at this interest, so we need to 
-                    //    go to a new interest.
-                    worldTurns = false;
-                    earthInTransit = true;
-
-                    $ourHero.updateHeroStatus(targetAngle);
-                    
-                    TweenLite.to($planetEarth, 1.5, {
-                        css:{
-                            rotationZ: targetAngle + "deg"
-                        },
-                            onComplete: 
-                                function () {
-                                    currentInterest = interests[interestId].name;
-                                    curEarthAngle = targetAngle;
-                                    $ourHero.updateHeroStatus(targetAngle);
-                                    zoomIn(function() { $("#" + interestId + "Content").openInfoPanel() });
-                                    earthInTransit = false;
-                                    
-                                    if(typeof callbackFn === "function"){
-                                        callbackFn.call(this);
-                                    }
-                                } 
-                    });
-                }
-            };
-            
-        $.fn.updateHeroStatus =
-            function(targetAngle) {
-                $heroStatus.hide();
-                
-                if (targetAngle != null) {
-                    if (targetAngle > curEarthAngle) {
-                        //Face our hero left if we're rotating clockwise.
-                        $(this).actorAnimate("walking", true);
-                    } else {
-                        //Face our hero right if we're rotating counter-clockwise.
-                        $(this).actorAnimate("walking");
-                    }
-                    
-                    if (curEarthAngle === targetAngle) {
-                        //We're at our interest, so just stand still.
-                        $(this).actorAnimate("standing");
-                    }
-                } else {
-                    $(this).actorAnimate("walking");
-                }
-                
-                if (currentInterest === 'sheri') {
-                    $heroStatus.show();
-                } else {
-                    $heroStatus.hide();
-                }
-            };
-            
-        $.fn.openInfoPanel = 
-            function (callbackFn) {
-                var infoPanelLeft = (screenWidth / 2) + ($ourHero.outerWidth()),
-                    infoPanelTop = $ourHero.position().top;
-                    
-                $infoPanel.css("left", infoPanelLeft);
-                
-                worldTurns = false;
-                
-                //Clone our interest content to the infoPanel and show it.
-                $infoPanel.empty();
-                
-                $(this).clone().appendTo("#infoPanel").show();
-                
-                $("#infoPanel").show();
-                
-                TweenLite.to($infoPanel, 0.8, {
-                    css:{
-                        opacity: 1,
-                        top: infoPanelTop + "px"
-                    }, onComplete: 
-                            function () {
-                                earthInTransit = false
-                                infoPanelOpen = true;
-                                
-                                if(typeof callbackFn === "function"){
-                                    callbackFn.call(this);
-                                }
-                            }
-                });
-            };
-            
-        $.fn.closeInfoPanel = 
-            function (callbackFn) {
-                TweenLite.to($infoPanel, 0.8, {
-                    css:{
-                        top: "-100px", 
-                        opacity: 0
-                    }, onComplete: 
-                            function () {
-                                $("#infoPanel").hide(0, '', 
-                                    function() { 
-                                        infoPanelOpen = false;
-                                    }
-                                );
-                                
-                                if(typeof callbackFn === "function"){
-                                    callbackFn.call(this);
-                                }
-                            }
-                });
-            };
-            
         $.fn.actorAnimate = 
-            function (state, hflip, callbackFn) {
+            function (state, hflip) {
                 var flip = (typeof hflip === "undefined") ? "false" : hflip;
                 
                 var cssClass = state;
@@ -175,18 +41,12 @@
                     $(this).removeClass();
                     $(this).addClass(cssClass);
                 }
-                
-                if(typeof callbackFn === "function"){
-                    callbackFn.call(this);
-                }
             }
     })(jQuery);
         
     $doc.on("mousemove", $theStars, 
         function (e) {
-            //somehow this needs to check if theheavens is animating
-            
-            if (!infoPanelOpen) {
+            if (!infoPanelOpen && !animating) {
                 
                 var mousePos = mouseCoords(e),
                     bgPosX = (50 * (mousePos.x / window.innerWidth)),
@@ -218,22 +78,22 @@
                 worldTurns = true;
                 zoomOut();
             } else {
-                $(this).rotateEarthToInterest(interestId);
+                rotateEarthToInterest(interestId);
             }
             
-            $ourHero.updateHeroStatus();
+            updateHeroStatus();
         }
     );
     
     $doc.on("mouseup", "#theHeavens, #infoPanel>span>i", 
         function (e) {
-            if (earthInTransit) { return false; };
+            if (earthInTransit || !zoomed) { return false; };
             
             if (e.target.tagName.toLowerCase() != 'a') {
                 currentInterest = '';
                 worldTurns = true;
                 zoomOut();
-                $ourHero.updateHeroStatus();
+                updateHeroStatus();
             }
         }
     );
@@ -254,25 +114,79 @@
             screenWidth = window.innerWidth;
             screenHeight = window.innerHeight;
             
-            setStarPositions();
+            initializeStars();
         }
     )
-    
+            
     function Interest(name, locationAngle) {
         this.name = name;
         this.locationAngle = locationAngle;
     }
+            
+    function closeInfoPanel() {
+        if (infoPanelOpen) {
+            animating = true;
+            TweenLite.to($infoPanel, 0.8, {
+                css:{
+                    scale: 1.25,
+                    opacity: 0
+                }, onComplete: 
+                        function () {
+                            $infoPanel.hide(0, '', 
+                                function() { 
+                                    animating = false;
+                                    infoPanelOpen = false;
+                                }
+                            );
+                        }
+            });
+        }
+    };
+    
+    function openInfoPanel(interestId) {
+        var infoPanelLeft = $ourHero.offset().left,
+            infoPanelTop = $ourHero.offset().top - 200,
+            interestContent = $("#" + interestId + "Content");
+        animating = true;
+            
+        $infoPanel.css("left", infoPanelLeft);
+        $infoPanel.css("top", infoPanelTop);
+        
+        worldTurns = false;
+        
+        //Clone our interest content to the infoPanel and show it.
+        $infoPanel.empty();
+        
+        interestContent.clone().appendTo("#infoPanel").show();
+        
+        $infoPanel.show();
+        
+        TweenLite.to($infoPanel, 0.8, {
+            css:{
+                opacity: 1,
+                scale: 1
+            }, onComplete: 
+                    function () {
+                        animating = false;
+                        earthInTransit = false
+                        infoPanelOpen = true;
+                    }
+        });
+    };
     
     function zoomIn(callbackFn) {
+            animating = true;
             TweenLite.to($theHeavens, 2, {
                 css:{
                     scale: 2, 
-                    top: 500,
+                    y: 500,
                     z:1
                 }, 
                     ease:Power1.easeInOut,
                     onComplete: 
                         function () {
+                            animating = false;
+                            zoomed = true;
                             if(typeof callbackFn === "function"){
                                 callbackFn.call(this);
                             }
@@ -280,25 +194,88 @@
             });
         };
     
-    function zoomOut(callbackFn) {
-            $(this).closeInfoPanel();
+    function zoomOut() {
+            animating = true;
+            closeInfoPanel();
             
             TweenLite.to($theHeavens, 2, {
                 css:{
                     scale: 1, 
-                    top: 0,
+                    y: 0,
                     z:1
                 }, 
                     ease:Power1.easeInOut,
                     onComplete: 
                         function () {
-                            if(typeof callbackFn === "function"){
-                                callbackFn.call(this);
-                            }
+                            animating = false;
+                            zoomed = false;
                         }
             });
         };
+    
+    function rotateEarthToInterest(interestId) {
+        if (earthInTransit) { return false; };
         
+        animating = true;
+        
+        currentInterest = '';
+        
+        closeInfoPanel();
+        
+        var targetAngle = getTargetAngle(interestId);
+        
+        if (curEarthAngle != targetAngle) {
+            //We're not currently at this interest, so we need to 
+            //    go to a new interest.
+            worldTurns = false;
+            earthInTransit = true;
+
+            updateHeroStatus(targetAngle);
+            
+            TweenLite.to($planetEarth, 3, {
+                css:{
+                    rotationZ: targetAngle + "deg"
+                },
+                    onComplete: 
+                        function () {
+                            animating = false;
+                            currentInterest = interests[interestId].name;
+                            curEarthAngle = targetAngle;
+                            updateHeroStatus(targetAngle);
+                            zoomIn(function() { openInfoPanel(interestId) });
+                            earthInTransit = false;
+                        } 
+            });
+        }
+    };
+            
+    function updateHeroStatus(targetAngle) {
+        $heroStatus.hide();
+        
+        if (targetAngle != null) {
+            if (targetAngle > curEarthAngle) {
+                //Face our hero left if we're rotating clockwise.
+                $ourHero.actorAnimate("walking", true);
+            } else {
+                //Face our hero right if we're rotating counter-clockwise.
+                $ourHero.actorAnimate("walking");
+            }
+            
+            if (curEarthAngle === targetAngle) {
+                //We're at our interest, so just stand still.
+                $ourHero.actorAnimate("standing");
+            }
+        } else {
+            $ourHero.actorAnimate("walking");
+        }
+        
+        if (currentInterest === 'sheri') {
+            $heroStatus.show();
+        } else {
+            $heroStatus.hide();
+        }
+    };
+
     function rotateEarth() {
         if (worldTurns) {
             curEarthAngle -= 0.3;
@@ -341,6 +318,7 @@
     function initializeStars() {
         var starsCount = isMobile ? (isMobile.Android() ? 20 : 40) : (isChrome ? 100 : 70),
             starsHtml = "";
+        $(".star").remove();
 
         for (var i = 0; i < starsCount; i++) {
             starsHtml += "<span class='star' />";
@@ -468,5 +446,12 @@
         setInterval(function(){
             rotateEarth();
         }, 60);
+        
+        setInterval(function(){
+            //debug ("worldTurns:" + worldTurns + "<br>", true);
+            //debug ("infoPanelOpen:" + infoPanelOpen + "<br>");
+            //debug ("earthInTransit:" + earthInTransit + "<br>");
+            //debug ("animating:" + animating + "<br>");
+        }, 500);
     });
 }());
