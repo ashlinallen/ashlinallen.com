@@ -2,7 +2,7 @@
 	left:50%;
 	position: absolute;
 	top: 50%;
-	transform: translateY(-50%);
+	transform: translate(0px,0px);
 }
 
 #theHeavens,
@@ -10,7 +10,6 @@
     height:100%;
     width:100%;
     position:absolute;
-    min-height:600px;
     overflow:hidden;
     -webkit-backface-visibility: hidden;
     background-position:center center;
@@ -45,9 +44,6 @@
 	margin-top:-200px;
     background-image:url("../img/earth.png");
     background-size:400px;
-    transform:rotate(-4000deg);
-    -ms-transform:rotate(-4000deg);
-    -webkit-transform:rotate(-4000deg);
 }
 
 #planetEarth > a {
@@ -100,7 +96,7 @@
 #ourHero {
     width:42px;
     height:76px;
-    margin-top:-228px;
+    margin-top:-266px;
     margin-left:-21px;
     background-size:42px 76px;
     z-index:1;
@@ -130,10 +126,10 @@
 }
 
 #ourHero.flipped {
-    -moz-transform: scaleX(-1) translateY(-50%);
-    -o-transform: scaleX(-1) translateY(-50%);
-    -webkit-transform: scaleX(-1) translateY(-50%);
-    transform: scaleX(-1) translateY(-50%);
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
     filter: FlipH;
     -ms-filter: "FlipH";
 }
