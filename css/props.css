@@ -198,22 +198,51 @@
 
 #containerTester::after {
     content:"";
-    height:100%;
-    width:100%;
+    height:392px;
+    width:150%;
+    left:-25%;
+    top:50%;
+    margin-top:-201px;
     position:absolute;
-    min-height:600px;
     overflow:hidden;
     -webkit-backface-visibility: hidden;
+    transform:rotate(-30deg);
     background-position:center center;
-    background: -moz-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 49%, rgba(0,0,0,0) 51%, rgba(0,0,0,0) 100%);
+    background: -moz-linear-gradient(90deg,  rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 49%, rgba(0,0,0,0) 51%, rgba(0,0,0,0) 100%);
     background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0.3)), color-stop(49%,rgba(0,0,0,0.3)), color-stop(51%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
-    background: -webkit-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
-    background: -o-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
-    background: -ms-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
-    background: linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(90deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: -o-linear-gradient(90deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: -ms-linear-gradient(90deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(90deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d000000', endColorstr='#00000000',GradientType=1 );
     pointer-events:none;
 }
+
+/*
+#containerTester::after {
+    content:"";
+    height:3000px;
+    width:394px;
+    position:absolute;
+    left:50%;
+    margin-left:-200px;
+    min-height:600px;
+    overflow:hidden;
+    -webkit-backface-visibility: hidden;
+    transform:rotate(65deg);
+    top:50%;
+    margin-top:-1504px;
+    background-position:center center;
+    background: -moz-linear-gradient(0deg,  rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 49%, rgba(0,0,0,0) 51%, rgba(0,0,0,0) 100%);
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0.3)), color-stop(49%,rgba(0,0,0,0.3)), color-stop(51%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
+    background: -webkit-linear-gradient(0deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: -o-linear-gradient(0deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: -ms-linear-gradient(0deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(0deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d000000', endColorstr='#00000000',GradientType=1 );
+    pointer-events:none;
+}
+*/
 
 .meteor {
     width:180px;
