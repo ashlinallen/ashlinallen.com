@@ -176,14 +176,14 @@
     
     function zoomIn(callbackFn) {
             animating = true;
-			
+            
             TweenLite.to($("#containerTester"), 2, {
                 css:{
                     y: 200
                 }, 
                     ease:Power1.easeInOut
             });
-			
+            
             TweenLite.to($theHeavens, 2, {
                 css:{
                     scale: 2, 
@@ -204,7 +204,7 @@
     function zoomOut() {
             animating = true;
             closeInfoPanel();
-			
+            
             TweenLite.to($("#containerTester"), 2, {
                 css:{
                     y: 0
@@ -232,67 +232,67 @@
         var targetAngle = getTargetAngle(interestId);
         animating = true;
         currentInterest = '';
-		
+        
         closeInfoPanel();
         
         if (curEarthAngle != targetAngle) {
             //We're not currently at this interest, so we need to 
             //    go to a new interest.
-			rotateEarthToAngle(targetAngle, interestId);
+            rotateEarthToAngle(targetAngle, interestId);
         }
     };
-	
-	//function rotateEarthToAngle(targetAngle, interestId) {
-	//	worldTurns = false;
-	//	earthInTransit = true;
+    
+    //function rotateEarthToAngle(targetAngle, interestId) {
+    //    worldTurns = false;
+    //    earthInTransit = true;
     //
     //    var blah = setInterval(function(){
-	//		
-	//		if (curEarthAngle.toFixed(0) != targetAngle) {
-	//			curEarthAngle -= 0.1;
-	//			
-	//			TweenLite.to($planetEarth, 0, {
-	//				css:{
-	//					rotationZ: curEarthAngle
-	//				}
-	//			});
-	//		
-	//			rotateEarthToAngle(targetAngle, interestId);
-	//		} else {
-	//			animating = false;
-	//			currentInterest = interests[interestId].name;
-	//			earthInTransit = false;
-	//			updateHeroStatus(targetAngle);
-	//			clearInterval(blah);
-	//			zoomIn(function() { openInfoPanel(interestId) });
-	//		}
-	//		
-	//		updateHeroStatus(targetAngle);
+    //        
+    //        if (curEarthAngle.toFixed(0) != targetAngle) {
+    //            curEarthAngle -= 0.1;
+    //            
+    //            TweenLite.to($planetEarth, 0, {
+    //                css:{
+    //                    rotationZ: curEarthAngle
+    //                }
+    //            });
+    //        
+    //            rotateEarthToAngle(targetAngle, interestId);
+    //        } else {
+    //            animating = false;
+    //            currentInterest = interests[interestId].name;
+    //            earthInTransit = false;
+    //            updateHeroStatus(targetAngle);
+    //            clearInterval(blah);
+    //            zoomIn(function() { openInfoPanel(interestId) });
+    //        }
+    //        
+    //        updateHeroStatus(targetAngle);
     //    }, 60);
-	//	
-	//};
-	
-	function rotateEarthToAngle(targetAngle, interestId) {
-		worldTurns = false;
-		earthInTransit = true;
+    //    
+    //};
+    
+    function rotateEarthToAngle(targetAngle, interestId) {
+        worldTurns = false;
+        earthInTransit = true;
 
-		updateHeroStatus(targetAngle);
-		
-		TweenLite.to($planetEarth, 3, {
-			css:{
-				rotationZ: targetAngle + "deg"
-			},
-				onComplete: 
-					function () {
-						animating = false;
-						currentInterest = interests[interestId].name;
-						curEarthAngle = targetAngle;
-						updateHeroStatus(targetAngle);
-						zoomIn(function() { openInfoPanel(interestId) });
-						earthInTransit = false;
-					} 
-		});
-	};
+        updateHeroStatus(targetAngle);
+        
+        TweenLite.to($planetEarth, 3, {
+            css:{
+                rotationZ: targetAngle + "deg"
+            },
+                onComplete: 
+                    function () {
+                        animating = false;
+                        currentInterest = interests[interestId].name;
+                        curEarthAngle = targetAngle;
+                        updateHeroStatus(targetAngle);
+                        zoomIn(function() { openInfoPanel(interestId) });
+                        earthInTransit = false;
+                    } 
+        });
+    };
             
     function updateHeroStatus(targetAngle) {
         $heroStatus.hide();
@@ -488,12 +488,12 @@
         
         meteorShower();
         
-		TweenLite.to($planetEarth, 0, {
-		    css:{
-		        rotationZ: curEarthAngle
-		    }
-		});
-		
+        TweenLite.to($planetEarth, 0, {
+            css:{
+                rotationZ: curEarthAngle
+            }
+        });
+        
         setInterval(function(){
             rotateEarth();
         }, 60);
@@ -504,12 +504,13 @@
             //debug ("earthInTransit:" + earthInTransit + "<br>");
             //debug ("animating:" + animating + "<br>");
         }, 500);
-		
-		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
-		if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
-			alert("hit");
-		}
-			var meta = document.getElementById ("viewport");
-			meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+        
+        window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
+        if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
+            alert("hit");
+        }
+        
+        var meta = document.getElementById ("viewport");
+        meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
     });
 }());

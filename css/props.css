@@ -1,8 +1,8 @@
 #ourHero, #moon, #lowEarthOrbit, #planetEarth {
-	left:50%;
-	position: absolute;
-	top: 50%;
-	transform: translate(0px,0px);
+    left:50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(0px,0px);
 }
 
 #theHeavens,
@@ -16,9 +16,9 @@
 }
 
 .star {
-	position: fixed;
-	width: 3px;
-	height: 3px;
+    position: fixed;
+    width: 3px;
+    height: 3px;
 }
 
 #theClouds {
@@ -34,34 +34,11 @@
     display:none;
 }
 
-#theHeavens::after {
-content:"";
-    height:100%;
-    width:100%;
-    position:absolute;
-    display:block;
-    min-height:600px;
-    overflow:hidden;
-    -webkit-backface-visibility: hidden;
-    background-position:center center;
-background: -moz-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 49%, rgba(0,0,0,0) 51%, rgba(0,0,0,0) 100%);
-background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0.3)), color-stop(49%,rgba(0,0,0,0.3)), color-stop(51%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
-background: -webkit-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
-background: -o-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
-background: -ms-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
-background: linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d000000', endColorstr='#00000000',GradientType=1 );
-
-
-
-pointer-events:none;
-}
-
 #planetEarth {
     width:400px;
     height:400px;
-	margin-left:-200px;
-	margin-top:-200px;
+    margin-left:-200px;
+    margin-top:-200px;
     background-image:url("../img/earth.png");
     background-size:400px;
 }
@@ -76,22 +53,22 @@ pointer-events:none;
 #moon {
     width:900px;
     height:900px;
-	margin-left:-450px;
-	margin-top:-450px;
+    margin-left:-450px;
+    margin-top:-450px;
     background-image:url("../img/moon.gif");
     background-size:125px 125px;
-	background-repeat:no-repeat;
-	background-position:bottom left;
-	-webkit-animation: spinR 360s infinite linear;
+    background-repeat:no-repeat;
+    background-position:bottom left;
+    -webkit-animation: spinR 360s infinite linear;
 }
 
 #lowEarthOrbit {
     width:600px;
     height:600px;
-	margin-left:-300px;
-	margin-top:-300px;
+    margin-left:-300px;
+    margin-top:-300px;
     background-size:600px 600px;
-	-webkit-animation: spin 180s infinite linear;
+    -webkit-animation: spin 180s infinite linear;
 }
 
 #spaceShuttle {
@@ -104,13 +81,13 @@ pointer-events:none;
 }
 
 #iss {
-	width: 150px;
-	height: 139px;
-	right: 0px;
-	bottom: 0px;
-	position: absolute;
-	background-image: url("../img/iss.gif");
-	background-size: 150px 139px;
+    width: 150px;
+    height: 139px;
+    right: 0px;
+    bottom: 0px;
+    position: absolute;
+    background-image: url("../img/iss.gif");
+    background-size: 150px 139px;
 }
 
 #ourHero {
@@ -137,8 +114,8 @@ pointer-events:none;
 
 #ourHero.walking {
     background-image:url("../img/ash_walking.gif");
-	width:38px;
-	background-size:38px 76px;
+    width:38px;
+    background-size:38px 76px;
 }
 
 #ourHero.standing {
@@ -217,6 +194,25 @@ pointer-events:none;
     width:100%;
     height:100%;
     position:absolute;
+}
+
+#containerTester::after {
+    content:"";
+    height:100%;
+    width:100%;
+    position:absolute;
+    min-height:600px;
+    overflow:hidden;
+    -webkit-backface-visibility: hidden;
+    background-position:center center;
+    background: -moz-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.3) 49%, rgba(0,0,0,0) 51%, rgba(0,0,0,0) 100%);
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,rgba(0,0,0,0.3)), color-stop(49%,rgba(0,0,0,0.3)), color-stop(51%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
+    background: -webkit-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: -o-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: -ms-linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(30deg,  rgba(0,0,0,0.3) 0%,rgba(0,0,0,0.3) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d000000', endColorstr='#00000000',GradientType=1 );
+    pointer-events:none;
 }
 
 .meteor {
