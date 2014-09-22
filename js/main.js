@@ -3,7 +3,7 @@
         $win = $(window),
         $theStars = $("#theStars"),
         $theHeavens = $("#theHeavens"),
-        $planetEarth = $("#planetEarth"),
+        $planetEarth = $("#planetEarth,.hemisphere"),
         $ourHero = $("#ourHero"),
         $heroStatus = $("#ourHero>#status"),
         $infoPanel = $("#infoPanel"),

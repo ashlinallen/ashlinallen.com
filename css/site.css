@@ -20,6 +20,10 @@
     -webkit-backface-visibility: hidden;
 }
 
+html {
+	background-color:#0E0318;
+}
+
 body, html {
     overflow: hidden;
     min-height:600px;
