@@ -450,8 +450,8 @@
         
         TweenLite.to(d, 0.3, {
             css:{
-                x: "-100px", 
-                y: "+100px"
+                x: "-200px", 
+                y: "+200px"
             }, 
             onComplete: 
                 function () { 
