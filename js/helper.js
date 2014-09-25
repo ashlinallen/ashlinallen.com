@@ -56,7 +56,7 @@ function getScale(el) {
     return scale;
 };
 
-var isMobile = {
+var mobileType = {
     Android: function() {
         return /Android/i.test(navigator.userAgent);
     },
@@ -70,6 +70,6 @@ var isMobile = {
         return /IEMobile/i.test(navigator.userAgent);
     },
     any: function() {
-        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows());
+        return (mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows());
     }
 };

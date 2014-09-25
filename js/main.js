@@ -23,8 +23,8 @@
         konami = "38,38,40,40,37,39,37,39,66,65",
         currentInterest,
         screenWidth = window.innerWidth,
-        screenHeight = window.innerHeight;
-        //isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Windows()
+        screenHeight = window.innerHeight,
+        debugPage = false;
     
     (function ($) {
         $.fn.actorAnimate = 
@@ -242,36 +242,6 @@
         }
     };
     
-    //function rotateEarthToAngle(targetAngle, interestId) {
-    //    worldTurns = false;
-    //    earthInTransit = true;
-    //
-    //    var blah = setInterval(function(){
-    //        
-    //        if (curEarthAngle.toFixed(0) != targetAngle) {
-    //            curEarthAngle -= 0.1;
-    //            
-    //            TweenLite.to($planetEarth, 0, {
-    //                css:{
-    //                    rotationZ: curEarthAngle
-    //                }
-    //            });
-    //        
-    //            rotateEarthToAngle(targetAngle, interestId);
-    //        } else {
-    //            animating = false;
-    //            currentInterest = interests[interestId].name;
-    //            earthInTransit = false;
-    //            updateHeroStatus(targetAngle);
-    //            clearInterval(blah);
-    //            zoomIn(function() { openInfoPanel(interestId) });
-    //        }
-    //        
-    //        updateHeroStatus(targetAngle);
-    //    }, 60);
-    //    
-    //};
-    
     function rotateEarthToAngle(targetAngle, interestId) {
         worldTurns = false;
         earthInTransit = true;
@@ -361,7 +331,7 @@
     };
     
     function initializeStars() {
-        var starsCount = isMobile ? (isMobile.Android() ? 20 : 40) : (isChrome ? 100 : 70),
+        var starsCount = isMobile ? (mobileType.Android() ? 20 : 40) : (isChrome ? 100 : 70),
             starsHtml = "";
         $(".star").remove();
 
@@ -501,10 +471,12 @@
         }, 60);
         
         setInterval(function(){
-            //debug ("worldTurns:" + worldTurns + "<br>", true);
-            //debug ("infoPanelOpen:" + infoPanelOpen + "<br>");
-            //debug ("earthInTransit:" + earthInTransit + "<br>");
-            //debug ("animating:" + animating + "<br>");
+            if (debugPage == true) {
+                debug ("worldTurns:" + worldTurns + "<br>", true);
+                debug ("infoPanelOpen:" + infoPanelOpen + "<br>");
+                debug ("earthInTransit:" + earthInTransit + "<br>");
+                debug ("animating:" + animating + "<br>");
+            }
         }, 500);
         
         window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
