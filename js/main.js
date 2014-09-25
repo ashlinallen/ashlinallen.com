@@ -3,7 +3,7 @@
         $win = $(window),
         $theStars = $("#theStars"),
         $theHeavens = $("#theHeavens"),
-        $planetEarth = $("#planetEarth,.hemisphere"),
+        $planetEarth = $("#planetEarth"),
         $ourHero = $("#ourHero"),
         $heroStatus = $("#ourHero>#status"),
         $infoPanel = $("#infoPanel"),
@@ -444,15 +444,17 @@
         var d = $('<span />');
         
         d.addClass("meteor")
-            .appendTo($theHeavens)
+            .appendTo($theStars)
             .css("top", startY)
             .css("left", startX);
-        
-        TweenLite.to(d, 0.3, {
+            
+        TweenLite.to(d, .5, {
             css:{
-                x: "-200px", 
-                y: "+200px"
+                x: "-650px", 
+                y: "+450px",
+                opacity: 0.1
             }, 
+            ease:Sine.easeInOut, 
             onComplete: 
                 function () { 
                     d.remove();
@@ -462,9 +464,9 @@
     };
         
     function meteorShower() {
-        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 1000),
-            startX = rInt(-50, (screenWidth + 50)),
-            startY = rInt(-50, (screenHeight + 50));
+        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 1500),
+            startX = rInt(-100, (screenWidth + 100)),
+            startY = rInt(-100, (screenHeight + 100));
             
         setTimeout(function () {
             meteor(startX, startY);
@@ -507,10 +509,8 @@
         
         window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
         if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
-            alert("hit");
+            var meta = document.getElementById ("viewport");
+            meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
         }
-        
-        var meta = document.getElementById ("viewport");
-        meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
     });
 }());
