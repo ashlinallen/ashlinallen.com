@@ -36,7 +36,6 @@ body, html {
 body {
     background-image:url("../img/htmlbg.png");
     background-position: center center;
-    background-size: 100% auto;
 }
 
 a:focus {

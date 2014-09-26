@@ -1,3 +1,12 @@
 #ourHero, #moon, #lowEarthOrbit, #planetEarth, #containerTester::after {
     top:120%;
 }
+
+#containerTester::after {
+    display:none;
+    background:none;
+}
+
+body {
+    background-position: center 55%;
+}

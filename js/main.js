@@ -323,7 +323,7 @@
 
         //Rotate counter-clockwise?
         if (shortestAngle < -180) {
-            shortestAngle += 360
+            shortestAngle += 360;
         }
 
         //Create our final rotation angle, accounting for current
@@ -471,7 +471,7 @@
         });
         
         setInterval(function(){
-            rotateEarth();
+            //rotateEarth();
         }, 60);
         
         setInterval(function(){
