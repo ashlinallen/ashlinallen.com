@@ -481,6 +481,9 @@
                 debug ("earthInTransit:" + earthInTransit + "<br>");
                 debug ("animating:" + animating + "<br>");
             }
+            if (isMobile) {
+                debug(screenWidth);
+            }
         }, 500);
         
         window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
