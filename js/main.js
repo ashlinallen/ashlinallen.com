@@ -177,12 +177,14 @@
     function zoomIn(callbackFn) {
             animating = true;
             
-            TweenLite.to($("#containerTester"), 2, {
-                css:{
-                    y: 200
-                }, 
-                    ease:Power1.easeInOut
-            });
+            if (!isMobile) {
+                TweenLite.to($("#containerTester"), 2, {
+                    css:{
+                        y: 200
+                    }, 
+                        ease:Power1.easeInOut
+                });
+            }
             
             TweenLite.to($theHeavens, 2, {
                 css:{
@@ -205,12 +207,14 @@
             animating = true;
             closeInfoPanel();
             
-            TweenLite.to($("#containerTester"), 2, {
-                css:{
-                    y: 0
-                }, 
-                    ease:Power1.easeInOut
-            });
+            if (!isMobile) {
+                TweenLite.to($("#containerTester"), 2, {
+                    css:{
+                        y: 0
+                    }, 
+                        ease:Power1.easeInOut
+                });
+            }
             
             TweenLite.to($theHeavens, 2, {
                 css:{
