@@ -471,7 +471,7 @@
         });
         
         setInterval(function(){
-            //rotateEarth();
+            rotateEarth();
         }, 60);
         
         setInterval(function(){
@@ -482,7 +482,7 @@
                 debug ("animating:" + animating + "<br>");
             }
             if (isMobile) {
-                debug(screenWidth);
+                //debug(screenWidth);
             }
         }, 500);
         
