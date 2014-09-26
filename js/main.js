@@ -467,7 +467,7 @@
         });
         
         setInterval(function(){
-            rotateEarth();
+            //rotateEarth();
         }, 60);
         
         setInterval(function(){
