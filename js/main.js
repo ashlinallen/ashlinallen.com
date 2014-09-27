@@ -112,7 +112,8 @@
     }
     
     function moveStars(x, y) {
-        if (!infoPanelOpen && !animating && !isMobile) {
+        if (!infoPanelOpen && !animating) {
+            debug(x + " " + y);
             var bgPosX = (50 * (x / screenWidth)),
                 bgPosY = (50 * (y / screenHeight)),
                 $stars = $(".star");
@@ -523,7 +524,6 @@
             }
         }
         
-        if (isMobile) {
             if (window.DeviceOrientationEvent) {
                 window.addEventListener("deviceorientation", function () {
                     moveStars(event.beta, event.gamma);
@@ -537,6 +537,5 @@
                     moveStars((orientation.x * 50), (orientation.y * 50));
                 }, true);
             }
-        }
     });
 }());
