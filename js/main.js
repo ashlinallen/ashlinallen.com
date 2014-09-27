@@ -49,16 +49,17 @@
             if (!infoPanelOpen && !animating && !isMobile) {
                 var mousePos = mouseCoords(e),
                     bgPosX = (50 * (mousePos.x / screenWidth)),
-                    bgPosY = (50 * (mousePos.y / screenHeight));
+                    bgPosY = (50 * (mousePos.y / screenHeight)),
+                    $stars = $(".star");
                 
-                for (i = 0; i < $(".star").length; i++) {
-                    var star = $(".star")[i],
+                for (i = 0; i < $stars.length; i++) {
+                    var star = $stars[i],
                         scale = getScale(star);
                     
                     TweenLite.to(star, 0.6, {
                         css:{
-                            top:bgPosY * scale,
-                            left:bgPosX * scale
+                            y:bgPosY * scale,
+                            x:bgPosX * scale
                         }
                     });
                 }
@@ -113,7 +114,7 @@
             screenWidth = window.innerWidth;
             screenHeight = window.innerHeight;
             
-            setStarPositions();
+            setShadowLength();
         }
     )
             
@@ -353,16 +354,18 @@
     }
     
     function setStarPositions() {
-        for (i = 0; i < $(".star").length; i++) {
-            var el = $(".star")[i],
-                x = rInt(-50, (screenWidth + 50)),
-                y = rInt(-50, (screenHeight + 50)),
+        var $stars = $(".star");
+        
+        for (i = 0; i < $stars.length; i++) {
+            var el = $stars[i],
+                left = rFloat(-2.5, 102.5),
+                top = rFloat(-2.5, 102.5),
                 s = rFloat(0.1, 1.0),
                 colorLottery = rInt(1,10),
                 op = rFloat(0.0, 1.0),
                 rgb = "rgb(255,255,255)",
                 bs = "0px";
-            
+                
             //1 in 10 odds of getting a color star.
             if (colorLottery === 10) {
                 rgb = rRGB();
@@ -375,8 +378,8 @@
         
             TweenLite.to(el, 0, {
                 css:{
-                    x:x, 
-                    y:y, 
+                    left:left + "%", 
+                    top:top + "%", 
                     z:1, 
                     scale:s, 
                     opacity: op,
@@ -464,6 +467,14 @@
         };
     };
     
+    function setShadowLength() {
+        var centerY = screenHeight / 2,
+            centerX= screenWidth / 2,
+            length = Math.floor(Math.sqrt(Math.pow(0 - centerX, 2) + Math.pow(screenHeight - centerY, 2)));
+        
+        $("#earthShadow").css("width", length);
+    };
+    
     $(function() {
         window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
         
@@ -471,6 +482,8 @@
             var meta = document.getElementById ("viewport");
             meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
         }
+        
+        setShadowLength();
         
         initializeInterests();
         

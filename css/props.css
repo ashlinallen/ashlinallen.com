@@ -212,10 +212,9 @@
     position:absolute;
 }
 
-#containerTester::after {
-    content:"";
+#earthShadow {
+    display:inline-block;
     height:378px;
-    width:1000px;
     top:50%;
     right:50%;
     margin-top:-189px;
