@@ -513,6 +513,7 @@
         //        debug(screenWidth);
         //    }
         //}, 500);
+        
         window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
         
         if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
@@ -525,15 +526,15 @@
         if (isMobile) {
             if (window.DeviceOrientationEvent) {
                 window.addEventListener("deviceorientation", function () {
-                    moveStars([event.beta, event.gamma]);
+                    moveStars(event.beta, event.gamma);
                 }, true);
             } else if (window.DeviceMotionEvent) {
                 window.addEventListener('devicemotion', function () {
-                    moveStars([event.acceleration.x * 2, event.acceleration.y * 2]);
+                    moveStars((event.acceleration.x * 2), (event.acceleration.y * 2));
                 }, true);
             } else {
                 window.addEventListener("MozOrientation", function () {
-                    moveStars([orientation.x * 50, orientation.y * 50]);
+                    moveStars((orientation.x * 50), (orientation.y * 50));
                 }, true);
             }
         }
