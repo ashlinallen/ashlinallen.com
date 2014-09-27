@@ -215,9 +215,9 @@
 #containerTester::after {
     content:"";
     height:378px;
-    width:60%;
+    width:1000px;
     top:50%;
-    margin-left:-10%;
+    right:50%;
     margin-top:-189px;
     position:absolute;
     overflow:hidden;

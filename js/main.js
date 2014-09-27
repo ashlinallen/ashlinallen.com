@@ -7,11 +7,11 @@
         $ourHero = $("#ourHero"),
         $heroStatus = $("#ourHero>#status"),
         $infoPanel = $("#infoPanel"),
-        $stars,
+        $containerTester = $("#containerTester"),
+        isIE = document.documentMode,
         isWebkit = /Webkit/i.test(navigator.userAgent),
         isChrome = /Chrome/i.test(navigator.userAgent),
         isMobile = !!("ontouchstart" in window),
-        isIE = document.documentMode,
         keys = [],
         interests = {},
         worldTurns = true,
@@ -19,12 +19,12 @@
         earthInTransit = false,
         animating = false,
         zoomed = false,
+        debugPage = false,
         curEarthAngle = -4000,
         konami = "38,38,40,40,37,39,37,39,66,65",
         currentInterest,
         screenWidth = window.innerWidth,
-        screenHeight = window.innerHeight,
-        debugPage = false;
+        screenHeight = window.innerHeight;
     
     (function ($) {
         $.fn.actorAnimate = 
@@ -46,14 +46,13 @@
         
     $doc.on("mousemove", $theStars, 
         function (e) {
-            if (!infoPanelOpen && !animating) {
-                
+            if (!infoPanelOpen && !animating && !isMobile) {
                 var mousePos = mouseCoords(e),
-                    bgPosX = (50 * (mousePos.x / window.innerWidth)),
-                    bgPosY = (50 * (mousePos.y / window.innerHeight));
+                    bgPosX = (50 * (mousePos.x / screenWidth)),
+                    bgPosY = (50 * (mousePos.y / screenHeight));
                 
-                for (i = 0; i < $stars.length; i++) {
-                    var star = $stars[i],
+                for (i = 0; i < $(".star").length; i++) {
+                    var star = $(".star")[i],
                         scale = getScale(star);
                     
                     TweenLite.to(star, 0.6, {
@@ -114,7 +113,7 @@
             screenWidth = window.innerWidth;
             screenHeight = window.innerHeight;
             
-            initializeStars();
+            setStarPositions();
         }
     )
             
@@ -130,15 +129,16 @@
                 css:{
                     scale: 1.25,
                     opacity: 0
-                }, onComplete: 
-                        function () {
-                            $infoPanel.hide(0, '', 
-                                function() { 
-                                    animating = false;
-                                    infoPanelOpen = false;
-                                }
-                            );
-                        }
+                }, 
+                onComplete: 
+                    function () {
+                        $infoPanel.hide(0, '', 
+                            function() { 
+                                animating = false;
+                                infoPanelOpen = false;
+                            }
+                        );
+                    }
             });
         }
     };
@@ -165,12 +165,13 @@
             css:{
                 opacity: 1,
                 scale: 1
-            }, onComplete: 
-                    function () {
-                        animating = false;
-                        earthInTransit = false
-                        infoPanelOpen = true;
-                    }
+            }, 
+            onComplete: 
+                function () {
+                    animating = false;
+                    earthInTransit = false
+                    infoPanelOpen = true;
+                }
         });
     };
     
@@ -178,7 +179,7 @@
             animating = true;
             
             if (!isMobile) {
-                TweenLite.to($("#containerTester"), 2, {
+                TweenLite.to($containerTester, 2, {
                     css:{
                         y: 200
                     }, 
@@ -191,15 +192,15 @@
                     scale: 2, 
                     z:1
                 }, 
-                    ease:Power1.easeInOut,
-                    onComplete: 
-                        function () {
-                            animating = false;
-                            zoomed = true;
-                            if(typeof callbackFn === "function"){
-                                callbackFn.call(this);
-                            }
-                        } 
+                ease:Power1.easeInOut,
+                onComplete: 
+                    function () {
+                        animating = false;
+                        zoomed = true;
+                        if(typeof callbackFn === "function"){
+                            callbackFn.call(this);
+                        }
+                    } 
             });
         };
     
@@ -208,7 +209,7 @@
             closeInfoPanel();
             
             if (!isMobile) {
-                TweenLite.to($("#containerTester"), 2, {
+                TweenLite.to($containerTester, 2, {
                     css:{
                         y: 0
                     }, 
@@ -222,12 +223,12 @@
                     y: 0,
                     z:1
                 }, 
-                    ease:Power1.easeInOut,
-                    onComplete: 
-                        function () {
-                            animating = false;
-                            zoomed = false;
-                        }
+                ease:Power1.easeInOut,
+                onComplete: 
+                    function () {
+                        animating = false;
+                        zoomed = false;
+                    }
             });
         };
     
@@ -256,15 +257,15 @@
             css:{
                 rotationZ: targetAngle + "deg"
             },
-                onComplete: 
-                    function () {
-                        animating = false;
-                        currentInterest = interests[interestId].name;
-                        curEarthAngle = targetAngle;
-                        updateHeroStatus(targetAngle);
-                        zoomIn(function() { openInfoPanel(interestId) });
-                        earthInTransit = false;
-                    } 
+            onComplete: 
+                function () {
+                    animating = false;
+                    currentInterest = interests[interestId].name;
+                    curEarthAngle = targetAngle;
+                    updateHeroStatus(targetAngle);
+                    zoomIn(function() { openInfoPanel(interestId) });
+                    earthInTransit = false;
+                }
         });
     };
             
@@ -335,24 +336,25 @@
     };
     
     function initializeStars() {
-        var starsCount = isMobile ? (mobileType.Android() ? 20 : 40) : (isChrome ? 100 : 70),
-            starsHtml = "";
-        $(".star").remove();
+        if ($(".star").length === 0) {
+            var starsCount = isMobile ? (mobileType.Android() ? 20 : 40) : (isChrome ? 100 : 70);
 
-        for (var i = 0; i < starsCount; i++) {
-            starsHtml += "<span class='star' />";
+            for (var i = 0; i < starsCount; i++) {
+                var star = document.createElement("span");
+                star.cellSpacing = 0;
+                star.className = "star";
+                
+                $theStars.append(star);
+                twinkle(star);
+            }
         }
-        
-        $stars = $(starsHtml);
-        
-        $stars.appendTo($theStars);
         
         setStarPositions();
     }
     
     function setStarPositions() {
-        for (i = 0; i < $stars.length; i++) {
-            var el = $stars[i],
+        for (i = 0; i < $(".star").length; i++) {
+            var el = $(".star")[i],
                 x = rInt(-50, (screenWidth + 50)),
                 y = rInt(-50, (screenHeight + 50)),
                 s = rFloat(0.1, 1.0),
@@ -366,12 +368,12 @@
                 rgb = rRGB();
             }
             
-        //Add background-shadow if webkit, since they render it efficiently
+            //Add background-shadow if webkit, since they render it efficiently
             if (isWebkit) {
                 bs = "0px 0px 6px 1px " + rgb;
             }
         
-            TweenLite.to($stars[i], 0, {
+            TweenLite.to(el, 0, {
                 css:{
                     x:x, 
                     y:y, 
@@ -380,7 +382,7 @@
                     opacity: op,
                     backgroundColor: rgb,
                     boxShadow: bs
-                }, onComplete: twinkle(el)
+                }
             });
         }
     }
@@ -403,26 +405,31 @@
             bs = "0px 0px 6px 1px " + rgb;
         }
         
-        setTimeout(function() {
-            TweenLite.to(el, animationDuration, {
-                css:{
-                    opacity: op,
-                    backgroundColor: rgb,
-                    boxShadow: bs
-                }, onComplete: twinkle(el)
-            });
-        }, timeoutDuration);
+        TweenLite.to(el, animationDuration, {
+            css:{
+                opacity: op,
+                backgroundColor: rgb,
+                boxShadow: bs
+            },
+            onComplete: 
+                function() {
+                    twinkle(el);
+                }
+        });
     };
     
     function meteor(startX, startY) {
-        var d = $('<span />');
+        var meteor = document.createElement("span");
+        meteor.cellSpacing = 0;
+        meteor.className = "meteor";
         
-        d.addClass("meteor")
-            .appendTo($theStars)
+        $(meteor)
             .css("top", startY)
             .css("left", startX);
-            
-        TweenLite.to(d, .5, {
+        
+        $theStars.append(meteor);
+        
+        TweenLite.to(meteor, .5, {
             css:{
                 x: "-650px", 
                 y: "+450px",
@@ -431,7 +438,7 @@
             ease:Sine.easeInOut, 
             onComplete: 
                 function () { 
-                    d.remove();
+                    $(meteor).remove();
                     meteorShower();
                 }
         });
@@ -458,6 +465,13 @@
     };
     
     $(function() {
+        window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
+        
+        if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
+            var meta = document.getElementById ("viewport");
+            meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+        }
+        
         initializeInterests();
         
         initializeStars();
@@ -471,25 +485,19 @@
         });
         
         setInterval(function(){
-            //rotateEarth();
+            rotateEarth();
         }, 60);
         
-        setInterval(function(){
-            if (debugPage == true) {
-                debug ("worldTurns:" + worldTurns + "<br>", true);
-                debug ("infoPanelOpen:" + infoPanelOpen + "<br>");
-                debug ("earthInTransit:" + earthInTransit + "<br>");
-                debug ("animating:" + animating + "<br>");
-            }
-            if (isMobile) {
-                //debug(screenWidth);
-            }
-        }, 500);
-        
-        window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, false);
-        if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
-            var meta = document.getElementById ("viewport");
-            meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
-        }
+        //setInterval(function(){
+        //    if (debugPage == true) {
+        //        debug ("worldTurns:" + worldTurns + "<br>", true);
+        //        debug ("infoPanelOpen:" + infoPanelOpen + "<br>");
+        //        debug ("earthInTransit:" + earthInTransit + "<br>");
+        //        debug ("animating:" + animating + "<br>");
+        //    }
+        //    if (isMobile) {
+        //        debug(screenWidth);
+        //    }
+        //}, 500);
     });
 }());
