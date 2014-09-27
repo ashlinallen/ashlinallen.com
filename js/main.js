@@ -509,7 +509,9 @@
         
         if (typeof window.devicePixelRatio != 'undefined' && window.devicePixelRatio > 2) {
             var meta = document.getElementById ("viewport");
-            meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+            if (meta != null) {
+                meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
+            }
         }
         
         if (isMobile) {
