@@ -46,23 +46,11 @@
         
     $doc.on("mousemove", $theStars, 
         function (e) {
-            if (!infoPanelOpen && !animating && !isMobile) {
+            if (!isMobile) {
                 var mousePos = mouseCoords(e),
-                    bgPosX = (50 * (mousePos.x / screenWidth)),
-                    bgPosY = (50 * (mousePos.y / screenHeight)),
-                    $stars = $(".star");
-                
-                for (i = 0; i < $stars.length; i++) {
-                    var star = $stars[i],
-                        scale = getScale(star);
-                    
-                    TweenLite.to(star, 0.6, {
-                        css:{
-                            y:bgPosY * scale,
-                            x:bgPosX * scale
-                        }
-                    });
-                }
+                    x = mousePos.x,
+                    y = mousePos.y;
+                moveStars(x, y);
             }
         }
     );
@@ -121,6 +109,26 @@
     function Interest(name, locationAngle) {
         this.name = name;
         this.locationAngle = locationAngle;
+    }
+    
+    function moveStars(x, y) {
+        if (!infoPanelOpen && !animating && !isMobile) {
+            var bgPosX = (50 * (x / screenWidth)),
+                bgPosY = (50 * (y / screenHeight)),
+                $stars = $(".star");
+            
+            for (i = 0; i < $stars.length; i++) {
+                var star = $stars[i],
+                    scale = getScale(star);
+                
+                TweenLite.to(star, 0.6, {
+                    css:{
+                        y:bgPosY * scale,
+                        x:bgPosX * scale
+                    }
+                });
+            }
+        }
     }
             
     function closeInfoPanel() {
@@ -517,15 +525,15 @@
         if (isMobile) {
             if (window.DeviceOrientationEvent) {
                 window.addEventListener("deviceorientation", function () {
-                    debug("1: " + [event.beta, event.gamma]);
+                    moveStars([event.beta, event.gamma]);
                 }, true);
             } else if (window.DeviceMotionEvent) {
                 window.addEventListener('devicemotion', function () {
-                    debug("2: " + [event.acceleration.x * 2, event.acceleration.y * 2]);
+                    moveStars([event.acceleration.x * 2, event.acceleration.y * 2]);
                 }, true);
             } else {
                 window.addEventListener("MozOrientation", function () {
-                    debug("3: " + [orientation.x * 50, orientation.y * 50]);
+                    moveStars([orientation.x * 50, orientation.y * 50]);
                 }, true);
             }
         }
