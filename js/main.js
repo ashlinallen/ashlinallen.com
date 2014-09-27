@@ -525,7 +525,7 @@
         
         if (window.DeviceOrientationEvent) {
             window.addEventListener("deviceorientation", function () {
-                moveStars((event.beta * 3), (event.gamma * 3));
+                moveStars((event.beta * 5), (event.gamma * 5));
             }, true);
         } else if (window.DeviceMotionEvent) {
             window.addEventListener('devicemotion', function () {
