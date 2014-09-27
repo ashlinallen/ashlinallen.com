@@ -1,8 +1,8 @@
-#ourHero, #moon, #lowEarthOrbit, #planetEarth, #containerTester::after {
+#ourHero, #moon, #lowEarthOrbit, #planetEarth  {
     top:120%;
 }
 
-#containerTester::after {
+#earthShadow {
     display:none;
     background:none;
 }

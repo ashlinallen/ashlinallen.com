@@ -511,5 +511,21 @@
             var meta = document.getElementById ("viewport");
             meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
         }
+        
+        if (isMobile) {
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener("deviceorientation", function () {
+                    debug("1: " + [event.beta, event.gamma]);
+                }, true);
+            } else if (window.DeviceMotionEvent) {
+                window.addEventListener('devicemotion', function () {
+                    debug("2: " + [event.acceleration.x * 2, event.acceleration.y * 2]);
+                }, true);
+            } else {
+                window.addEventListener("MozOrientation", function () {
+                    debug("3: " + [orientation.x * 50, orientation.y * 50]);
+                }, true);
+            }
+        }
     });
 }());
