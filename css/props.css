@@ -57,6 +57,7 @@
     margin-top:-195px;
     background-image:url("../img/earth.png");
     background-size:390px;
+    transform:rotate(-40deg);
 }
 
 #planetEarth > a {
