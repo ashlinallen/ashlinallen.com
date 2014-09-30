@@ -402,39 +402,9 @@
     };
     
     function meteor(startX, startY) {
-        var meteor = document.createElement("span");
-        meteor.cellSpacing = 0;
-        meteor.className = "meteor";
-        
-        $(meteor)
-            .css("top", startY)
-            .css("left", startX);
-        
-        $theStars.append(meteor);
-        
-        TweenLite.to(meteor, .5, {
-            css:{
-                x: "-650px", 
-                y: "+450px",
-                opacity: 0.1
-            }, 
-            ease:Sine.easeInOut, 
-            onComplete: 
-                function () { 
-                    $(meteor).remove();
-                    meteorShower();
-                }
-        });
     };
         
     function meteorShower() {
-        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 1500),
-            startX = rInt(-100, (screenWidth + 100)),
-            startY = rInt(-100, (screenHeight + 100));
-            
-        setTimeout(function () {
-            meteor(startX, startY);
-        }, rTimeout);
     };
     
     function initializeInterests() {
