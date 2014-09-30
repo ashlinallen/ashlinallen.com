@@ -32,6 +32,8 @@
     z-index:0;
     position:absolute;
     transform:rotate(-35deg);
+    -ms-transform: rotate(-35deg);
+    -webkit-transform: rotate(-35deg);
     background: -moz-linear-gradient(left,  rgba(255,255,255,0.25) 0%, rgba(30,234,234,1) 3%, rgba(255,255,255,0.25) 6%, rgba(255,255,255,0) 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0.25)), color-stop(3%,rgba(30,234,234,1)), color-stop(6%,rgba(255,255,255,0.25)), color-stop(100%,rgba(255,255,255,0)));
     background: -webkit-linear-gradient(left,  rgba(255,255,255,0.25) 0%,rgba(30,234,234,1) 3%,rgba(255,255,255,0.25) 6%,rgba(255,255,255,0) 100%);
@@ -62,6 +64,8 @@
     background-image:url("../img/earth.png");
     background-size:390px;
     transform:rotate(-40deg);
+    -ms-transform: rotate(-40deg);
+    -webkit-transform: rotate(-40deg);
 }
 
 #planetEarth > a {
@@ -229,6 +233,8 @@
     background-position:center center;
     pointer-events:none;
     transform:rotate(-35deg);
+    -ms-transform: rotate(-35deg);
+    -webkit-transform: rotate(-35deg);
     -ms-transform-origin: 100%;
     -webkit-transform-origin: 100%;
     transform-origin: 100%;
