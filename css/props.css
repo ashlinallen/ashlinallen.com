@@ -15,6 +15,10 @@
     background-position:center center;
 }
 
+#theStars {
+    z-index: 0;
+}
+
 .star {
     position: fixed;
     width: 3px;
