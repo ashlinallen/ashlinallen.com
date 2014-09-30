@@ -399,34 +399,6 @@
     }
     
     function twinkle(el) {
-        var animationDuration = rFloat(0.2,2.0),
-            timeoutDuration = rInt(500, 1000),
-            colorLottery = rInt(1,10),
-            op = rFloat(0.0, 1.0),
-            rgb = "rgb(255,255,255)",
-            bs = "0px";
-        
-        //1 in 10 odds of getting a color star.
-        if (colorLottery === 10) {
-            rgb = rRGB();
-        }
-        
-        //Add background-shadow if webkit, since they render it efficiently
-        if (isWebkit) {
-            bs = "0px 0px 6px 1px " + rgb;
-        }
-        
-        TweenLite.to(el, animationDuration, {
-            css:{
-                opacity: op,
-                backgroundColor: rgb,
-                boxShadow: bs
-            },
-            onComplete: 
-                function() {
-                    twinkle(el);
-                }
-        });
     };
     
     function meteor(startX, startY) {
