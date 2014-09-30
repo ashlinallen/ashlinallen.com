@@ -399,12 +399,70 @@
     }
     
     function twinkle(el) {
+        var animationDuration = rFloat(0.2,2.0),
+            timeoutDuration = rInt(500, 1000),
+            colorLottery = rInt(1,10),
+            op = rFloat(0.0, 1.0),
+            rgb = "rgb(255,255,255)",
+            bs = "0px";
+        
+        //1 in 10 odds of getting a color star.
+        if (colorLottery === 10) {
+            rgb = rRGB();
+        }
+        
+        //Add background-shadow if webkit, since they render it efficiently
+        if (isWebkit) {
+            bs = "0px 0px 6px 1px " + rgb;
+        }
+        
+        TweenLite.to(el, animationDuration, {
+            css:{
+                opacity: op,
+                backgroundColor: rgb,
+                boxShadow: bs
+            },
+            onComplete: 
+                function() {
+                    twinkle(el);
+                }
+        });
     };
     
     function meteor(startX, startY) {
+        var meteor = document.createElement("span");
+        meteor.cellSpacing = 0;
+        meteor.className = "meteor";
+        
+        $(meteor)
+            .css("top", startY)
+            .css("left", startX);
+        
+        $theStars.append(meteor);
+        
+        TweenLite.to(meteor, .5, {
+            css:{
+                x: "-650px", 
+                y: "+450px",
+                opacity: 0.1
+            }, 
+            ease:Sine.easeInOut, 
+            onComplete: 
+                function () { 
+                    $(meteor).remove();
+                    meteorShower();
+                }
+        });
     };
         
     function meteorShower() {
+        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 1500),
+            startX = rInt(-100, (screenWidth + 100)),
+            startY = rInt(-100, (screenHeight + 100));
+            
+        setTimeout(function () {
+            meteor(startX, startY);
+        }, rTimeout);
     };
     
     function initializeInterests() {
@@ -463,20 +521,6 @@
             if (meta != null) {
                 meta.setAttribute ('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
             }
-        }
-        
-        if (window.DeviceOrientationEvent) {
-            window.addEventListener("deviceorientation", function () {
-                moveStars((event.beta * 5), (event.gamma * 5));
-            }, true);
-        } else if (window.DeviceMotionEvent) {
-            window.addEventListener('devicemotion', function () {
-                moveStars((event.acceleration.x * 2), (event.acceleration.y * 2));
-            }, true);
-        } else {
-            window.addEventListener("MozOrientation", function () {
-                moveStars((orientation.x * 50), (orientation.y * 50));
-            }, true);
         }
     });
 }());
