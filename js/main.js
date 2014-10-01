@@ -380,8 +380,8 @@
             }
             
             //Add background-shadow if webkit, since they render it efficiently
-            if (isWebkit) {
-                //bs = "0px 0px 6px 1px " + rgb;
+            if (!isMobile && isWebkit) {
+                bs = "0px 0px 6px 1px " + rgb;
             }
         
             TweenLite.to(el, 0, {
@@ -412,8 +412,8 @@
         }
         
         //Add background-shadow if webkit, since they render it efficiently
-        if (isWebkit) {
-            //bs = "0px 0px 6px 1px " + rgb;
+        if (!isMobile && isWebkit) {
+            bs = "0px 0px 6px 1px " + rgb;
         }
         
         TweenLite.to(el, animationDuration, {
