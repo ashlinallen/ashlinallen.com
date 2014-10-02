@@ -523,18 +523,18 @@
             }
         }
         
-        //if (window.DeviceOrientationEvent) {
-        //    window.addEventListener("deviceorientation", function () {
-        //        moveStars((event.beta * 5), (event.gamma * 5));
-        //    }, true);
-        //} else if (window.DeviceMotionEvent) {
-        //    window.addEventListener('devicemotion', function () {
-        //        moveStars((event.acceleration.x * 2), (event.acceleration.y * 2));
-        //    }, true);
-        //} else {
-        //    window.addEventListener("MozOrientation", function () {
-        //        moveStars((orientation.x * 50), (orientation.y * 50));
-        //    }, true);
-        //}
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener("deviceorientation", function () {
+                moveStars((event.beta * 5), (event.gamma * 5));
+            }, true);
+        } else if (window.DeviceMotionEvent) {
+            window.addEventListener('devicemotion', function () {
+                moveStars((event.acceleration.x * 2), (event.acceleration.y * 2));
+            }, true);
+        } else {
+            window.addEventListener("MozOrientation", function () {
+                moveStars((orientation.x * 50), (orientation.y * 50));
+            }, true);
+        }
     });
 }());
