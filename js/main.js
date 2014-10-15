@@ -83,6 +83,7 @@
             if (keys.toString().indexOf(konami) >= 0) {
                 //Coming soon!
                 debug("Space invaders!");
+                keys = [];
             }
         }
     );
