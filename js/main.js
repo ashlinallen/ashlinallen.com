@@ -16,8 +16,9 @@
         interests = {},
         worldTurns = true,
         infoPanelOpen = false,
-        earthInTransit = false,
-        animating = false,
+        infoPanelAnimating = false,
+        earthAnimating = false,
+        zoomAnimating = false,
         zoomed = false,
         debugPage = false,
         curEarthAngle = -4000,
@@ -53,7 +54,7 @@
     
     $doc.on("click", "#planetEarth>a", 
         function () {
-            if (earthInTransit || animating) { return false; };
+            if (earthAnimating || infoPanelAnimating || zoomAnimating) { return false; };
             
             var interestId = $(this).attr("id");
             
@@ -67,7 +68,7 @@
     
     $doc.on("mouseup", "#theHeavens", 
         function (e) {
-            if (earthInTransit || !zoomed) { return false; };
+            if (earthAnimating || !zoomed) { return false; };
             
             if (e.target.tagName.toLowerCase() != 'a') {
                 closeInfoPanel(true);
@@ -104,58 +105,61 @@
     };
     
     function moveStars(x, y) {
-        if (!infoPanelOpen && !animating) {
-            var bgPosX = (50 * (x / screenWidth)),
-                bgPosY = (50 * (y / screenHeight)),
-                $stars = $(".star");
+        if (infoPanelOpen || earthAnimating || zoomed || zoomAnimating) { return false; };
+        
+        var bgPosX = (50 * (x / screenWidth)),
+            bgPosY = (50 * (y / screenHeight)),
+            $stars = $(".star");
+        
+        for (i = 0; i < $stars.length; i++) {
+            var star = $stars[i],
+                scale = getScale(star),
+                starY = bgPosY * scale,
+                starX = bgPosX * scale;
             
-            for (i = 0; i < $stars.length; i++) {
-                var star = $stars[i],
-                    scale = getScale(star),
-                    starY = bgPosY * scale,
-                    starX = bgPosX * scale;
-                
-                TweenLite.to(star, 0.6, {
-                    css:{
-                        y:starY,
-                        x:starX
-                    }
-                });
-            }
+            TweenLite.to(star, 0.6, {
+                css:{
+                    y:starY,
+                    x:starX
+                }
+            });
         }
     };
             
     function closeInfoPanel(zOut) {
         var doZoomOut = (typeof zOut === "undefined") ? "false" : zOut;
         
-        if (infoPanelOpen) {
-            if (doZoomOut === true) {
-                zoomOut();
-            }
-            
-            animating = true,
-            infoPanelOpen = false;
-            
-            TweenLite.to($infoPanel, 0.8, {
-                css:{
-                    display: 'none',
-                    scale: 1.25,
-                    opacity: 0
-                }, 
-                onComplete: 
-                    function () {
-                        animating = false;
-                    }
-            });
+        if (doZoomOut === true) {
+            zoomOut();
         }
+        
+        infoPanelAnimating = true,
+        infoPanelOpen = false;
+        
+        TweenLite.to($infoPanel, 0.8, {
+            css:{
+                display: 'none',
+                scale: 1.25,
+                opacity: 0
+            }, 
+            onComplete: 
+                function () {
+                    infoPanelAnimating = false;
+                }
+        });
     };
     
     function openInfoPanel(interestId) {
         var infoPanelLeft = $ourHero.offset().left,
             infoPanelTop = $ourHero.offset().top - 200,
             interestContent = $("#" + interestId + "Content"),
-            animating = true,
-            worldTurns = false;
+            infoPanelAnimating = true,
+            worldTurns = false,
+            duration = 0.8;
+            
+        if (infoPanelOpen) {
+            duration = 0;
+        }
         
         //Clone our interest content to the infoPanel and show it.
         $infoPanel.empty();
@@ -165,7 +169,7 @@
         
         interestContent.clone().appendTo($infoPanel).show();
         
-        TweenLite.to($infoPanel, 0.8, {
+        TweenLite.to($infoPanel, duration, {
             css:{
                 display: 'block',
                 opacity: 1,
@@ -173,15 +177,15 @@
             }, 
             onComplete: 
                 function () {
-                    animating = false;
-                    earthInTransit = false
+                    infoPanelAnimating = false;
+                    earthAnimating = false
                     infoPanelOpen = true;
                 }
         });
     };
     
     function zoomIn(callbackFn) {
-            animating = true;
+            zoomAnimating = true;
             
             if (!isMobile) {
                 TweenLite.to($containerTester, 2, {
@@ -200,50 +204,52 @@
                 ease:Power1.easeInOut,
                 onComplete: 
                     function () {
-                        animating = false;
-                        zoomed = true;
                         if(typeof callbackFn === "function"){
                             callbackFn.call(this);
                         }
+                        zoomAnimating = false;
+                        zoomed = true;
                     } 
             });
         };
     
     function zoomOut() {
-        currentInterest = '';
-        worldTurns = true;
-        animating = true;
-        updateHeroStatus();
+        if (!zoomAnimating) {
+            currentInterest = '';
+            worldTurns = true;
+            zoomAnimating = true;
+            updateHeroStatus();
         
-        if (!isMobile) {
-            TweenLite.to($containerTester, 2, {
+            if (!isMobile) {
+                TweenLite.to($containerTester, 2, {
+                    css:{
+                        y: 0
+                    }, 
+                    ease:Power1.easeInOut
+                });
+            }
+            
+            TweenLite.to($theHeavens, 2, {
                 css:{
-                    y: 0
+                    scale: 1, 
+                    y: 0,
+                    z:1
                 }, 
-                ease:Power1.easeInOut
+                ease:Power1.easeInOut,
+                onComplete: 
+                    function () {
+                        zoomAnimating = false;
+                        zoomed = false;
+                    }
             });
         }
-        
-        TweenLite.to($theHeavens, 2, {
-            css:{
-                scale: 1, 
-                y: 0,
-                z:1
-            }, 
-            ease:Power1.easeInOut,
-            onComplete: 
-                function () {
-                    animating = false;
-                    zoomed = false;
-                }
-        });
     };
     
     function rotateEarthToInterest(interestId) {
-        if (earthInTransit) { return false; };
+        if (earthAnimating || infoPanelAnimating) { return false; };
         
         var targetAngle = getTargetAngle(interestId),
-            animating = true,
+            earthAnimating = true,
             currentInterest = '';
             
         if (curEarthAngle != targetAngle) {
@@ -258,8 +264,9 @@
     
     function rotateEarthToAngle(targetAngle, interestId) {
         worldTurns = false;
-        earthInTransit = true;
-
+        earthAnimating = true;
+        currentInterest = '';
+        
         updateHeroStatus(targetAngle);
         
         TweenLite.to($planetEarth, 3, {
@@ -268,12 +275,11 @@
             },
             onComplete: 
                 function () {
-                    animating = false;
                     currentInterest = interests[interestId].name;
                     curEarthAngle = targetAngle;
                     updateHeroStatus(targetAngle);
                     zoomIn(function() { openInfoPanel(interestId) });
-                    earthInTransit = false;
+                    earthAnimating = false;
                 }
         });
     };
@@ -282,12 +288,12 @@
         $heroStatus.hide();
         
         if (targetAngle != null) {
-            if (targetAngle > curEarthAngle) {
-                //Face our hero left if we're rotating clockwise.
-                $ourHero.actorAnimate("walking", true);
-            } else {
+            if (targetAngle < curEarthAngle) {
                 //Face our hero right if we're rotating counter-clockwise.
                 $ourHero.actorAnimate("walking");
+            } else {
+                //Face our hero left if we're rotating clockwise.
+                $ourHero.actorAnimate("walking", true);
             }
             
             if (curEarthAngle === targetAngle) {
@@ -314,8 +320,6 @@
                     rotationZ: curEarthAngle
                 }
             });
-                
-            $ourHero.actorAnimate("walking");
         };
     }; 
     
@@ -530,12 +534,11 @@
             setInterval(function(){
                 debug ("worldTurns:" + worldTurns + "<br>", true);
                 debug ("infoPanelOpen:" + infoPanelOpen + "<br>");
-                debug ("earthInTransit:" + earthInTransit + "<br>");
-                debug ("animating:" + animating + "<br>");
+                debug ("earthAnimating:" + earthAnimating + "<br>");
                 if (isMobile) {
                     debug(screenWidth);
                 }
-            }, 500);
+            }, 3);
         };
     });
 }());
