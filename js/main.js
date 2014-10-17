@@ -1,3 +1,4 @@
+/*jslint browser: true, indent: 4 */
 /*global $, jQuery, debug, mobileType, getScale, TweenLite*/
 /*global Power1, Sine, rFloat, rInt, rRGB, mouseCoords*/
 
@@ -56,11 +57,17 @@
     }
 
     function keydown(e) {
+        var codelength = konami.split(",").length;
+
         keys.push(e.keyCode);
 
         if (keys.toString().indexOf(konami) >= 0) {
             debug("Space invaders!");
             keys = [];
+        }
+
+        if (keys.length > codelength) {
+            keys.shift();
         }
     }
 
