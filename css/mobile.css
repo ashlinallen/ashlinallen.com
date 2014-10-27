@@ -1,12 +1,1 @@
-#ourHero, #moon, #lowEarthOrbit, #planetEarth {
-    top:100%;
-}
-
-#earthShadow {
-    display:none;
-    background:none;
-}
-
-body {
-    background-position: center 0%;
-}
+#ourHero,#moon,#lowEarthOrbit,#planetEarth{top:100%}#earthShadow{display:none;background:0 0}body{background-position:center 0}

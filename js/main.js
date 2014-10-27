@@ -12,8 +12,8 @@
         $ourHero = $("#ourHero"),
         $heroStatus = $("#ourHero>#status"),
         $infoPanel = $("#infoPanel"),
-        $containerTester = $("#containerTester"),
-        isIE = document.documentMode,
+        $topMarginContainer = $("#topMarginContainer"),
+        //isIE = document.documentMode,
         isWebkit = /Webkit/i.test(navigator.userAgent),
         isChrome = /Chrome/i.test(navigator.userAgent),
         isMobile = mobileType.any(),
@@ -31,20 +31,6 @@
         currentInterest,
         screenWidth = window.innerWidth,
         screenHeight = window.innerHeight;
-
-    (function ($) {
-        $.fn.actorAnimate = function (state, hflip) {
-            var flip = (hflip === undefined) ? "false" : hflip,
-                cssClass = state;
-
-            $(this).removeClass();
-            $(this).addClass(cssClass);
-
-            if (flip === true) {
-                $(this).addClass("flipped");
-            }
-        };
-    }(jQuery));
 
     function updateScreenDims() {
         screenWidth = window.innerWidth;
@@ -102,7 +88,7 @@
         zoomAnimating = true;
 
         if (!isMobile) {
-            TweenLite.to($containerTester, 2, {
+            TweenLite.to($topMarginContainer, 2, {
                 css: {
                     y: 200
                 },
@@ -129,7 +115,7 @@
     function updateHeroStatus(targetAngle) {
         $heroStatus.hide();
 
-        if (targetAngle !== null) {
+        if (targetAngle !== undefined) {
             if (targetAngle < curEarthAngle) {
                 //Face our hero right if we're rotating counter-clockwise.
                 $ourHero.actorAnimate("walking");
@@ -161,7 +147,7 @@
             updateHeroStatus();
 
             if (!isMobile) {
-                TweenLite.to($containerTester, 2, {
+                TweenLite.to($topMarginContainer, 2, {
                     css: {
                         y: 0
                     },
@@ -498,6 +484,26 @@
         setStarPositions();
     }
 
+    $doc.on("click", "#planetEarth>a", function () { interestClicked($(this)); });
+    $doc.on("mouseup", $theHeavens, function (e) { heavensClicked(e); });
+    $win.on("resize", function () { resize(); });
+    $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
+    $doc.on("keydown", function (e) { keydown(e); });
+
+    (function ($) {
+        $.fn.actorAnimate = function (state, hflip) {
+            var flip = (hflip === undefined) ? "false" : hflip,
+                cssClass = state;
+
+            $(this).removeClass();
+            $(this).addClass(cssClass);
+
+            if (flip === true) {
+                $(this).addClass("flipped");
+            }
+        };
+    }(jQuery));
+
     $(function () {
         setShadowLen();
         initializeInterests();
@@ -522,11 +528,12 @@
 
         if ((window.devicePixelRatio !== undefined) && (window.devicePixelRatio > 2)) {
             var meta = document.getElementById("viewport");
-            if (meta !== null) {
+            if (meta !== undefined) {
                 meta.setAttribute('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
             }
         }
-
+        
+        //Device tilt code for mobiles/tablets. Currently lags ipad.
         //if (window.DeviceOrientationEvent) {
         //    window.addEventListener("deviceorientation", function () {
         //        moveStars((event.beta * 5), (event.gamma * 5));
@@ -552,10 +559,4 @@
             }, 3);
         }
     });
-
-    $doc.on("click", "#planetEarth>a", function () { interestClicked($(this)); });
-    $doc.on("mouseup", "#theHeavens", function (e) { heavensClicked(e); });
-    $win.on("resize", function () { resize(); });
-    $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
-    $doc.on("keydown", function (e) { keydown(e); });
 }());
