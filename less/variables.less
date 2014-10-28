@@ -26,21 +26,22 @@
     -moz-border-radius-topleft: @topleft;
 }
 
-.centered (@width) {
+.hCenter (@width) {
     @halved: (@width / 2);
     
     width:@width*(1px);
-    height:@width*(1px);
-    
-    margin-top:@halved*(-1px);
     margin-left:@halved*(-1px);
-    
-    top: 50%;
     left:50%;
-    
     position: absolute;
-    transform: translate(0px,0px);
-    background-repeat:no-repeat;
+}
+
+.vCenter (@height) {
+    @halved: (@height / 2);
+    
+    height:@height*(1px);
+    margin-top:@halved*(-1px);
+    top: 50%;
+    position: absolute;
 }
 
 .origin (@origin) {

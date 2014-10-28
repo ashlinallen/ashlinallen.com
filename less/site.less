@@ -1,7 +1,9 @@
 ﻿@import "variables"; 
 
-* {
+span, a {
     background-repeat:no-repeat;
+    background-repeat:no-repeat;
+    transform: translate(0,0);
 }
 
 body, html {
@@ -22,11 +24,12 @@ body {
     position: absolute;
     padding:5px 5px;
     display:none;
-    color:#333;
-    height: 400px;
-    width: 400px;
-    background:#fff;
-    z-index:2;
+    color:#fff;
+    opacity:0;
+    z-index:0;
+    .hCenter(300);
+    .vCenter(300);
+    margin-top:-400px;
 }
 
 #infoPlate {

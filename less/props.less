@@ -36,7 +36,8 @@
     background-image:url("../img/earth.png");
     background-size:390px 390px;
     .rotate(-40deg);
-    .centered(390);
+    .hCenter(390);
+    .vCenter(390);
 }
 
 #planetEarth > a {
@@ -51,13 +52,15 @@
     background-size:125px 125px;
     background-position:bottom left;
     -webkit-animation: spinR 360s infinite linear;
-    .centered(900);
+    .hCenter(900);
+    .vCenter(900);
 }
 
 #lowEarthOrbit {
     background-size:600px 600px;
     -webkit-animation: spin 180s infinite linear;
-    .centered(600);
+    .hCenter(600);
+    .vCenter(600);
 }
 
 #spaceShuttle {
@@ -184,7 +187,6 @@
     margin-top:-189px;
     position:absolute;
     overflow:hidden;
-    -webkit-backface-visibility: hidden;
     background-position:center center;
     pointer-events:none;
     background: -moz-linear-gradient(left,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 97%, rgba(0,0,0,0) 99%, rgba(0,0,0,0) 100%);

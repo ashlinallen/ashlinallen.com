@@ -90,7 +90,7 @@
         if (!isMobile) {
             TweenLite.to($topMarginContainer, 2, {
                 css: {
-                    y: 200
+                    y: 250
                 },
                 ease: Power1.easeInOut
             });
@@ -206,13 +206,14 @@
         infoPanelAnimating = true;
         infoPanelOpen = false;
 
-        TweenLite.to($infoPanel, 0.8, {
+        TweenLite.to($infoPanel, 0.5, {
             css: {
                 display: 'none',
-                scale: 1.25,
-                opacity: 0
+                opacity: 0,
+                scale: 0.9
             },
             onComplete: function () {
+                $infoPanel.removeAttr("style");
                 infoPanelAnimating = false;
             }
         });
@@ -243,7 +244,7 @@
             css: {
                 display: 'block',
                 opacity: 1,
-                scale: 1
+                marginTop:"-410px"
             },
             onComplete:
                 function () {
