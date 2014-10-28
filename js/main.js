@@ -234,8 +234,8 @@
         //Clone our interest content to the infoPanel and show it.
         $infoPanel.empty();
 
-        $infoPanel.css("left", infoPanelLeft);
-        $infoPanel.css("top", infoPanelTop);
+        //$infoPanel.css("left", infoPanelLeft);
+        //$infoPanel.css("top", infoPanelTop);
 
         interestContent.clone().appendTo($infoPanel).show();
 
@@ -532,7 +532,7 @@
                 meta.setAttribute('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
             }
         }
-        
+
         //Device tilt code for mobiles/tablets. Currently lags ipad.
         //if (window.DeviceOrientationEvent) {
         //    window.addEventListener("deviceorientation", function () {
