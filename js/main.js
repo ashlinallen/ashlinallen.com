@@ -22,6 +22,7 @@
         worldTurns = true,
         infoPanelOpen = false,
         infoPanelAnimating = false,
+        infoPanelTop = 0,
         earthAnimating = false,
         zoomAnimating = false,
         zoomed = false,
@@ -40,6 +41,17 @@
     function Interest(name, locationAngle) {
         this.name = name;
         this.locationAngle = locationAngle;
+        this.content = "";
+        this.header = "";
+        this.gallery = [];
+    }
+
+    function Image(title, filename, description, interestId) {
+        this.title = title;
+        this.filename = filename;
+        this.description = description;
+
+        interests[interestId].gallery.push(this);
     }
 
     function keydown(e) {
@@ -220,13 +232,13 @@
     }
 
     function openInfoPanel(interestId) {
-        var infoPanelLeft = $ourHero.offset().left,
-            infoPanelTop = $ourHero.offset().top - 200,
-            interestContent = $("#" + interestId + "Content"),
+        //var infoPanelLeft = $ourHero.offset().left,
+        var interestContent = $("#" + interestId + "Content"),
             duration = 0.8;
 
         infoPanelAnimating = true;
         worldTurns = false;
+        infoPanelTop = $ourHero.offset().top - 300;
 
         if (infoPanelOpen) {
             duration = 0;
@@ -236,7 +248,7 @@
         $infoPanel.empty();
 
         //$infoPanel.css("left", infoPanelLeft);
-        //$infoPanel.css("top", infoPanelTop);
+        $infoPanel.css("top", infoPanelTop);
 
         interestContent.clone().appendTo($infoPanel).show();
 
@@ -244,7 +256,7 @@
             css: {
                 display: 'block',
                 opacity: 1,
-                marginTop:"-410px"
+                marginTop: "-10px"
             },
             onComplete:
                 function () {
@@ -435,19 +447,6 @@
         }, rTimeout);
     }
 
-    function setShadowLen() {
-        var centerY = screenHeight / 2,
-            centerX = screenWidth / 2,
-            length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2)));
-
-        $("#earthShadow").css("width", length);
-    }
-
-    function resize() {
-        updateScreenDims();
-        setShadowLen();
-    }
-
     function mousemove(e) {
         if (!isMobile) {
             var mousePos = mouseCoords(e);
@@ -464,6 +463,15 @@
             games: new Interest("games", -40),
             cars: new Interest("cars", 0)
         };
+    }
+
+    function initializeContent() {
+        interests.sheri.content = "test content";
+        interests.sheri.header = "sheri";
+    }
+
+    function initializeImages() {
+        new Image("test title", "filename.jpg", "heres my description", "sheri");
     }
 
     function initializeStars() {
@@ -483,6 +491,19 @@
         }
 
         setStarPositions();
+    }
+
+    function initializeShadow() {
+        var centerY = screenHeight / 2,
+            centerX = screenWidth / 2,
+            length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2)));
+
+        $("#earthShadow").css("width", length);
+    }
+
+    function resize() {
+        updateScreenDims();
+        initializeShadow();
     }
 
     $doc.on("click", "#planetEarth>a", function () { interestClicked($(this)); });
@@ -506,10 +527,14 @@
     }(jQuery));
 
     $(function () {
-        setShadowLen();
-        initializeInterests();
+        initializeShadow();
         initializeStars();
+        initializeInterests();
+        initializeImages();
+        initializeContent();
         meteorShower();
+
+        //alert(JSON.stringify(interests.sheri));
 
         //Initialize earth rotation in javascript
         TweenLite.to($planetEarth, 0, {
