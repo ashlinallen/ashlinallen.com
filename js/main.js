@@ -11,8 +11,13 @@
         $planetEarth = $("#planetEarth"),
         $ourHero = $("#ourHero"),
         $heroStatus = $("#ourHero>#status"),
-        $infoPanel = $("#infoPanel"),
         $topMarginContainer = $("#topMarginContainer"),
+        $infoPanel = $("#infoPanel"),
+        $infoPanelNavPrev = $("#infoPanel>#prev"),
+        $infoPanelNavNext = $("#infoPanel>#next"),
+        $infoPanelHead = $("#infoPanel>div>h2"),
+        $infoPanelClose = $("#infoPanel>div>i"),
+        $infoPanelContent = $("#infoPanel>div>span"),
         //isIE = document.documentMode,
         isWebkit = /Webkit/i.test(navigator.userAgent),
         isChrome = /Chrome/i.test(navigator.userAgent),
@@ -232,9 +237,7 @@
     }
 
     function openInfoPanel(interestId) {
-        //var infoPanelLeft = $ourHero.offset().left,
-        var interestContent = $("#" + interestId + "Content"),
-            duration = 0.8;
+        var duration = 0.8;
 
         infoPanelAnimating = true;
         worldTurns = false;
@@ -243,14 +246,11 @@
         if (infoPanelOpen) {
             duration = 0;
         }
-
-        //Clone our interest content to the infoPanel and show it.
-        $infoPanel.empty();
-
-        //$infoPanel.css("left", infoPanelLeft);
+        
+        loadContent(interestId);
+        
         $infoPanel.css("top", infoPanelTop);
-
-        interestContent.clone().appendTo($infoPanel).show();
+        $infoPanel.show();
 
         TweenLite.to($infoPanel, duration, {
             css: {
@@ -265,6 +265,11 @@
                     infoPanelOpen = true;
                 }
         });
+    }
+
+    function loadContent(interestId) {
+        $infoPanelContent.html(interests[interestId].content);
+        $infoPanelHead.html(interests[interestId].header);
     }
 
     function rotateEarthToAngle(targetAngle, interestId) {
@@ -466,8 +471,20 @@
     }
 
     function initializeContent() {
-        interests.sheri.content = "test content";
+        interests.sheri.content = "sheri content";
         interests.sheri.header = "sheri";
+
+        interests.computers.content = "computers content";
+        interests.computers.header = "computers";
+
+        interests.nature.content = "nature content";
+        interests.nature.header = "nature";
+
+        interests.games.content = "games content";
+        interests.games.header = "games";
+
+        interests.cars.content = "cars content";
+        interests.cars.header = "cars";
     }
 
     function initializeImages() {
@@ -533,8 +550,6 @@
         initializeImages();
         initializeContent();
         meteorShower();
-
-        //alert(JSON.stringify(interests.sheri));
 
         //Initialize earth rotation in javascript
         TweenLite.to($planetEarth, 0, {

@@ -20,6 +20,18 @@ body {
     background:url("../img/htmlbg.png") no-repeat center center;
 }
 
+@font-face {
+    font-family: 'geosanslightregular';
+    src: url('../fonts/geosanslight-webfont.eot');
+    src: url('../fonts/geosanslight-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/geosanslight-webfont.woff2') format('woff2'),
+         url('../fonts/geosanslight-webfont.woff') format('woff'),
+         url('../fonts/geosanslight-webfont.ttf') format('truetype'),
+         url('../fonts/geosanslight-webfont.svg#geosanslightregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 #infoPanel {
     position: absolute;
     padding:5px 5px;
@@ -30,37 +42,28 @@ body {
     .hCenter(600);
     height:300px;
     border:1px dotted purple;
+    font-family: 'geosanslightregular';
 }
 
-#contactInfo {
-    position:absolute;
-    bottom:0px;
-    right:0px;
-    padding:3px;
-    background-color:#575757;
-    font-size:11px;
-    text-align:center;
-    border: 1px solid #545454;
-    .border-radii(0px 0px 0px 5px);
+#infoPanel>#prev,
+#infoPanel>#next {
+    display: block;
+    height: 100%;
+    width: 20px;
+    background-color: Red;
+}
+
+#infoPanel>#prev {
+    float: left;
+}
+
+#infoPanel>#next {
+    float: right;
 }
 
 #topMarginContainer {
     position:absolute;
     .fill;
-}
-
-#contactInfo > a {
-    color:#858585;
-    text-decoration:none;
-}
-
-#contactInfo > a:hover {
-    color:#999;
-    text-decoration:underline;
-}
-
-#interestContents {
-    display:none;
 }
     
 @-webkit-keyframes spin {
