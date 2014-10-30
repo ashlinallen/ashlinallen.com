@@ -75,8 +75,6 @@
     }
 
     function moveStars(x, y) {
-        if (infoPanelOpen || earthAnimating || zoomed || zoomAnimating) { return false; }
-
         var bgPosX = (50 * (x / screenWidth)),
             bgPosY = (50 * (y / screenHeight)),
             $stars = $(".star"),
@@ -641,6 +639,12 @@
                 meta.setAttribute('content', 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no');
             }
         }
+
+        TweenLite.to($("body"), 0.5, {
+            css: {
+                opacity: 1
+            }
+        });
 
         //Device tilt code for mobiles/tablets. Currently lags ipad.
         //if (window.DeviceOrientationEvent) {
