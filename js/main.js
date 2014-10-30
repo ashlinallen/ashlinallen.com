@@ -1,4 +1,4 @@
-/*jslint browser: true, indent: 4 */
+/*jslint browser: true, indent: 4*/
 /*global $, jQuery, debug, mobileType, getScale, TweenLite*/
 /*global Power1, Sine, rFloat, rInt, rRGB, mouseCoords*/
 
@@ -213,6 +213,11 @@
         return adjustedTargetAngle;
     }
 
+    function loadContent(interestId) {
+        $infoPanelContent.html(interests[interestId].content);
+        $infoPanelHead.html(interests[interestId].header);
+    }
+
     function closeInfoPanel(zOut) {
         var doZoomOut = (zOut === undefined) ? "false" : zOut;
 
@@ -246,9 +251,9 @@
         if (infoPanelOpen) {
             duration = 0;
         }
-        
+
         loadContent(interestId);
-        
+
         $infoPanel.css("top", infoPanelTop);
         $infoPanel.show();
 
@@ -265,11 +270,6 @@
                     infoPanelOpen = true;
                 }
         });
-    }
-
-    function loadContent(interestId) {
-        $infoPanelContent.html(interests[interestId].content);
-        $infoPanelHead.html(interests[interestId].header);
     }
 
     function rotateEarthToAngle(targetAngle, interestId) {
@@ -409,6 +409,37 @@
         }
     }
 
+    function jogInterests(dir) {
+        var keysArray = Object.keys(interests),
+            interestCount = Object.keys(interests).length,
+            curIndex,
+            nextIndex,
+            nextInterestId,
+            valuesArray;
+
+        valuesArray = Object.keys(interests).map(function (i) {
+            return String(interests[i].name);
+        });
+
+        curIndex = keysArray.indexOf(currentInterest);
+
+        if (dir === "prev") {
+            nextIndex = curIndex - 1;
+            if (nextIndex < 0) {
+                nextIndex = (interestCount - 1);
+            }
+        } else {
+            nextIndex = curIndex + 1;
+            if (nextIndex > (interestCount - 1)) {
+                nextIndex = 0;
+            }
+        }
+
+        nextInterestId = valuesArray[nextIndex];
+
+        rotateEarthToInterest(nextInterestId);
+    }
+
     function heavensClicked(e) {
         if (earthAnimating || !zoomed) { return false; }
 
@@ -462,29 +493,64 @@
 
     function initializeInterests() {
         interests = {
+            games: new Interest("games", -40),
             sheri: new Interest("sheri", -82),
             computers: new Interest("computers", 180),
             nature: new Interest("nature", 55),
-            games: new Interest("games", -40),
             cars: new Interest("cars", 0)
         };
     }
 
     function initializeContent() {
-        interests.sheri.content = "sheri content";
-        interests.sheri.header = "sheri";
+        interests.sheri.header = "Sheri";
+        interests.sheri.content = 
+            "<p>Pellentesque habitant morbi tristique senectus et netus " +
+            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
+            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
+            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
+            "Mauris placerat eleifend leo.</p>" +
+            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
+            "malesuada fames ac turpis egestas.</p>";
 
-        interests.computers.content = "computers content";
-        interests.computers.header = "computers";
+        interests.computers.header = "Computers";
+        interests.computers.content = 
+            "<p>Pellentesque habitant morbi tristique senectus et netus " +
+            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
+            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
+            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
+            "Mauris placerat eleifend leo.</p>" +
+            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
+            "malesuada fames ac turpis egestas.</p>";
 
-        interests.nature.content = "nature content";
-        interests.nature.header = "nature";
+        interests.nature.header = "Nature";
+        interests.nature.content = 
+            "<p>Pellentesque habitant morbi tristique senectus et netus " +
+            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
+            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
+            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
+            "Mauris placerat eleifend leo.</p>" +
+            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
+            "malesuada fames ac turpis egestas.</p>";
 
-        interests.games.content = "games content";
-        interests.games.header = "games";
+        interests.games.header = "Games";
+        interests.games.content = 
+            "<p>Pellentesque habitant morbi tristique senectus et netus " +
+            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
+            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
+            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
+            "Mauris placerat eleifend leo.</p>" +
+            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
+            "malesuada fames ac turpis egestas.</p>";
 
-        interests.cars.content = "cars content";
-        interests.cars.header = "cars";
+        interests.cars.header = "Cars";
+        interests.cars.content = 
+            "<p>Pellentesque habitant morbi tristique senectus et netus " +
+            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
+            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
+            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
+            "Mauris placerat eleifend leo.</p>" +
+            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
+            "malesuada fames ac turpis egestas.</p>";
     }
 
     function initializeImages() {
@@ -523,6 +589,8 @@
         initializeShadow();
     }
 
+    $infoPanelNavNext.on("click", function () { jogInterests(); });
+    $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
     $doc.on("click", "#planetEarth>a", function () { interestClicked($(this)); });
     $doc.on("mouseup", $theHeavens, function (e) { heavensClicked(e); });
     $win.on("resize", function () { resize(); });
