@@ -31,10 +31,20 @@ function mouseCoords(ev) {
 
 //Dump values to debug panel.
 function debug(string, clear) {
-    var curDebugHtml = $("#debugCol").html();
+    var curDebugHtml;
+
+    if ($('#debugCol').length === 0) {
+        var debugCol = document.createElement("span");
+        debugCol.setAttribute("id", "debugCol");
+        $("body").append(debugCol);
+    }
+
+    curDebugHtml = $("#debugCol").html();
+
     if (clear) {
         curDebugHtml = "";
     }
+
     $("#debugCol").show();
     $("#debugCol").html("\n" + string + "\n<br>\n" + curDebugHtml);
 }

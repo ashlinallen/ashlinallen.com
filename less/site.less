@@ -19,6 +19,7 @@ html {
 body {
     background:url("../img/htmlbg.png") no-repeat center center;
     opacity:0;
+    position:relative;
 }
 
 @font-face {
@@ -33,25 +34,54 @@ body {
     font-style: normal;
 }
 
+#contactInfo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 60px;
+    font-family: geosanslightregular;
+    color: #fff;
+    margin-top:10px;
+    margin-left:10px;
+}
+
 #infoPanel {
     position: absolute;
     display:none;
     color:#fff;
     opacity:0;
     z-index:4;
-    .hCenter(600);
     height:300px;
-    border:1px dotted purple;
     font-family: 'geosanslightregular';
+    .hCenter(600);
 }
 
 #infoPanel>#prev,
 #infoPanel>#next {
     display: block;
     height: 100%;
-    width: 20px;
-    background-color: Red;
+    width: 50px;
     cursor:pointer;
+    font-size:50px;
+    opacity:0;
+}
+
+#infoPanel>#prev {
+    background:url("../img/arrowLeft.png") no-repeat center center;
+}
+
+#infoPanel>#next {
+    background:url("../img/arrowRight.png") no-repeat center center;
+}
+
+#infoPanel:hover>#prev,
+#infoPanel:hover>#next {
+    opacity:0.5;
+}
+
+#infoPanel>#prev:hover,
+#infoPanel>#next:hover {
+    opacity:1;
 }
 
 #infoPanel>#prev {
