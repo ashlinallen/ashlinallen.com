@@ -18,6 +18,18 @@ function rRGB() {
     return rgb;
 };
 
+function diff(num1, num2){
+    var difference;
+
+    if (num1 > num2) {
+        difference = (num1 - num2);
+    } else {
+        difference = (num2 - num1);
+    }
+
+    return difference;
+}
+
 //Returns int for .x and .y
 function mouseCoords(ev) {
     if (ev.pageX || ev.pageY) {

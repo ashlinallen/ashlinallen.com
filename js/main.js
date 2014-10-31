@@ -271,16 +271,20 @@
     }
 
     function rotateEarthToAngle(targetAngle, interestId) {
+        var angleDifference = diff(curEarthAngle, targetAngle),
+            duration = angleDifference / 20;
+
         worldTurns = false;
         earthAnimating = true;
         currentInterest = '';
 
         updateHeroStatus(targetAngle);
 
-        TweenLite.to($planetEarth, 3, {
+        TweenLite.to($planetEarth, duration, {
             css: {
                 rotationZ: targetAngle + "deg"
             },
+            ease: Sine.easeOut,
             onComplete: function () {
                 currentInterest = interests[interestId].name;
                 curEarthAngle = targetAngle;
