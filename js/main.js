@@ -272,7 +272,7 @@
 
     function rotateEarthToAngle(targetAngle, interestId) {
         var angleDifference = diff(curEarthAngle, targetAngle),
-            duration = angleDifference / 20;
+            duration = angleDifference / 30;
 
         worldTurns = false;
         earthAnimating = true;
@@ -289,7 +289,11 @@
                 currentInterest = interests[interestId].name;
                 curEarthAngle = targetAngle;
                 updateHeroStatus(targetAngle);
-                zoomIn(function () { openInfoPanel(interestId); });
+                if (!zoomed) {
+                    zoomIn(function () { openInfoPanel(interestId); });
+                } else {
+                    openInfoPanel(interestId);
+                }
                 earthAnimating = false;
             }
         });
