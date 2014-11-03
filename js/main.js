@@ -51,9 +51,9 @@
         this.gallery = [];
     }
 
-    function Image(title, filename, description, interestId) {
+    function Image(title, url, description, interestId) {
         this.title = title;
-        this.filename = filename;
+        this.url = url;
         this.description = description;
 
         interests[interestId].gallery.push(this);
@@ -142,6 +142,9 @@
             if (curEarthAngle === targetAngle) {
                 //We're at our interest, so just stand still.
                 $ourHero.actorAnimate("standing");
+                if (currentInterest === 'computers') {
+                    $ourHero.actorAnimate("standing-away");
+                }
             }
         } else {
             $ourHero.actorAnimate("walking");
@@ -211,9 +214,49 @@
         return adjustedTargetAngle;
     }
 
+    function galleryMarkup(interestId) {
+        var myInterest = interests[interestId],
+            interestGallery = myInterest.gallery,
+            galleryCount = interestGallery.length,
+            list = null;
+
+        if (galleryCount > 0) {
+            var i;
+
+            list = document.createElement("ul");
+            for (i = 0; i < galleryCount; i++) {
+                var listItem = document.createElement("li"),
+                    anchor = document.createElement("a"),
+                    image = document.createElement("img");
+
+                listItem.className = "interestImage";
+                anchor.className = "fancybox";
+
+                image.src = interestGallery[i].url;
+
+                anchor.setAttribute("rel", interestId);
+
+                anchor.appendChild(image);
+                listItem.appendChild(anchor);
+                list.appendChild(listItem);
+            }
+        }
+
+        return list;
+    }
+
     function loadContent(interestId) {
-        $infoPanelContent.html(interests[interestId].content);
-        $infoPanelHead.html(interests[interestId].header);
+        var myInterest = interests[interestId];
+
+        var galleryList = galleryMarkup(interestId);
+
+        $infoPanelContent.html(myInterest.content);
+
+        if (galleryList) {
+            $infoPanelContent.append(galleryList);
+        }
+
+        $infoPanelHead.html(myInterest.header);
     }
 
     function closeInfoPanel(zOut) {
@@ -501,9 +544,8 @@
         interests = {
             games: new Interest("games", -40),
             sheri: new Interest("sheri", -82),
-            computers: new Interest("computers", 180),
-            nature: new Interest("nature", 55),
-            cars: new Interest("cars", 0)
+            computers: new Interest("computers", 174),
+            nature: new Interest("nature", 55)
         };
     }
 
@@ -547,20 +589,10 @@
             "Mauris placerat eleifend leo.</p>" +
             "<p>Pellentesque habitant morbi tristique senectus et netus et " +
             "malesuada fames ac turpis egestas.</p>";
-
-        interests.cars.header = "Cars";
-        interests.cars.content = 
-            "<p>Pellentesque habitant morbi tristique senectus et netus " +
-            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
-            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
-            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
-            "Mauris placerat eleifend leo.</p>" +
-            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
-            "malesuada fames ac turpis egestas.</p>";
     }
 
     function initializeImages() {
-        new Image("test title", "filename.jpg", "heres my description", "sheri");
+        new Image("test title", "img/fierogt.jpg", "heres my description", "sheri");
     }
 
     function initializeStars() {
@@ -597,8 +629,9 @@
 
     $infoPanelNavNext.on("click", function () { jogInterests(); });
     $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
+    $infoPanel.on("click", function () { e.stopPropagation(); e.cancelBubble = true; });
     $doc.on("click", "#planetEarth>a", function () { interestClicked($(this)); });
-    $doc.on("mouseup", $theHeavens, function (e) { heavensClicked(e); });
+    $doc.on("click", $theHeavens, function (e) { heavensClicked(e); });
     $win.on("resize", function () { resize(); });
     $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
     $doc.on("keydown", function (e) { keydown(e); });
@@ -649,11 +682,18 @@
         }
 
         TweenLite.to($("body"), 0.5, {
-            css: {
                 opacity: 1
+            });
+
+        $(".fancybox").fancybox({
+            helpers : {
+                overlay : {
+                    css : {
+                        'background' : 'rgba(0, 0, 0, 0.75)'
+                    }
+                }
             }
         });
-
         //Device tilt code for mobiles/tablets. Currently lags ipad.
         //if (window.DeviceOrientationEvent) {
         //    window.addEventListener("deviceorientation", function () {

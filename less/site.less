@@ -1,5 +1,17 @@
 ﻿@import "variables"; 
-
+* {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    image-rendering:-moz-crisp-edges;          /* Firefox        */
+    image-rendering:-o-crisp-edges;            /* Opera          */
+    image-rendering:-webkit-optimize-contrast; /* Safari         */
+    image-rendering:optimize-contrast;         /* CSS3 Proposed  */
+    image-rendering:crisp-edges;               /* CSS4 Proposed  */
+    image-rendering:pixelated;                 /* CSS4 Proposed  */
+    -ms-interpolation-mode:nearest-neighbor;   /* IE8+ */
+    -webkit-font-smoothing: subpixel-antialiased;
+}
 span, a {
     background-repeat:no-repeat;
     background-repeat:no-repeat;
@@ -81,10 +93,12 @@ body {
 
 #infoPanel>#prev {
     background:url("../img/arrowLeft.png") no-repeat center center;
+    float: left;
 }
 
 #infoPanel>#next {
     background:url("../img/arrowRight.png") no-repeat center center;
+    float: right;
 }
 
 #infoPanel:hover>#prev,
@@ -97,17 +111,25 @@ body {
     opacity:1;
 }
 
-#infoPanel>#prev {
-    float: left;
-}
-
-#infoPanel>#next {
-    float: right;
+#infoPanel>div {
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 #topMarginContainer {
     position:absolute;
     .fill;
+}
+
+.interestImage a {
+    border:1px solid #ff00ff;
+    width:100px;
+    height:30px;
+}
+
+.interestImage img {
+    width:100px;
+    height:30px;
 }
     
 @-webkit-keyframes spin {

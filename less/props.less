@@ -83,11 +83,11 @@
 }
 
 #ourHero {
-    width:42px;
+    width:38px;
     height:76px;
     margin-top:-261px;
     margin-left:-21px;
-    background-size:42px 76px;
+    background-size:38px 76px;
     z-index:1;
     top: 50%;
     left:50%;
@@ -96,11 +96,12 @@
 }
 
 #ourHero > #status {
-    width:50px;
-    height:50px;
-    top:-45px;
-    right:-30px;
+    width:18px;
+    height:18px;
+    top: -17px;
+    right: -10px;
     background-image:url("../img/hearts.gif");
+    background-size:18px 18px;
     position:absolute;
     display:none;
     .rotate(8deg);
@@ -113,7 +114,17 @@
 }
 
 #ourHero.standing {
+    width:42px;
     background-image:url("../img/ash_standing.gif");
+    background-size:42px 76px;
+}
+
+#ourHero.standing-away {
+    width:30px;
+    background-image:url("../img/ash_standing_away.gif");
+    background-size:30px 76px;
+    margin-left:-17px;
+    transform:rotate(-1deg);
 }
 
 #ourHero.flipped {
@@ -126,12 +137,12 @@
 }
 
 #computers {
-    width:60px;
-    height:60px;
-    bottom:-20px;
+    width:90px;
+    height:74px;
+    bottom:-59px;
     left:125px;
-    background-image:url("../img/computer.gif");
-    background-size:60px 60px;
+    background-image:url("../img/sprite_desk.png");
+    background-size:90px 74px;
     .rotate(186deg);
 }
 
@@ -145,13 +156,13 @@
 }
 
 #games {
-    width:62px;
-    height:48px;
-    top:60px;
-    right:20px;
-    background-image:url("../img/snes.png");
-    background-size:62px 48px;
-    .rotate(55deg);
+    width:86px;
+    height:76px;
+    top: -2px;
+    right: 0px;
+    background-image:url("../img/games2.png");
+    background-size:86px 76px;
+    .rotate(47deg);
 }
 
 #sheri {
@@ -162,16 +173,6 @@
     background-image:url("../img/sheri_standing.gif");
     background-size:34px 70px;
     .rotate(90deg);
-}
-
-#cars {
-    width:79px;
-    height:28px;
-    top:-11px;
-    right:116px;
-    background-image:url("../img/fiero.png");
-    background-size:79px 28px;
-    .rotate(19deg)
 }
 
 #topMarginContainer {
