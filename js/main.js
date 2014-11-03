@@ -414,9 +414,9 @@
 
         for (i = 0; i < $stars.length;  i += 1) {
             el = $stars[i];
-            left = rFloat(-2.5, 102.5);
-            top = rFloat(-2.5, 102.5);
-            s = rFloat(0.1, 1.0);
+            left = rFloat(-1, 101);
+            top = rFloat(-1, 101);
+            s = rFloat(0.1, 1.2);
             colorLottery = rInt(1, 10);
             op = rFloat(0.0, 1.0);
             rgb = "rgb(255,255,255)";
@@ -657,16 +657,20 @@
         initializeImages();
         initializeContent();
         meteorShower();
-
         //Initialize earth rotation in javascript
         TweenLite.to($planetEarth, 0, {
             css: {
                 rotationZ: curEarthAngle
             }
         });
-
+        var blah = 0;
+        var blah2 = 0;
         setInterval(function () {
             rotateEarth();
+
+            //moveStars(blah2*100,blah*50);
+            blah++;
+            blah2--;
         }, 60);
 
         window.addEventListener("touchmove",
