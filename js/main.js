@@ -766,9 +766,7 @@
             }
         }
 
-        //TweenLite.to($("body"), 0.5, {
-        //        opacity: 1
-        //    });
+        $("body").css("display", "inline-block");
 
         $(".fancybox").fancybox({
             helpers : {
