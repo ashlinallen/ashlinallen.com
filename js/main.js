@@ -766,9 +766,9 @@
             }
         }
 
-        TweenLite.to($("body"), 0.5, {
-                opacity: 1
-            });
+        //TweenLite.to($("body"), 0.5, {
+        //        opacity: 1
+        //    });
 
         $(".fancybox").fancybox({
             helpers : {
