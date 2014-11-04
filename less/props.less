@@ -1,4 +1,6 @@
 @import "variables";
+#moon, #lowEarthOrbit, #ourHero, #planetEarth, #theStars {
+}
 
 #theHeavens {
     -webkit-transform: translateZ(0);
@@ -101,6 +103,7 @@
     left:50%;
     position: absolute;
     transform: translate(0px,0px);
+    cursor:pointer;
 }
 
 #ourHero > #status {
@@ -135,6 +138,24 @@
     transform:rotate(0deg);
 }
 
+#ourHero.sitting-camp {
+    width:36px;
+    background-image:url("../img/ash_sitting_camp.gif");
+    background-size:36px 58px;
+    margin-left: -26px;
+    margin-top: -237px;
+    transform:rotate(0deg);
+}
+
+#ourHero.sitting-vidya {
+    width: 32px;
+    background-image: url(../img/ash_sitting_vidya.gif);
+    background-size: 32px 58px;
+    margin-left: -29px;
+    margin-top: -235px;
+    transform: rotate(0deg);
+}
+
 #ourHero.flipped {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
@@ -155,12 +176,13 @@
 }
 
 #nature {
-    width:120px;
-    height:77px;
-    top:-4px;
+    width: 172px;
+    height: 98px;
+    top: 0px;
+    left: -46px;
+    .rotate(-46deg);
     background-image:url("../img/mountain.png");
-    background-size:120px 77px;
-    .rotate(-45deg);
+    background-size:172px 98px;
 }
 
 #games {

@@ -18,7 +18,7 @@
         $infoPanelHead = $("#infoPanel>div>h2"),
         $infoPanelClose = $("#infoPanel>div>#close"),
         $infoPanelContent = $("#infoPanel>div>span"),
-        //isIE = document.documentMode,
+        isIE = document.documentMode,
         isWebkit = /Webkit/i.test(navigator.userAgent),
         isChrome = /Chrome/i.test(navigator.userAgent),
         isMobile = mobileType.any(),
@@ -75,6 +75,8 @@
     }
 
     function moveStars(x, y) {
+        if (isIE) { return false; }
+
         var bgPosX = (50 * (x / screenWidth)),
             bgPosY = (50 * (y / screenHeight)),
             $stars = $(".star"),
@@ -125,6 +127,13 @@
                 zoomed = true;
             }
         });
+        
+        if (currentInterest === "about") {
+            zeroOpacity();
+            TweenLite.to($("#contact"), 2, {
+                    opacity: 1
+                });
+        }
     }
 
     function updateHeroStatus(targetAngle) {
@@ -145,6 +154,12 @@
                 if (currentInterest === 'computers') {
                     $ourHero.actorAnimate("standing-away");
                 }
+                if (currentInterest === 'nature') {
+                    $ourHero.actorAnimate("sitting-camp");
+                }
+                if (currentInterest === 'games') {
+                    $ourHero.actorAnimate("sitting-vidya");
+                }
             }
         } else {
             $ourHero.actorAnimate("walking");
@@ -158,34 +173,41 @@
     }
 
     function zoomOut() {
-        if (!zoomAnimating) {
-            currentInterest = '';
-            worldTurns = true;
-            zoomAnimating = true;
-            updateHeroStatus();
-
-            if (!isMobile) {
-                TweenLite.to($topMarginContainer, 2, {
-                    css: {
-                        y: 0
-                    },
-                    ease: Power1.easeInOut
+        if (zoomAnimating) { return false; }
+        
+        if (currentInterest === "about") {
+            fullOpacity();
+            TweenLite.to($("#contact"), 0.5, {
+                    opacity: 0
                 });
-            }
+        }
+        
+        currentInterest = '';
+        worldTurns = true;
+        zoomAnimating = true;
+        updateHeroStatus();
 
-            TweenLite.to($theHeavens, 2, {
+        if (!isMobile) {
+            TweenLite.to($topMarginContainer, 2, {
                 css: {
-                    scale: 1,
-                    y: 0,
-                    z: 1
+                    y: 0
                 },
-                ease: Power1.easeInOut,
-                onComplete: function () {
-                    zoomAnimating = false;
-                    zoomed = false;
-                }
+                ease: Power1.easeInOut
             });
         }
+
+        TweenLite.to($theHeavens, 2, {
+            css: {
+                scale: 1,
+                y: 0,
+                z: 1
+            },
+            ease: Power1.easeInOut,
+            onComplete: function () {
+                zoomAnimating = false;
+                zoomed = false;
+            }
+        });
     }
 
     function getTargetAngle(interestId) {
@@ -546,14 +568,35 @@
 
     function initializeInterests() {
         interests = {
+            about: new Interest("about", 0),
             games: new Interest("games", -30),
             sheri: new Interest("sheri", -82),
             computers: new Interest("computers", 174),
-            nature: new Interest("nature", 55)
+            nature: new Interest("nature", 45)
         };
     }
 
     function initializeContent() {
+        interests.about.header = "About Me";
+        interests.about.content = 
+            "<p>Pellentesque habitant morbi tristique senectus et netus " +
+            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
+            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
+            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
+            "Mauris placerat eleifend leo.</p>" +
+            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
+            "malesuada fames ac turpis egestas.</p>";
+
+        interests.games.header = "Games";
+        interests.games.content = 
+            "<p>Pellentesque habitant morbi tristique senectus et netus " +
+            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
+            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
+            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
+            "Mauris placerat eleifend leo.</p>" +
+            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
+            "malesuada fames ac turpis egestas.</p>";
+            
         interests.sheri.header = "Sheri";
         interests.sheri.content = 
             "<p>Pellentesque habitant morbi tristique senectus et netus " +
@@ -583,20 +626,12 @@
             "Mauris placerat eleifend leo.</p>" +
             "<p>Pellentesque habitant morbi tristique senectus et netus et " +
             "malesuada fames ac turpis egestas.</p>";
-
-        interests.games.header = "Games";
-        interests.games.content = 
-            "<p>Pellentesque habitant morbi tristique senectus et netus " +
-            "et malesuada fames ac turpis egestas. Vestibulum tortor quam, " +
-            "feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu " +
-            "libero sit amet quam egestas semper. Aenean ultricies mi vitae est. " +
-            "Mauris placerat eleifend leo.</p>" +
-            "<p>Pellentesque habitant morbi tristique senectus et netus et " +
-            "malesuada fames ac turpis egestas.</p>";
     }
 
     function initializeImages() {
         new Image("test title", "img/fierogt.jpg", "heres my description", "sheri");
+        new Image("test title2", "img/fierogt.jpg", "heres my description", "sheri");
+        new Image("test title3", "img/fierogt.jpg", "heres my description", "sheri");
     }
 
     function initializeStars() {
@@ -630,7 +665,40 @@
         updateScreenDims();
         initializeShadow();
     }
+    
+    function zeroOpacity() {
+        var blah3 = parseFloat(1.0);
+        setInterval(function () {
+            if (blah3>0) {
+                var blah4 = parseFloat(blah3) - parseFloat(0.1);
+                blah3 = blah4.toFixed(2);
+                var els = 
+                    $planetEarth
+                        .add($ourHero)
+                        .add($("#lowEarthOrbit"))
+                        .add($("#moon"));
+                TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + blah3 + ')' } });
+            }
+        }, 60);
+    }
+    
+    function fullOpacity() {
+        var blah3 = parseFloat(0.0);
+        setInterval(function () {
+            if (blah3<1.0) {
+                var blah4 = parseFloat(blah3) + parseFloat(0.1);
+                blah3 = blah4.toFixed(2);
+                var els = 
+                    $planetEarth
+                        .add($ourHero)
+                        .add($("#lowEarthOrbit"))
+                        .add($("#moon"));
+                TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + blah3 + ')' } });
+            }
+        }, 60);
+    }
 
+    $ourHero.on("click", function () { rotateEarthToInterest("about"); });
     $infoPanelNavNext.on("click", function () { jogInterests(); });
     $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
     $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
@@ -667,14 +735,9 @@
                 rotationZ: curEarthAngle
             }
         });
-        var blah = 0;
-        var blah2 = 0;
+        
         setInterval(function () {
             rotateEarth();
-
-            //moveStars(blah2*100,blah*50);
-            blah++;
-            blah2--;
         }, 60);
 
         window.addEventListener("touchmove",
@@ -699,6 +762,10 @@
                     css : {
                         'background' : 'rgba(0, 0, 0, 0.75)'
                     }
+                },
+                thumbs	: {
+                    width	: 50,
+                    height	: 50
                 }
             }
         });
