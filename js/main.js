@@ -699,6 +699,7 @@
     }
 
     $ourHero.on("click", function () { rotateEarthToInterest("about"); });
+    $("#contactIcon").on("click", function () { rotateEarthToInterest("about"); });
     $infoPanelNavNext.on("click", function () { jogInterests(); });
     $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
     $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
