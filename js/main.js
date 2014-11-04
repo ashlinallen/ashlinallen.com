@@ -16,7 +16,7 @@
         $infoPanelNavPrev = $("#infoPanel>#prev"),
         $infoPanelNavNext = $("#infoPanel>#next"),
         $infoPanelHead = $("#infoPanel>div>h2"),
-        $infoPanelClose = $("#infoPanel>div>i"),
+        $infoPanelClose = $("#infoPanel>div>#close"),
         $infoPanelContent = $("#infoPanel>div>span"),
         //isIE = document.documentMode,
         isWebkit = /Webkit/i.test(navigator.userAgent),
@@ -227,16 +227,20 @@
             for (i = 0; i < galleryCount; i++) {
                 var listItem = document.createElement("li"),
                     anchor = document.createElement("a"),
-                    image = document.createElement("img");
-
+                    image = document.createElement("img"),
+                    imgUrl = interestGallery[i].url,
+                    thumbUrl;
+                
                 listItem.className = "interestImage";
+                    
+                thumbUrl = imgUrl.replace(".", "_thumb.");
+                image.src = thumbUrl;
+                
                 anchor.className = "fancybox";
-
-                image.src = interestGallery[i].url;
-
+                anchor.href = imgUrl;
                 anchor.setAttribute("rel", interestId);
-
                 anchor.appendChild(image);
+
                 listItem.appendChild(anchor);
                 list.appendChild(listItem);
             }
@@ -247,14 +251,16 @@
 
     function loadContent(interestId) {
         var myInterest = interests[interestId];
-
+        
+        $infoPanelContent.empty();
+        
         var galleryList = galleryMarkup(interestId);
-
-        $infoPanelContent.html(myInterest.content);
 
         if (galleryList) {
             $infoPanelContent.append(galleryList);
         }
+        
+        $infoPanelContent.append(myInterest.content);
 
         $infoPanelHead.html(myInterest.header);
     }
@@ -343,7 +349,7 @@
     }
 
     function rotateEarthToInterest(interestId) {
-        if (earthAnimating || infoPanelAnimating) { return false; }
+        if (earthAnimating) { return false; }
 
         var targetAngle = getTargetAngle(interestId);
         currentInterest = '';
@@ -489,12 +495,10 @@
         rotateEarthToInterest(nextInterestId);
     }
 
-    function heavensClicked(e) {
+    function topMarginContainerClicked(e) {
         if (earthAnimating || !zoomed) { return false; }
 
-        if (e.target.tagName.toLowerCase() !== 'a') {
-            closeInfoPanel(true);
-        }
+        closeInfoPanel(true);
     }
 
     function meteor(startX, startY) {
@@ -542,7 +546,7 @@
 
     function initializeInterests() {
         interests = {
-            games: new Interest("games", -40),
+            games: new Interest("games", -30),
             sheri: new Interest("sheri", -82),
             computers: new Interest("computers", 174),
             nature: new Interest("nature", 55)
@@ -629,12 +633,12 @@
 
     $infoPanelNavNext.on("click", function () { jogInterests(); });
     $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
-    $infoPanel.on("click", function () { e.stopPropagation(); e.cancelBubble = true; });
+    $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
+    $topMarginContainer.on("click", function(e) { if(e.target === this) { topMarginContainerClicked(e); } } );
     $doc.on("click", "#planetEarth>a", function () { interestClicked($(this)); });
-    $doc.on("click", $theHeavens, function (e) { heavensClicked(e); });
-    $win.on("resize", function () { resize(); });
     $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
     $doc.on("keydown", function (e) { keydown(e); });
+    $win.on("resize", function () { resize(); });
 
     (function ($) {
         $.fn.actorAnimate = function (state, hflip) {

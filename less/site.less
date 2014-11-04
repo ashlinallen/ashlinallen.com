@@ -1,15 +1,14 @@
 ﻿@import "variables"; 
 * {
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
     backface-visibility: hidden;
-    image-rendering:-moz-crisp-edges;          /* Firefox        */
-    image-rendering:-o-crisp-edges;            /* Opera          */
-    image-rendering:crisp-edges;               /* CSS4 Proposed  */
-    image-rendering:pixelated;                 /* CSS4 Proposed  */
-    -ms-interpolation-mode:nearest-neighbor;   /* IE8+ */
+    image-rendering:-moz-crisp-edges;
+    image-rendering:-o-crisp-edges;
+    image-rendering:crisp-edges;
+    image-rendering:pixelated;
+    -ms-interpolation-mode:nearest-neighbor;
     -webkit-font-smoothing: subpixel-antialiased;
 }
+
 span, a {
     background-repeat:no-repeat;
     background-repeat:no-repeat;
@@ -30,6 +29,7 @@ body {
     background:url("../img/htmlbg.png") no-repeat center center;
     opacity:0;
     position:relative;
+    background-size:80%;
 }
 
 @font-face {
@@ -42,6 +42,14 @@ body {
          url('../fonts/geosanslight-webfont.svg#geosanslightregular') format('svg');
     font-weight: normal;
     font-style: normal;
+}
+
+.fa {
+    font-family: 'FontAwesome';
+}
+
+hr {
+    opacity:0.5;
 }
 
 #contactInfo {
@@ -57,15 +65,29 @@ body {
 
 #contactInfo h1 {
     font-size: 60px;
-    margin-top: 0px;
+    margin-top: 10px;
     margin-bottom: 0px;
     line-height: 60px;
 }
 
 #contactInfo h3 {
     font-size: 14px;
-    margin-top: 0px;
+    margin-top: 10px;
     margin-bottom: 0px;
+}
+
+#contactInfo>a {
+    margin-top: 10px;
+    display:inline-block;
+    margin-right:10px;
+    font-size:20px;
+    text-decoration:none;
+    color:#fff;
+    opacity:0.75;
+}
+
+#contactInfo>a:hover {
+    opacity:1;
 }
 
 #infoPanel {
@@ -74,7 +96,7 @@ body {
     color:#fff;
     opacity:0;
     z-index:4;
-    height:300px;
+    height:350px;
     font-family: 'geosanslightregular';
     .hCenter(600);
 }
@@ -89,6 +111,15 @@ body {
     opacity:0;
 }
 
+#infoPanel>div>#close {
+    cursor:pointer;
+    float: right;
+    margin-top: 2px;
+    font-size: 25px;
+    opacity:0;
+    display:block;
+}
+
 #infoPanel>#prev {
     background:url("../img/arrowLeft.png") no-repeat center center;
     float: left;
@@ -100,19 +131,41 @@ body {
 }
 
 #infoPanel:hover>#prev,
-#infoPanel:hover>#next {
+#infoPanel:hover>#next, 
+#infoPanel:hover>div>#close {
     opacity:0.5;
 }
 
 #infoPanel>#prev:hover,
-#infoPanel>#next:hover {
+#infoPanel>#next:hover,
+#infoPanel>div>#close:hover {
     opacity:1;
 }
 
-#infoPanel>div {
-    margin-left: 50px;
-    margin-right: 50px;
+#infoPanel ul {
+    float:right;
+    margin-top: 4px;
+    margin-bottom: 0px;
 }
+
+#infoPanel ul>li {
+    list-style:none;
+}
+
+#infoPanel a {
+    cursor:pointer;
+}
+
+#infoPanel>div {
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+#infoPanel h2 {
+    margin:0px;
+    font-size:2em;
+}
+
 
 #topMarginContainer {
     position:absolute;
@@ -120,9 +173,14 @@ body {
 }
 
 .interestImage a {
-    border:1px solid #ff00ff;
+    border:2px solid #fff;
     width:100px;
     height:30px;
+    display:inline-block;
+    opacity:0.75;
+}
+.interestImage a:hover {
+    opacity:1;
 }
 
 .interestImage img {

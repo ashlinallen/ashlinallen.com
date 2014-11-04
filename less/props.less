@@ -1,5 +1,13 @@
 @import "variables";
 
+#theHeavens {
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
 #theHeavens,
 #theStars {
     position:absolute;
@@ -85,7 +93,7 @@
 #ourHero {
     width:38px;
     height:76px;
-    margin-top:-261px;
+    margin-top: -257px;
     margin-left:-21px;
     background-size:38px 76px;
     z-index:1;
@@ -96,12 +104,12 @@
 }
 
 #ourHero > #status {
-    width:18px;
-    height:18px;
-    top: -17px;
-    right: -10px;
+    width: 42px;
+    height: 42px;
+    top: -42px;
+    right: -27px;
     background-image:url("../img/hearts.gif");
-    background-size:18px 18px;
+    background-size:42px 42px;
     position:absolute;
     display:none;
     .rotate(8deg);
@@ -114,17 +122,17 @@
 }
 
 #ourHero.standing {
-    width:42px;
+    width:34px;
     background-image:url("../img/ash_standing.gif");
-    background-size:42px 76px;
+    background-size:34px 76px;
 }
 
 #ourHero.standing-away {
     width:30px;
     background-image:url("../img/ash_standing_away.gif");
     background-size:30px 76px;
-    margin-left:-17px;
-    transform:rotate(-1deg);
+    margin-left: -11px;
+    transform:rotate(0deg);
 }
 
 #ourHero.flipped {
@@ -137,12 +145,12 @@
 }
 
 #computers {
-    width:90px;
-    height:74px;
-    bottom:-59px;
-    left:125px;
+    width: 76px;
+    height: 62px;
+    bottom: -46px;
+    left: 127px;
     background-image:url("../img/sprite_desk.png");
-    background-size:90px 74px;
+    background-size:76px 62px;
     .rotate(186deg);
 }
 
@@ -157,11 +165,11 @@
 
 #games {
     width:86px;
-    height:76px;
+    height:84px;
     top: -2px;
     right: 0px;
-    background-image:url("../img/games2.png");
-    background-size:86px 76px;
+    background-image:url("../img/games.png");
+    background-size:86px 84px;
     .rotate(47deg);
 }
 
@@ -169,7 +177,7 @@
     width:34px;
     height:70px;
     top:165px;
-    right:-42px;
+    right:-38px;
     background-image:url("../img/sheri_standing.gif");
     background-size:34px 70px;
     .rotate(90deg);
@@ -178,6 +186,10 @@
 #topMarginContainer {
     .fill;
     position:absolute;
+}
+
+#moon, #lowEarthOrbit, #earthShadow {
+    pointer-events:none;
 }
 
 #earthShadow {
@@ -189,7 +201,6 @@
     position:absolute;
     overflow:hidden;
     background-position:center center;
-    pointer-events:none;
     background: -moz-linear-gradient(left,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 97%, rgba(0,0,0,0) 99%, rgba(0,0,0,0) 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.5)), color-stop(97%,rgba(0,0,0,0.5)), color-stop(99%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
     background: -webkit-linear-gradient(left,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 97%,rgba(0,0,0,0) 99%,rgba(0,0,0,0) 100%);
