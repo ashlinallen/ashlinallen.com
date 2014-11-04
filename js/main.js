@@ -766,8 +766,6 @@
             }
         }
 
-        $("body").css("display", "inline-block");
-
         $(".fancybox").fancybox({
             helpers : {
                 title : {
