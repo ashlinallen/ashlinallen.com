@@ -127,13 +127,6 @@
                 zoomed = true;
             }
         });
-        
-        if (currentInterest === "about") {
-            zeroOpacity();
-            TweenLite.to($("#contact"), 2, {
-                    opacity: 1
-                });
-        }
     }
 
     function updateHeroStatus(targetAngle) {
@@ -172,14 +165,27 @@
         }
     }
 
-    function zoomOut() {
-        if (zoomAnimating) { return false; }
-        
-        if (currentInterest === "about") {
+    function showContactForm() {
+        zeroOpacity();
+        TweenLite.to($("#contact"), 2, {
+                opacity: 1
+            });
+    }
+    
+    function hideContactForm() {
+        if ($("#contact").css("opacity") > 0.5) {
             fullOpacity();
             TweenLite.to($("#contact"), 0.5, {
                     opacity: 0
                 });
+        }
+    }
+    
+    function zoomOut() {
+        if (zoomAnimating) { return false; }
+        
+        if (currentInterest === "about") {
+            hideContactForm();
         }
         
         currentInterest = '';
@@ -260,6 +266,7 @@
                 
                 anchor.className = "fancybox";
                 anchor.href = imgUrl;
+                anchor.setAttribute("title", interestGallery[i].description);
                 anchor.setAttribute("rel", interestId);
                 anchor.appendChild(image);
 
@@ -382,6 +389,12 @@
             //    go to a new interest.
             closeInfoPanel();
             rotateEarthToAngle(targetAngle, interestId);
+        
+            if (interestId === "about") {
+                showContactForm();
+            } else {
+                hideContactForm();
+            }
         } else {
             closeInfoPanel(true);
         }
@@ -629,9 +642,9 @@
     }
 
     function initializeImages() {
-        new Image("test title", "img/fierogt.jpg", "heres my description", "sheri");
-        new Image("test title2", "img/fierogt.jpg", "heres my description", "sheri");
-        new Image("test title3", "img/fierogt.jpg", "heres my description", "sheri");
+        new Image("Rainier", "photo/rainier_1.jpg", "Rainier with a forboding cloud formation.", "nature");
+        new Image("Lake Margaret Trail", "photo/margaret_1.jpg", "Lake Margaret Trail.", "nature");
+        new Image("Snow Lake Trail", "photo/snow_1.jpg", "Snow Lake Trail.", "nature");
     }
 
     function initializeStars() {
@@ -759,6 +772,9 @@
 
         $(".fancybox").fancybox({
             helpers : {
+                title : {
+                    type : 'inside'
+                },
                 overlay : {
                     css : {
                         'background' : 'rgba(0, 0, 0, 0.75)'
