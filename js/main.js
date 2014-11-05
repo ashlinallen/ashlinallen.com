@@ -21,6 +21,7 @@
         isIE = document.documentMode,
         isWebkit = /Webkit/i.test(navigator.userAgent),
         isChrome = /Chrome/i.test(navigator.userAgent),
+        isFirefox = /firefox/i.test(navigator.userAgent),
         isMobile = mobileType.any(),
         keys = [],
         interests = {},
@@ -166,7 +167,8 @@
     }
 
     function showContactForm() {
-        zeroOpacity();
+        animBrightness(1.0, 0.0);
+        
         TweenLite.to($("#contact"), 2, {
                 opacity: 1
             });
@@ -174,7 +176,8 @@
     
     function hideContactForm() {
         if ($("#contact").css("opacity") > 0.5) {
-            fullOpacity();
+            animBrightness(0.0, 1.0);
+            
             TweenLite.to($("#contact"), 0.5, {
                     opacity: 0
                 });
@@ -609,7 +612,7 @@
             "Mauris placerat eleifend leo.</p>" +
             "<p>Pellentesque habitant morbi tristique senectus et netus et " +
             "malesuada fames ac turpis egestas.</p>";
-            
+
         interests.sheri.header = "Sheri";
         interests.sheri.content = 
             "<p>Pellentesque habitant morbi tristique senectus et netus " +
@@ -649,7 +652,7 @@
 
     function initializeStars() {
         if ($(".star").length === 0) {
-            var starsCount = isMobile ? (mobileType.Android() ? 20 : 40) : (isChrome ? 100 : 70),
+            var starsCount = isMobile ? (mobileType.Android() ? 30 : 10) : (isChrome ? 100 : 40),
                 i,
                 star;
 
@@ -679,38 +682,45 @@
         initializeShadow();
     }
     
-    function zeroOpacity() {
-        var blah3 = parseFloat(1.0);
-        setInterval(function () {
-            if (blah3>0) {
-                var blah4 = parseFloat(blah3) - parseFloat(0.1);
-                blah3 = blah4.toFixed(2);
+    function animBrightness(from, to) {
+        var fromFloat = parseFloat(from).toFixed(1),
+            toFloat = parseFloat(to).toFixed(1),
+            dir = (fromFloat > toFloat) ? "lt" : "gt";
+
+        var anim = setInterval(function () {
+            var next = 0.0;
+            
+            if (dir === "gt") {
+                next = ((fromFloat*10 + 0.1*10) / 10);
+            } else {
+                next = ((fromFloat*10 - 0.1*10) / 10);
+            }
+            
+            fromFloat = next.toFixed(1);
+
+            if (isFirefox) {
+                var lins = document.getElementsByClassName("lin"),
+                    i;
+
+                for (i = 0; i < lins.length; i++ ) {
+                    lins[i].setAttribute("slope", fromFloat);
+                }
+            }
+            
+            if (isChrome) {
                 var els = 
                     $planetEarth
                         .add($ourHero)
                         .add($("#lowEarthOrbit"))
                         .add($("#moon"));
-                TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + blah3 + ')' } });
+                        
+                TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + fromFloat + ')' } });
             }
-        }, 60);
+
+            if (fromFloat === toFloat) { clearInterval(anim); };
+        }, 20);
     }
     
-    function fullOpacity() {
-        var blah3 = parseFloat(0.0);
-        setInterval(function () {
-            if (blah3<1.0) {
-                var blah4 = parseFloat(blah3) + parseFloat(0.1);
-                blah3 = blah4.toFixed(2);
-                var els = 
-                    $planetEarth
-                        .add($ourHero)
-                        .add($("#lowEarthOrbit"))
-                        .add($("#moon"));
-                TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + blah3 + ')' } });
-            }
-        }, 60);
-    }
-
     $ourHero.on("click", function () { rotateEarthToInterest("about"); });
     $("#contactIcon").on("click", function () { rotateEarthToInterest("about"); });
     $infoPanelNavNext.on("click", function () { jogInterests(); });
@@ -743,13 +753,14 @@
         initializeImages();
         initializeContent();
         meteorShower();
+
         //Initialize earth rotation in javascript
         TweenLite.to($planetEarth, 0, {
             css: {
                 rotationZ: curEarthAngle
             }
         });
-        
+
         setInterval(function () {
             rotateEarth();
         }, 60);
@@ -782,6 +793,7 @@
                 }
             }
         });
+
         //Device tilt code for mobiles/tablets. Currently lags ipad.
         //if (window.DeviceOrientationEvent) {
         //    window.addEventListener("deviceorientation", function () {

@@ -1,5 +1,8 @@
 @import "variables";
+
 #moon, #lowEarthOrbit, #ourHero, #planetEarth, #theStars {
+    /* this works but I'd prefer define the svg elsewhere? filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'darken\'><feComponentTransfer><feFuncR type=\'linear\' slope=\'1\' intercept=\'-1\'/><feFuncG type=\'linear\' slope=\'1\' intercept=\'-1\'/><feFuncB type=\'linear\' slope=\'1\' intercept=\'-1\'/></feComponentTransfer></filter></svg>#darken"); */
+    /* this works but I'd prefer a function. filter: url(../darken.svg#darken); */
 }
 
 #theHeavens {
@@ -62,6 +65,7 @@
     background-size:125px 125px;
     background-position:bottom left;
     -webkit-animation: spinR 360s infinite linear;
+    animation: spinR 360s infinite linear;
     .hCenter(900);
     .vCenter(900);
 }
@@ -69,6 +73,7 @@
 #lowEarthOrbit {
     background-size:600px 600px;
     -webkit-animation: spin 180s infinite linear;
+    animation: spin 180s infinite linear;
     .hCenter(600);
     .vCenter(600);
 }

@@ -1,0 +1,9 @@
+<svg height="0" xmlns="http://www.w3.org/2000/svg">
+ <filter id="darken">
+    <feComponentTransfer>
+        <feFuncR type="linear" slope="0"/>
+        <feFuncG type="linear" slope="0"/>
+        <feFuncB type="linear" slope="0"/>
+    </feComponentTransfer>
+  </filter>
+</svg>

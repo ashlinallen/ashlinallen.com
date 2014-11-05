@@ -8,7 +8,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="description" content="The online portfolio of Seattle-area Front-End Web Developer, Ashlin Allen.">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        
         <link rel="stylesheet" type="text/css" href="css/normalize.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/site.css">
@@ -18,8 +17,27 @@
         <link rel="stylesheet" type="text/css" href="css/jquery.fancybox-thumbs.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="css/mobile.css" media="only screen and (max-width: 360px)">
         <link rel="stylesheet" type="text/css" href="css/mobile-h.css" media="only screen and (max-width: 600px) and (orientation : landscape)">
+
+        <!-- This works but I'd prefer an external file with a referenced function -->
+        <svg height="0" width="0" xmlns="http://www.w3.org/2000/svg">
+            <style type="text/css" >
+                <![CDATA[
+                    #moon, #lowEarthOrbit, #ourHero, #planetEarth {
+                        filter:url(#darken);
+                    }
+                ]]>
+            </style>
+            <filter id="darken">
+                <feComponentTransfer>
+                    <feFuncR class="lin" type="linear" slope="1"/>
+                    <feFuncG class="lin" type="linear" slope="1"/>
+                    <feFuncB class="lin" type="linear" slope="1"/>
+                </feComponentTransfer>
+            </filter>
+        </svg>
     </head>
     <body>
+
         <!--[if lt IE 10]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. 
             Please <a href="http://browsehappy.com/">upgrade your browser</a> or 
@@ -36,7 +54,7 @@
             <a id="linkedInIcon" class="fa fa-linkedin" href="#"></a>
             <a id="gitHubIcon" class="fa fa-github-alt" href="#"></a>
         </span>
-        
+
         <span id="theHeavens">
             <span id="theStars"></span>
 
@@ -68,7 +86,6 @@
                     <span class="fa fa-rocket"></span>
                 </span>
             </span>
-
         </span>
 
         <span id="infoPanel" class="test">
@@ -88,11 +105,12 @@
         <script type="text/javascript" src="js/vendor/TweenMax.min.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.gsap.min.js"></script>
         <script type="text/javascript" src="js/vendor/jquery.fancybox.pack.js"></script>
-        <script type="text/javascript" src="js/vendor/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+        <script type="text/javascript" src="js/vendor/jquery.fancybox-thumbs.js"></script>
         <script type="text/javascript" src="js/plugins.js"></script>
         <script type="text/javascript" src="js/helper.js"></script>
         <script type="text/javascript">
             document.write("<script type='text/javascript' src='js/main.js?v=" + Math.floor((Math.random() * 100) + 1) + "'><\/script>");
         </script>
+
     </body>
 </html>

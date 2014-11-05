@@ -63,18 +63,17 @@ function debug(string, clear) {
 
 //Get element scale from transform3D matrix
 function getScale(el) {
-    var st = window.getComputedStyle(el, null);
-    var tr = st.getPropertyValue("-webkit-transform") ||
+    var st = window.getComputedStyle(el, null),
+        tr = st.getPropertyValue("-webkit-transform") ||
              st.getPropertyValue("-moz-transform") ||
              st.getPropertyValue("-ms-transform") ||
              st.getPropertyValue("-o-transform") ||
-             st.getPropertyValue("transform");
-
-    var values = tr.split('(')[1].split(')')[0].split(','),
+             st.getPropertyValue("transform"),
+        values = tr.split('(')[1].split(')')[0].split(','),
         a = values[0],
         b = values[1],
         scale = Math.sqrt(a*a + b*b);
-        
+
     return scale;
 };
 
