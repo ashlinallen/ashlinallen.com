@@ -558,10 +558,8 @@
         }
     }
 
-    function interestClicked(el) {
+    function interestClicked(interestId) {
         if (earthAnimating || infoPanelAnimating || zoomAnimating) { return false; }
-
-        var interestId = el.attr("id");
 
         if (interestId === currentInterest) {
             closeInfoPanel(true);
@@ -750,13 +748,13 @@
         initializeShadow();
     }
 
-    $ourHero.on("click", function () { rotateEarthToInterest("about"); });
-    $("#contactIcon").on("click", function () { rotateEarthToInterest("about"); });
+    $ourHero.on("click", function () { interestClicked("about"); });
+    $("#contactIcon").on("click", function () { interestClicked("about"); });
     $infoPanelNavNext.on("click", function () { jogInterests(); });
     $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
     $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
     $topMarginContainer.on("click", function (e) { if (e.target === this) { topMarginContainerClicked(e); } });
-    $doc.on("click", "#planetEarth>a", function () { interestClicked($(this)); });
+    $doc.on("click", "#planetEarth>a", function () { interestClicked($(this).attr("id")); });
     $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
     $doc.on("keydown", function (e) { keydown(e); });
     $win.on("resize", function () { resize(); });
