@@ -424,6 +424,8 @@
         earthAnimating = true;
         currentInterest = '';
 
+        hideContactForm();
+
         updateHeroStatus(targetAngle);
 
         TweenLite.to($planetEarth, duration, {
@@ -438,16 +440,15 @@
                 if (!zoomed) {
                     zoomIn(function () { 
                         openInfoPanel(interestId); 
-
-                        if (interestId === "about") {
-                            showContactForm();
-                        } else {
-                            hideContactForm();
-                        }
                     });
                 } else {
                     openInfoPanel(interestId);
                 }
+
+                if (interestId === "about") {
+                    showContactForm();
+                }
+
                 earthAnimating = false;
             }
         });
