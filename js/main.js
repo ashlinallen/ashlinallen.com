@@ -31,23 +31,18 @@
         keys = [],
         interests = {},
         worldTurns = true,
-        infoPanelOpen = false,
-        infoPanelAnimating = false,
-        infoPanelTop = 0,
         earthAnimating = false,
         zoomAnimating = false,
         zoomed = false,
         debugPage = false,
+        infoPanelOpen = false,
+        infoPanelAnimating = false,
+        infoPanelTop = 0,
         curEarthAngle = -4000,
         konami = "38,38,40,40,37,39,37,39,66,65",
         currentInterest,
         screenWidth = window.innerWidth,
         screenHeight = window.innerHeight;
-
-    function updateScreenDims() {
-        screenWidth = window.innerWidth;
-        screenHeight = window.innerHeight;
-    }
 
     function Interest(name, locationAngle) {
         this.name = name;
@@ -65,13 +60,18 @@
         interests[interestId].gallery.push(this);
     }
 
+    function updateScreenDims() {
+        screenWidth = window.innerWidth;
+        screenHeight = window.innerHeight;
+    }
+
     function keydown(e) {
         var codelength = konami.split(",").length;
 
         keys.push(e.keyCode);
 
         if (keys.toString().indexOf(konami) >= 0) {
-            debug("Space invaders!");
+            debug("Fun stuff coming soon!");
             keys = [];
         }
 
@@ -105,34 +105,6 @@
                 }
             });
         }
-    }
-
-    function zoomIn(callbackFn) {
-        zoomAnimating = true;
-
-        if (!isMobile) {
-            TweenLite.to($topMarginContainer, 2, {
-                css: {
-                    y: 250
-                },
-                ease: Power1.easeInOut
-            });
-        }
-
-        TweenLite.to($theHeavens, 2, {
-            css: {
-                scale: 2,
-                z: 1
-            },
-            ease: Power1.easeInOut,
-            onComplete: function () {
-                if (typeof callbackFn === "function") {
-                    callbackFn.call(this);
-                }
-                zoomAnimating = false;
-                zoomed = true;
-            }
-        });
     }
 
     function updateHeroStatus(targetAngle) {
@@ -249,6 +221,34 @@
                 opacity: 0
             });
         }
+    }
+
+    function zoomIn(callbackFn) {
+        zoomAnimating = true;
+
+        if (!isMobile) {
+            TweenLite.to($topMarginContainer, 2, {
+                css: {
+                    y: 250
+                },
+                ease: Power1.easeInOut
+            });
+        }
+
+        TweenLite.to($theHeavens, 2, {
+            css: {
+                scale: 2,
+                z: 1
+            },
+            ease: Power1.easeInOut,
+            onComplete: function () {
+                if (typeof callbackFn === "function") {
+                    callbackFn.call(this);
+                }
+                zoomAnimating = false;
+                zoomed = true;
+            }
+        });
     }
 
     function zoomOut() {
@@ -660,6 +660,12 @@
         };
     }
 
+    function initializeImages() {
+        new Image("Rainier", "photo/rainier_1.jpg", "Rainier with a forboding cloud formation.", "nature");
+        new Image("Lake Margaret Trail", "photo/margaret_1.jpg", "Lake Margaret Trail.", "nature");
+        new Image("Snow Lake Trail", "photo/snow_1.jpg", "Snow Lake Trail.", "nature");
+    }
+
     function initializeContent() {
         interests.about.header = "About Me";
         interests.about.content = 
@@ -710,12 +716,6 @@
             "Mauris placerat eleifend leo.</p>" +
             "<p>Pellentesque habitant morbi tristique senectus et netus et " +
             "malesuada fames ac turpis egestas.</p>";
-    }
-
-    function initializeImages() {
-        new Image("Rainier", "photo/rainier_1.jpg", "Rainier with a forboding cloud formation.", "nature");
-        new Image("Lake Margaret Trail", "photo/margaret_1.jpg", "Lake Margaret Trail.", "nature");
-        new Image("Snow Lake Trail", "photo/snow_1.jpg", "Snow Lake Trail.", "nature");
     }
 
     function initializeStars() {
