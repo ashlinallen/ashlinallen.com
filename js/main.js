@@ -409,12 +409,6 @@
             },
             onComplete:
                 function () {
-                    if (interestId === "about") {
-                        showContactForm();
-                    } else {
-                        hideContactForm();
-                    }
-                    
                     infoPanelAnimating = false;
                     earthAnimating = false;
                     infoPanelOpen = true;
@@ -442,7 +436,15 @@
                 curEarthAngle = targetAngle;
                 updateHeroStatus(targetAngle);
                 if (!zoomed) {
-                    zoomIn(function () { openInfoPanel(interestId); });
+                    zoomIn(function () { 
+                        openInfoPanel(interestId); 
+
+                        if (interestId === "about") {
+                            showContactForm();
+                        } else {
+                            hideContactForm();
+                        }
+                    });
                 } else {
                     openInfoPanel(interestId);
                 }
