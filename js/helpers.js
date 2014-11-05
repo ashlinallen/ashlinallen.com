@@ -1,12 +1,12 @@
 //Returns int between min/max.
 function rInt(minValue, maxValue) {
     return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
-};
+}
 
 //Returns float between min/max.
 function rFloat(minValue, maxValue) {
     return parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)),maxValue).toFixed(2));
-};
+}
 
 //Returns random RGB
 function rRGB() {
@@ -14,9 +14,9 @@ function rRGB() {
         green = rInt(0,255),
         blue = rInt(0,255),
         rgb = "rgb(" + red + "," + green + "," + blue + ")";
-    
+
     return rgb;
-};
+}
 
 function diff(num1, num2){
     var difference;
@@ -39,7 +39,7 @@ function mouseCoords(ev) {
         x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
         y: ev.clientY + document.body.scrollTop - document.body.clientTop
     };
-};
+}
 
 //Dump values to debug panel.
 function debug(string, clear) {
@@ -75,7 +75,7 @@ function getScale(el) {
         scale = Math.sqrt(a*a + b*b);
 
     return scale;
-};
+}
 
 var mobileType = {
     Android: function() {

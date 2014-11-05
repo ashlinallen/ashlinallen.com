@@ -131,9 +131,6 @@
                 if (currentInterest === 'games') {
                     $ourHero.actorAnimate("sitting-vidya");
                 }
-                if (currentInterest === 'about') {
-                    $ourHero.actorAnimate("dark");
-                }
             }
         } else {
             $ourHero.actorAnimate("walking");
@@ -412,6 +409,12 @@
             },
             onComplete:
                 function () {
+                    if (interestId === "about") {
+                        showContactForm();
+                    } else {
+                        hideContactForm();
+                    }
+                    
                     infoPanelAnimating = false;
                     earthAnimating = false;
                     infoPanelOpen = true;
@@ -460,12 +463,6 @@
             //    go to a new interest.
             closeInfoPanel();
             rotateEarthToAngle(targetAngle, interestId);
-
-            if (interestId === "about") {
-                showContactForm();
-            } else {
-                hideContactForm();
-            }
         } else {
             closeInfoPanel(true);
         }
