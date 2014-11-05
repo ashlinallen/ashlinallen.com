@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-    <!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
     <head>
         <title>Ashlin Allen - User Experimancer and Front Endinator</title>
 
@@ -18,7 +17,6 @@
         <link rel="stylesheet" type="text/css" href="css/mobile.css" media="only screen and (max-width: 360px)">
         <link rel="stylesheet" type="text/css" href="css/mobile-h.css" media="only screen and (max-width: 600px) and (orientation : landscape)">
 
-        <!-- This works but I'd prefer an external file with a referenced function -->
         <svg height="0" width="0" xmlns="http://www.w3.org/2000/svg">
             <style type="text/css" >
                 <![CDATA[
@@ -37,7 +35,6 @@
         </svg>
     </head>
     <body>
-
         <!--[if lt IE 10]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. 
             Please <a href="http://browsehappy.com/">upgrade your browser</a> or 
@@ -45,7 +42,7 @@
             Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
         
-        <span id="contactInfo">
+        <div id="contactInfo">
             <h1>Ashlin Allen</h1>
             <h3>Web Developer, Seattle WA</h3>
             <a id="resumeIcon" class="fa fa-file-pdf-o" href="#"></a>
@@ -53,7 +50,7 @@
             <a id="contactIcon" class="fa fa-comment" href="#"></a>
             <a id="linkedInIcon" class="fa fa-linkedin" href="#"></a>
             <a id="gitHubIcon" class="fa fa-github-alt" href="#"></a>
-        </span>
+        </div>
 
         <span id="theHeavens">
             <span id="theStars"></span>
@@ -80,24 +77,24 @@
                 <span id="earthShadow"></span>
 
                 <span id="contact">
-                    <label for="">E-mail:</label><input type="text"><br>
-                    <label for="">Name:</label><input type="text"><br>
-                    <label for="">Note:</label><textarea></textarea><br>
+                    <label for="txtEmail">E-mail:</label><input type="text" id="txtEmail"><br>
+                    <label for="txtName">Name:</label><input type="text" id="txtName"><br>
+                    <label for="txtNote">Note:</label><textarea id="txtNote"></textarea><br>
                     <span class="fa fa-rocket"></span>
                 </span>
             </span>
         </span>
 
-        <span id="infoPanel" class="test">
+        <div id="infoPanel">
             <a id="prev"></a>
             <a id="next"></a>
             <div>
                 <a id="close" class="fa fa-close"></a>
-                <h2></h2>
+                <h2>.</h2>
                 <hr>
                 <span></span>
             </div>
-        </span>
+        </div>
 
         <script type="text/javascript" src="js/vendor/modernizr-2.6.2.min.js"></script>
         <script type="text/javascript" src="js/vendor/jquery-1.11.1.min.js"></script>
@@ -111,6 +108,5 @@
         <script type="text/javascript">
             document.write("<script type='text/javascript' src='js/main.js?v=" + Math.floor((Math.random() * 100) + 1) + "'><\/script>");
         </script>
-
     </body>
 </html>

@@ -1,6 +1,6 @@
 /*jslint browser: true, indent: 4*/
 /*global $, jQuery, debug, mobileType, getScale, TweenLite*/
-/*global Power1, Sine, rFloat, rInt, rRGB, mouseCoords*/
+/*global Power1, Sine, rFloat, rInt, rRGB, mouseCoords, diff*/
 
 (function () {
     "use strict";
@@ -10,6 +10,11 @@
         $theHeavens = $("#theHeavens"),
         $planetEarth = $("#planetEarth"),
         $ourHero = $("#ourHero"),
+        $nature = $("#nature"),
+        $sheri = $("#sheri"),
+        $computers = $("#computers"),
+        $games = $("#games"),
+        $moon = $("#moon"),
         $heroStatus = $("#ourHero>#status"),
         $topMarginContainer = $("#topMarginContainer"),
         $infoPanel = $("#infoPanel"),
@@ -154,6 +159,9 @@
                 if (currentInterest === 'games') {
                     $ourHero.actorAnimate("sitting-vidya");
                 }
+                if (currentInterest === 'about') {
+                    $ourHero.actorAnimate("dark");
+                }
             }
         } else {
             $ourHero.actorAnimate("walking");
@@ -166,31 +174,90 @@
         }
     }
 
+    function animBrightness(from, to) {
+        var fromFloat = parseFloat(from).toFixed(1),
+            toFloat = parseFloat(to).toFixed(1),
+            dir = (fromFloat > toFloat) ? "lt" : "gt",
+            els,
+            anim,
+            lins,
+            i;
+
+        if (isIE) {
+            els = $planetEarth
+                    .add($ourHero)
+                    .add($sheri)
+                    .add($nature)
+                    .add($computers)
+                    .add($games)
+                    .add($moon);
+
+            if (dir === "lt") {
+                els.addClass("dark");
+            } else {
+                els.removeClass("dark");
+            }
+
+            return;
+        }
+
+        anim = setInterval(function () {
+            var next = 0.0;
+
+            if (dir === "gt") {
+                next = (((fromFloat * 10) + (0.1 * 10)) / 10); //Funky math here to get float accuracy. Blah.
+            } else {
+                next = (((fromFloat * 10) - (0.1 * 10)) / 10); //More funky float math.
+            }
+
+            fromFloat = next.toFixed(1);
+
+            if (isFirefox) {
+                lins = document.getElementsByClassName("lin");
+
+                for (i = 0; i < lins.length; i += 1) {
+                    lins[i].setAttribute("slope", fromFloat);
+                }
+            }
+
+            if (isChrome) {
+                els = $planetEarth
+                        .add($ourHero)
+                        .add($("#lowEarthOrbit"))
+                        .add($("#moon"));
+
+                TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + fromFloat + ')' } });
+            }
+
+            if (fromFloat === toFloat) { clearInterval(anim); }
+        }, 20);
+    }
+
     function showContactForm() {
         animBrightness(1.0, 0.0);
-        
+
         TweenLite.to($("#contact"), 2, {
-                opacity: 1
-            });
+            opacity: 1
+        });
     }
-    
+
     function hideContactForm() {
         if ($("#contact").css("opacity") > 0.5) {
             animBrightness(0.0, 1.0);
-            
+
             TweenLite.to($("#contact"), 0.5, {
-                    opacity: 0
-                });
+                opacity: 0
+            });
         }
     }
-    
+
     function zoomOut() {
         if (zoomAnimating) { return false; }
-        
+
         if (currentInterest === "about") {
             hideContactForm();
         }
-        
+
         currentInterest = '';
         worldTurns = true;
         zoomAnimating = true;
@@ -249,24 +316,26 @@
         var myInterest = interests[interestId],
             interestGallery = myInterest.gallery,
             galleryCount = interestGallery.length,
-            list = null;
+            list = null,
+            i,
+            listItem,
+            anchor,
+            image,
+            imgUrl;
 
         if (galleryCount > 0) {
-            var i;
-
             list = document.createElement("ul");
-            for (i = 0; i < galleryCount; i++) {
-                var listItem = document.createElement("li"),
-                    anchor = document.createElement("a"),
-                    image = document.createElement("img"),
-                    imgUrl = interestGallery[i].url,
-                    thumbUrl;
-                
+
+            for (i = 0; i < galleryCount; i += 1) {
+                listItem = document.createElement("li");
                 listItem.className = "interestImage";
-                    
-                thumbUrl = imgUrl.replace(".", "_thumb.");
-                image.src = thumbUrl;
-                
+
+                imgUrl = interestGallery[i].url;
+
+                image = document.createElement("img");
+                image.src = imgUrl.replace(".", "_thumb.");
+
+                anchor = document.createElement("a");
                 anchor.className = "fancybox";
                 anchor.href = imgUrl;
                 anchor.setAttribute("title", interestGallery[i].description);
@@ -282,16 +351,15 @@
     }
 
     function loadContent(interestId) {
-        var myInterest = interests[interestId];
-        
+        var myInterest = interests[interestId],
+            galleryList = galleryMarkup(interestId);
+
         $infoPanelContent.empty();
-        
-        var galleryList = galleryMarkup(interestId);
 
         if (galleryList) {
             $infoPanelContent.append(galleryList);
         }
-        
+
         $infoPanelContent.append(myInterest.content);
 
         $infoPanelHead.html(myInterest.header);
@@ -392,7 +460,7 @@
             //    go to a new interest.
             closeInfoPanel();
             rotateEarthToAngle(targetAngle, interestId);
-        
+
             if (interestId === "about") {
                 showContactForm();
             } else {
@@ -418,7 +486,7 @@
     function twinkle(el) {
         var animationDuration = rFloat(0.2, 2.0),
             colorLottery = rInt(1, 10),
-            op = rFloat(0.0, 1.0),
+            opa = rFloat(0.0, 1.0),
             rgb = "rgb(255,255,255)",
             bs = "null";
 
@@ -434,7 +502,7 @@
 
         TweenLite.to(el, animationDuration, {
             css: {
-                opacity: op,
+                opacity: opa,
                 backgroundColor: rgb,
                 boxShadow: bs
             },
@@ -450,9 +518,9 @@
             el,
             left,
             top,
-            s,
+            sca,
             colorLottery,
-            op,
+            opa,
             rgb,
             bs;
 
@@ -460,9 +528,9 @@
             el = $stars[i];
             left = rFloat(-1, 101);
             top = rFloat(-1, 101);
-            s = rFloat(0.1, 1.2);
+            sca = rFloat(0.1, 1.2);
             colorLottery = rInt(1, 10);
-            op = rFloat(0.0, 1.0);
+            opa = rFloat(0.0, 1.0);
             rgb = "rgb(255,255,255)";
             bs = "null";
 
@@ -481,8 +549,8 @@
                     left: left + "%",
                     top: top + "%",
                     z: 1,
-                    scale: s,
-                    opacity: op,
+                    scale: sca,
+                    opacity: opa,
                     backgroundColor: rgb,
                     boxShadow: bs
                 }
@@ -533,7 +601,7 @@
         rotateEarthToInterest(nextInterestId);
     }
 
-    function topMarginContainerClicked(e) {
+    function topMarginContainerClicked() {
         if (earthAnimating || !zoomed) { return false; }
 
         closeInfoPanel(true);
@@ -681,53 +749,13 @@
         updateScreenDims();
         initializeShadow();
     }
-    
-    /*consider polyfilter or some other CSS filter polyfill to facilitate this */
-    function animBrightness(from, to) {
-        var fromFloat = parseFloat(from).toFixed(1),
-            toFloat = parseFloat(to).toFixed(1),
-            dir = (fromFloat > toFloat) ? "lt" : "gt";
 
-        var anim = setInterval(function () {
-            var next = 0.0;
-            
-            if (dir === "gt") {
-                next = ((fromFloat*10 + 0.1*10) / 10);
-            } else {
-                next = ((fromFloat*10 - 0.1*10) / 10);
-            }
-            
-            fromFloat = next.toFixed(1);
-
-            if (isFirefox) {
-                var lins = document.getElementsByClassName("lin"),
-                    i;
-
-                for (i = 0; i < lins.length; i++ ) {
-                    lins[i].setAttribute("slope", fromFloat);
-                }
-            }
-            
-            if (isChrome) {
-                var els = 
-                    $planetEarth
-                        .add($ourHero)
-                        .add($("#lowEarthOrbit"))
-                        .add($("#moon"));
-                        
-                TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + fromFloat + ')' } });
-            }
-
-            if (fromFloat === toFloat) { clearInterval(anim); };
-        }, 20);
-    }
-    
     $ourHero.on("click", function () { rotateEarthToInterest("about"); });
     $("#contactIcon").on("click", function () { rotateEarthToInterest("about"); });
     $infoPanelNavNext.on("click", function () { jogInterests(); });
     $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
     $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
-    $topMarginContainer.on("click", function(e) { if(e.target === this) { topMarginContainerClicked(e); } } );
+    $topMarginContainer.on("click", function (e) { if (e.target === this) { topMarginContainerClicked(e); } });
     $doc.on("click", "#planetEarth>a", function () { interestClicked($(this)); });
     $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
     $doc.on("keydown", function (e) { keydown(e); });
@@ -779,18 +807,18 @@
         }
 
         $(".fancybox").fancybox({
-            helpers : {
-                title : {
-                    type : 'inside'
+            helpers: {
+                title: {
+                    type: 'inside'
                 },
-                overlay : {
-                    css : {
+                overlay: {
+                    css: {
                         'background' : 'rgba(0, 0, 0, 0.75)'
                     }
                 },
-                thumbs	: {
-                    width	: 50,
-                    height	: 50
+                thumbs: {
+                    width: 50,
+                    height: 50
                 }
             }
         });

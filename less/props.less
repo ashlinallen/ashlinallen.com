@@ -1,10 +1,10 @@
 @import "variables";
 
-#moon, #lowEarthOrbit, #ourHero, #planetEarth, #theStars {
+/*#moon, #lowEarthOrbit, #ourHero, #planetEarth, #theStars {*/
     /* this works but I'd prefer define the svg elsewhere? filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'darken\'><feComponentTransfer><feFuncR type=\'linear\' slope=\'1\' intercept=\'-1\'/><feFuncG type=\'linear\' slope=\'1\' intercept=\'-1\'/><feFuncB type=\'linear\' slope=\'1\' intercept=\'-1\'/></feComponentTransfer></filter></svg>#darken"); */
     /* this works but I'd prefer a function. filter: url(../darken.svg#darken); */
     /* IE?: http://www.majas-lapu-izstrade.lv/cross-browser-grayscale-image-example-using-css3-js/ */
-}
+/*}*/
 
 #theHeavens {
     -webkit-transform: translateZ(0);
@@ -47,28 +47,36 @@
 }
 
 #planetEarth {
-    background-image:url("../img/earth.png");
-    background-size:390px 390px;
     .rotate(-40deg);
     .hCenter(390);
     .vCenter(390);
-}
-
-#planetEarth > a {
-    margin:0 auto;
-    position:absolute;
-    display:block;
-    cursor:pointer;
+    background-image:url("../img/earth.png");
+    background-size:390px 390px;
+    
+    &.dark {
+        background-image:url("../img/earth_dark.png");
+    }
+    
+    >a {
+        margin:0 auto;
+        position:absolute;
+        display:block;
+        cursor:pointer;
+    }
 }
 
 #moon {
-    background-image:url("../img/moon.gif");
-    background-size:125px 125px;
+    .hCenter(900);
+    .vCenter(900);
     background-position:bottom left;
     -webkit-animation: spinR 360s infinite linear;
     animation: spinR 360s infinite linear;
-    .hCenter(900);
-    .vCenter(900);
+    background-image:url("../img/moon.gif");
+    background-size:125px 125px;
+    
+    &.dark {
+        background-image:url("../img/moon_dark.gif");
+    }
 }
 
 #lowEarthOrbit {
@@ -80,20 +88,20 @@
 }
 
 #spaceShuttle {
-    width:75px;
     height:40px;
     left:125px;
     position:absolute;
+    width:75px;
     background-image:url("../img/spaceshuttle.gif");
     background-size:75px 40px;
 }
 
 #iss {
-    width: 150px;
     height: 139px;
     right: 0px;
     bottom: 0px;
     position: absolute;
+    width: 150px;
     background-image: url("../img/iss.gif");
     background-size: 150px 139px;
 }
@@ -110,65 +118,71 @@
     position: absolute;
     transform: translate(0px,0px);
     cursor:pointer;
-}
-
-#ourHero > #status {
-    width: 42px;
-    height: 42px;
-    top: -42px;
-    right: -27px;
-    background-image:url("../img/hearts.gif");
-    background-size:42px 42px;
-    position:absolute;
-    display:none;
-    .rotate(8deg);
-}
-
-#ourHero.walking {
-    width:38px;
-    background-image:url("../img/ash_walking.gif");
-    background-size:38px 76px;
-}
-
-#ourHero.standing {
-    width:34px;
-    background-image:url("../img/ash_standing.gif");
-    background-size:34px 76px;
-}
-
-#ourHero.standing-away {
-    width:30px;
-    background-image:url("../img/ash_standing_away.gif");
-    background-size:30px 76px;
-    margin-left: -11px;
-    transform:rotate(0deg);
-}
-
-#ourHero.sitting-camp {
-    width:36px;
-    background-image:url("../img/ash_sitting_camp.gif");
-    background-size:36px 58px;
-    margin-left: -26px;
-    margin-top: -237px;
-    transform:rotate(0deg);
-}
-
-#ourHero.sitting-vidya {
-    width: 32px;
-    background-image: url(../img/ash_sitting_vidya.gif);
-    background-size: 32px 58px;
-    margin-left: -29px;
-    margin-top: -235px;
-    transform: rotate(0deg);
-}
-
-#ourHero.flipped {
-    -moz-transform: scaleX(-1);
-    -o-transform: scaleX(-1);
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-    filter: FlipH;
-    -ms-filter: "FlipH";
+    
+    >#status {
+        width: 42px;
+        height: 42px;
+        top: -42px;
+        right: -27px;
+        background-image:url("../img/hearts.gif");
+        background-size:42px 42px;
+        position:absolute;
+        display:none;
+        .rotate(8deg);
+    }
+    
+    &.walking {
+        width:38px;
+        background-image:url("../img/ash_walking.gif");
+        background-size:38px 76px;
+    }
+    
+    &.standing {
+        width:34px;
+        background-image:url("../img/ash_standing.gif");
+        background-size:34px 76px;
+    }
+    
+    &.standing-away {
+        margin-left: -11px;
+        transform:rotate(0deg);
+        width:30px;
+        background-image:url("../img/ash_standing_away.gif");
+        background-size:30px 76px;
+    }
+    
+    &.sitting-camp {
+        margin-left: -26px;
+        margin-top: -237px;
+        transform:rotate(0deg);
+        width:36px;
+        background-image:url("../img/ash_sitting_camp.gif");
+        background-size:36px 58px;
+    }
+    
+    &.sitting-vidya {
+        margin-left: -29px;
+        margin-top: -235px;
+        transform: rotate(0deg);
+        width: 32px;
+        background-image: url(../img/ash_sitting_vidya.gif);
+        background-size: 32px 58px;
+    }
+    
+    &.dark {
+        width:34px;
+        background-image:url("../img/ash_standing_dark.gif");
+        background-size:34px 76px;
+    }
+    
+    &.flipped {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+    }
 }
 
 #computers {
@@ -179,6 +193,10 @@
     background-image:url("../img/sprite_desk.png");
     background-size:76px 62px;
     .rotate(186deg);
+    
+    &.dark {
+        background-image:url("../img/sprite_desk_dark.png");
+    }
 }
 
 #nature {
@@ -189,6 +207,10 @@
     .rotate(-46deg);
     background-image:url("../img/mountain.png");
     background-size:172px 98px;
+    
+    &.dark {
+        background-image:url("../img/mountain_dark.png");
+    }
 }
 
 #games {
@@ -199,6 +221,16 @@
     background-image:url("../img/games.png");
     background-size:86px 84px;
     .rotate(47deg);
+    
+    &.dark {
+        width:86px;
+        height:84px;
+        top: -2px;
+        right: 0px;
+        background-image:url("../img/games_dark.png");
+        background-size:86px 84px;
+        .rotate(47deg);
+    }
 }
 
 #sheri {
@@ -209,8 +241,14 @@
     background-image:url("../img/sheri_standing.gif");
     background-size:34px 70px;
     .rotate(90deg);
+    
+    &.dark {
+        background-image:url("../img/sheri_standing_dark.gif");
+    }
 }
 
+#sheri
+    
 #topMarginContainer {
     .fill;
     position:absolute;
