@@ -682,6 +682,7 @@
         initializeShadow();
     }
     
+    /*consider polyfilter or some other CSS filter polyfill to facilitate this */
     function animBrightness(from, to) {
         var fromFloat = parseFloat(from).toFixed(1),
             toFloat = parseFloat(to).toFixed(1),
