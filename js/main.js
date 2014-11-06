@@ -9,14 +9,18 @@
         $theStars = $("#theStars"),
         $theHeavens = $("#theHeavens"),
         $planetEarth = $("#planetEarth"),
+        $earthShadow = $("#earthShadow"),
         $ourHero = $("#ourHero"),
         $nature = $("#nature"),
         $sheri = $("#sheri"),
         $computers = $("#computers"),
         $games = $("#games"),
         $moon = $("#moon"),
+        $lowEarthOrbit = $("#lowEarthOrbit"),
         $heroStatus = $("#ourHero>#status"),
         $topMarginContainer = $("#topMarginContainer"),
+        $contact = $("#contact"),
+        $contactIcon = $("#contactIcon"),
         $infoPanel = $("#infoPanel"),
         $infoPanelNavPrev = $("#infoPanel>#prev"),
         $infoPanelNavNext = $("#infoPanel>#next"),
@@ -192,8 +196,8 @@
             if (isChrome) {
                 els = $planetEarth
                         .add($ourHero)
-                        .add($("#lowEarthOrbit"))
-                        .add($("#moon"));
+                        .add($lowEarthOrbit)
+                        .add($moon);
 
                 TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + fromFloat + ')' } });
             }
@@ -205,19 +209,25 @@
     function showContactForm() {
         animBrightness(1.0, 0.0);
 
-        TweenLite.to($("#contact"), 2, {
-            opacity: 1
+        TweenLite.to($contact, 2, {
+            opacity: 1,
+            onComplete: function () {
+                $contact.css("display", "none");
+            }
         });
     }
 
     function hideContactForm() {
-        if ($("#contact").css("opacity") > 0.5) {
-            animBrightness(0.0, 1.0);
+        if ($contact.css("opacity") < 0.5) { return; }
+        
+        animBrightness(0.0, 1.0);
 
-            TweenLite.to($("#contact"), 0.5, {
-                opacity: 0
-            });
-        }
+        TweenLite.to($contact, 0.5, {
+            opacity: 0,
+            onComplete: function () {
+                $contact.css("display", "none");
+            }
+        });
     }
 
     function zoomIn(callbackFn) {
@@ -418,7 +428,14 @@
 
     function rotateEarthToAngle(targetAngle, interestId) {
         var angleDifference = diff(curEarthAngle, targetAngle),
-            duration = angleDifference / 30;
+            duration = angleDifference / 30,
+            easing = Sine.easeOut;
+
+        if (interestId === "about") {
+            targetAngle = curEarthAngle;
+            easing = Linear.easeNone;
+            duration = 0;
+        }
 
         worldTurns = false;
         earthAnimating = true;
@@ -432,7 +449,7 @@
             css: {
                 rotationZ: targetAngle + "deg"
             },
-            ease: Sine.easeOut,
+            ease: easing,
             onComplete: function () {
                 currentInterest = interests[interestId].name;
                 curEarthAngle = targetAngle;
@@ -740,7 +757,7 @@
             centerX = screenWidth / 2,
             length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2)));
 
-        $("#earthShadow").css("width", length);
+        $earthShadow.css("width", length);
     }
 
     function resize() {
@@ -749,7 +766,7 @@
     }
 
     $ourHero.on("click", function () { interestClicked("about"); });
-    $("#contactIcon").on("click", function () { interestClicked("about"); });
+    $contactIcon.on("click", function () { interestClicked("about"); });
     $infoPanelNavNext.on("click", function () { jogInterests(); });
     $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
     $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
