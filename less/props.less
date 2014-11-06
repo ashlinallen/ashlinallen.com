@@ -69,9 +69,7 @@
     .hCenter(900);
     .vCenter(900);
     background-position:bottom left;
-    -webkit-animation: spinR 360s infinite linear;
-    animation: spinR 360s infinite linear;
-    background-image:url("../img/moon.gif");
+    background-image:url("../img/moon.png");
     background-size:125px 125px;
     
     &.dark {
@@ -80,11 +78,9 @@
 }
 
 #lowEarthOrbit {
-    background-size:600px 600px;
-    -webkit-animation: spin 180s infinite linear;
-    animation: spin 180s infinite linear;
     .hCenter(600);
     .vCenter(600);
+    background-size:600px 600px;
 }
 
 #spaceShuttle {
@@ -96,14 +92,15 @@
     background-size:75px 40px;
 }
 
-#iss {
-    height: 139px;
+#satellite {
+    height: 76px;
     right: 0px;
     bottom: 0px;
     position: absolute;
-    width: 150px;
-    background-image: url("../img/iss.gif");
-    background-size: 150px 139px;
+    width: 92px;
+    .rotate(90deg);
+    background-image: url("../img/satellite.png");
+    background-size: 92px 76px;
 }
 
 #ourHero {
@@ -200,13 +197,13 @@
 }
 
 #nature {
-    width: 172px;
+    width: 176px;
     height: 98px;
-    top: 0px;
-    left: -46px;
-    .rotate(-46deg);
-    background-image:url("../img/mountain.png");
-    background-size:172px 98px;
+    top: -24px;
+    left: -23px;
+    .rotate(-36deg);
+    background-image: url(../img/mountain.gif);
+    background-size: 176px 98px;
     
     &.dark {
         background-image:url("../img/mountain_dark.png");

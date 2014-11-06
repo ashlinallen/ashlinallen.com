@@ -42,7 +42,9 @@
         infoPanelOpen = false,
         infoPanelAnimating = false,
         infoPanelTop = 0,
-        curEarthAngle = -4000,
+        curEarthAngle = 0,
+        curMoonAngle = 0,
+        curLEOAngle = 0,
         konami = "38,38,40,40,37,39,37,39,66,65",
         currentInterest,
         screenWidth = window.innerWidth,
@@ -241,7 +243,7 @@
                 ease: Power1.easeInOut
             });
         }
-
+        
         TweenLite.to($theHeavens, 2, {
             css: {
                 scale: 2,
@@ -488,9 +490,9 @@
         }
     }
 
-    function rotateEarth() {
+    function rotateObjects() {
         if (worldTurns) {
-            curEarthAngle -= 0.3;
+            curEarthAngle -= 0.50;
 
             TweenLite.to($planetEarth, 0, {
                 css: {
@@ -498,11 +500,26 @@
                 }
             });
         }
+
+        curMoonAngle += 0.125;
+        TweenLite.to($moon, 0, {
+            css: {
+                rotationZ: curMoonAngle
+            }
+        });
+
+        curLEOAngle += 0.25;
+        TweenLite.to($lowEarthOrbit, 0, {
+            css: {
+                rotationZ: curLEOAngle
+            }
+        });
     }
 
     function twinkle(el) {
         var animationDuration = rFloat(0.2, 2.0),
             colorLottery = rInt(1, 10),
+            shimmerLottery = rInt(1, 1),
             opa = rFloat(0.0, 1.0),
             rgb = "rgb(255,255,255)",
             bs = "null";
@@ -671,7 +688,7 @@
             games: new Interest("games", -30),
             sheri: new Interest("sheri", -82),
             computers: new Interest("computers", 174),
-            nature: new Interest("nature", 45)
+            nature: new Interest("nature", 35)
         };
     }
 
@@ -806,7 +823,7 @@
         });
 
         setInterval(function () {
-            rotateEarth();
+            rotateObjects();
         }, 60);
 
         window.addEventListener("touchmove",
