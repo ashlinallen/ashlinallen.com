@@ -1,3 +1,6 @@
+/*jslint browser: true*/
+/*global $, jQuery, alert*/
+
 //Returns int between min/max.
 function rInt(minValue, maxValue) {
     return Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
@@ -5,20 +8,20 @@ function rInt(minValue, maxValue) {
 
 //Returns float between min/max.
 function rFloat(minValue, maxValue) {
-    return parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)),maxValue).toFixed(2));
+    return parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)), maxValue).toFixed(2));
 }
 
 //Returns random RGB
 function rRGB() {
-    var red = rInt(0,255),
-        green = rInt(0,255),
-        blue = rInt(0,255),
+    var red = rInt(0, 255),
+        green = rInt(0, 255),
+        blue = rInt(0, 255),
         rgb = "rgb(" + red + "," + green + "," + blue + ")";
 
     return rgb;
 }
 
-function diff(num1, num2){
+function diff(num1, num2) {
     var difference;
 
     if (num1 > num2) {
@@ -43,22 +46,24 @@ function mouseCoords(ev) {
 
 //Dump values to debug panel.
 function debug(string, clear) {
-    var curDebugHtml;
+    var curDebugHtml,
+        $debugCol = $('#debugCol'),
+        debugCol;
 
-    if ($('#debugCol').length === 0) {
-        var debugCol = document.createElement("span");
+    if ($debugCol.length === 0) {
+        debugCol = document.createElement("span");
         debugCol.setAttribute("id", "debugCol");
         $("body").append(debugCol);
     }
 
-    curDebugHtml = $("#debugCol").html();
+    curDebugHtml = $debugCol.html();
 
     if (clear) {
         curDebugHtml = "";
     }
 
-    $("#debugCol").show();
-    $("#debugCol").html("\n" + string + "\n<br>\n" + curDebugHtml);
+    $debugCol.show();
+    $debugCol.html("\n" + string + "\n<br>\n" + curDebugHtml);
 }
 
 //Get element scale from transform3D matrix
@@ -72,25 +77,42 @@ function getScale(el) {
         values = tr.split('(')[1].split(')')[0].split(','),
         a = values[0],
         b = values[1],
-        scale = Math.sqrt(a*a + b*b);
+        scale = Math.sqrt((a * a) + (b * b));
 
     return scale;
 }
 
 var mobileType = {
-    Android: function() {
-        return /Android/i.test(navigator.userAgent);
+        Android: function () {
+            return (/Android/i).test(navigator.userAgent);
+        },
+        BlackBerry: function () {
+            return (/BlackBerry/i).test(navigator.userAgent);
+        },
+        iOS: function () {
+            return (/iPhone|iPad|iPod/i).test(navigator.userAgent);
+        },
+        Windows: function () {
+            return (/IEMobile/i).test(navigator.userAgent);
+        },
+        any: function () {
+            return (mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows());
+        }
     },
-    BlackBerry: function() {
-        return /BlackBerry/i.test(navigator.userAgent);
-    },
-    iOS: function() {
-        return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    },
-    Windows: function() {
-        return /IEMobile/i.test(navigator.userAgent);
-    },
-    any: function() {
-        return (mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows());
-    }
-};
+    desktopType = {
+        Chrome: function () {
+            return /Chrome/i.test(navigator.userAgent);
+        },
+        Webkit: function () {
+            return /Webkit/i.test(navigator.userAgent);
+        },
+        Firefox: function () {
+            return /firefox/i.test(navigator.userAgent);
+        },
+        IE: function () {
+            return document.documentMode;
+        },
+        any: function () {
+            return (desktopType.Chrome() || desktopType.Webkit() || desktopType.Firefox() || desktopType.IE());
+        }
+    };

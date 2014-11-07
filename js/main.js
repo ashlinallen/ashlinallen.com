@@ -1,54 +1,16 @@
 /*jslint browser: true, indent: 4*/
-/*global $, jQuery, debug, mobileType, getScale, TweenLite*/
+/*global $, jQuery, debug, mobileType, desktopType, getScale, TweenLite*/
 /*global Power1, Sine, rFloat, rInt, rRGB, mouseCoords, diff*/
 
 (function () {
     "use strict";
-    var $doc = $(document),
-        $win = $(window),
-        $theStars = $("#theStars"),
-        $theHeavens = $("#theHeavens"),
-        $planetEarth = $("#planetEarth"),
-        $earthShadow = $("#earthShadow"),
-        $ourHero = $("#ourHero"),
-        $nature = $("#nature"),
-        $sheri = $("#sheri"),
-        $computers = $("#computers"),
-        $games = $("#games"),
-        $moon = $("#moon"),
-        $lowEarthOrbit = $("#lowEarthOrbit"),
-        $heroStatus = $("#ourHero>#status"),
-        $topMarginContainer = $("#topMarginContainer"),
-        $contact = $("#contact"),
-        $contactIcon = $("#contactIcon"),
-        $infoPanel = $("#infoPanel"),
-        $infoPanelNavPrev = $("#infoPanel>#prev"),
-        $infoPanelNavNext = $("#infoPanel>#next"),
-        $infoPanelHead = $("#infoPanel>div>h2"),
-        $infoPanelClose = $("#infoPanel>div>#close"),
-        $infoPanelContent = $("#infoPanel>div>span"),
-        isIE = document.documentMode,
-        isWebkit = /Webkit/i.test(navigator.userAgent),
-        isChrome = /Chrome/i.test(navigator.userAgent),
-        isFirefox = /firefox/i.test(navigator.userAgent),
-        isMobile = mobileType.any(),
-        keys = [],
-        interests = {},
-        worldTurns = true,
-        earthAnimating = false,
-        zoomAnimating = false,
-        zoomed = false,
-        debugPage = false,
-        infoPanelOpen = false,
-        infoPanelAnimating = false,
-        infoPanelTop = 0,
-        curEarthAngle = 0,
-        curMoonAngle = 0,
-        curLEOAngle = 0,
-        konami = "38,38,40,40,37,39,37,39,66,65",
-        currentInterest,
-        screenWidth = window.innerWidth,
-        screenHeight = window.innerHeight;
+    var $doc, $win, $theStars, $stars, $theHeavens, $planetEarth, $earthShadow, $ourHero, $nature,
+        $sheri, $computers, $games, $moon, $lowEarthOrbit, $heroStatus, $topMarginContainer,
+        $contact, $contactIcon, $infoPanel, $infoPanelNavPrev, $infoPanelNavNext, $infoPanelHead,
+        $infoPanelClose, $infoPanelContent, isMobile, isIE, isChrome, isFirefox, isWebkit, keys,
+        interests, worldTurns, earthAnimating, zoomAnimating, zoomed, debugPage, infoPanelOpen,
+        infoPanelAnimating, infoPanelTop, curEarthAngle, curMoonAngle, curLEOAngle, konami,
+        currentInterest, screenWidth, screenHeight, codelength, lins;
 
     function Interest(name, locationAngle) {
         this.name = name;
@@ -72,12 +34,11 @@
     }
 
     function keydown(e) {
-        var codelength = konami.split(",").length;
-
         keys.push(e.keyCode);
 
         if (keys.toString().indexOf(konami) >= 0) {
             debug("Fun stuff coming soon!");
+
             keys = [];
         }
 
@@ -91,7 +52,6 @@
 
         var bgPosX = (50 * (x / screenWidth)),
             bgPosY = (50 * (y / screenHeight)),
-            $stars = $(".star"),
             i,
             star,
             scale,
@@ -149,13 +109,11 @@
         }
     }
 
-    function animBrightness(from, to) {
-        var fromFloat = parseFloat(from).toFixed(1),
-            toFloat = parseFloat(to).toFixed(1),
-            dir = (fromFloat > toFloat) ? "lt" : "gt",
+    function animBrightness(showHide) {
+        var fromFloat,
+            toFloat,
             els,
             anim,
-            lins,
             i;
 
         if (isIE) {
@@ -167,29 +125,35 @@
                     .add($games)
                     .add($moon);
 
-            if (dir === "lt") {
-                els.addClass("dark");
-            } else {
+            if (showHide === "show") {
                 els.removeClass("dark");
+            } else {
+                els.addClass("dark");
             }
 
             return;
         }
 
+        if (showHide === "show") {
+            fromFloat = parseFloat(1.0).toFixed(1);
+            toFloat = parseFloat(0.0).toFixed(1);
+        } else {
+            fromFloat = parseFloat(0.0).toFixed(1);
+            toFloat = parseFloat(1.0).toFixed(1);
+        }
+
         anim = setInterval(function () {
             var next = 0.0;
 
-            if (dir === "gt") {
-                next = (((fromFloat * 10) + (0.1 * 10)) / 10); //Funky math here to get float accuracy. Blah.
-            } else {
+            if (showHide === "show") {
                 next = (((fromFloat * 10) - (0.1 * 10)) / 10); //More funky float math.
+            } else {
+                next = (((fromFloat * 10) + (0.1 * 10)) / 10); //Funky math here to get float accuracy. Blah.
             }
 
             fromFloat = next.toFixed(1);
 
             if (isFirefox) {
-                lins = document.getElementsByClassName("lin");
-
                 for (i = 0; i < lins.length; i += 1) {
                     lins[i].setAttribute("slope", fromFloat);
                 }
@@ -209,20 +173,17 @@
     }
 
     function showContactForm() {
-        animBrightness(1.0, 0.0);
+        animBrightness("show");
 
         TweenLite.to($contact, 2, {
-            opacity: 1,
-            onComplete: function () {
-                $contact.css("display", "none");
-            }
+            opacity: 1
         });
     }
 
     function hideContactForm() {
-        if ($contact.css("opacity") < 0.5) { return; }
-        
-        animBrightness(0.0, 1.0);
+        if ($contact.css("opacity") < 0.1) { return; }
+
+        animBrightness("hide");
 
         TweenLite.to($contact, 0.5, {
             opacity: 0,
@@ -243,11 +204,10 @@
                 ease: Power1.easeInOut
             });
         }
-        
+
         TweenLite.to($theHeavens, 2, {
             css: {
-                scale: 2,
-                z: 1
+                scale: 2
             },
             ease: Power1.easeInOut,
             onComplete: function () {
@@ -386,13 +346,12 @@
 
         TweenLite.to($infoPanel, 0.5, {
             css: {
-                display: 'none',
-                opacity: 0,
-                scale: 0.9
+                opacity: 0
             },
             onComplete: function () {
                 $infoPanel.removeAttr("style");
                 infoPanelAnimating = false;
+                $infoPanel.css("display", "none");
             }
         });
     }
@@ -405,7 +364,7 @@
         infoPanelTop = $ourHero.offset().top - 300;
 
         if (infoPanelOpen) {
-            duration = 0;
+            duration = 0.8;
         }
 
         loadContent(interestId);
@@ -415,7 +374,6 @@
 
         TweenLite.to($infoPanel, duration, {
             css: {
-                display: 'block',
                 opacity: 1,
                 marginTop: "-10px"
             },
@@ -456,9 +414,10 @@
                 currentInterest = interests[interestId].name;
                 curEarthAngle = targetAngle;
                 updateHeroStatus(targetAngle);
+
                 if (!zoomed) {
-                    zoomIn(function () { 
-                        openInfoPanel(interestId); 
+                    zoomIn(function () {
+                        openInfoPanel(interestId);
                     });
                 } else {
                     openInfoPanel(interestId);
@@ -519,7 +478,6 @@
     function twinkle(el) {
         var animationDuration = rFloat(0.2, 2.0),
             colorLottery = rInt(1, 10),
-            shimmerLottery = rInt(1, 1),
             opa = rFloat(0.0, 1.0),
             rgb = "rgb(255,255,255)",
             bs = "null";
@@ -531,7 +489,7 @@
 
         //Add background-shadow if webkit, since they render it efficiently
         if (!isMobile && isWebkit) {
-            bs = "0px 0px 6px 1px " + rgb;
+            bs = "0px 0px 15px 1px " + rgb;
         }
 
         TweenLite.to(el, animationDuration, {
@@ -547,8 +505,7 @@
     }
 
     function setStarPositions() {
-        var $stars = $(".star"),
-            i,
+        var i,
             el,
             left,
             top,
@@ -575,7 +532,7 @@
 
             //Don't use background-shadow if mobile
             if (!isMobile && isWebkit) {
-                bs = "0px 0px 6px 1px " + rgb;
+                bs = "0px 0px 15px 1px " + rgb;
             }
 
             TweenLite.to(el, 0, {
@@ -641,6 +598,7 @@
 
     function meteor(startX, startY) {
         var mymeteor = document.createElement("span");
+
         mymeteor.cellSpacing = 0;
         mymeteor.className = "meteor";
 
@@ -764,6 +722,8 @@
                 $theStars.append(star);
                 twinkle(star);
             }
+
+            $stars = $(".star");
         }
 
         setStarPositions();
@@ -782,17 +742,6 @@
         initializeShadow();
     }
 
-    $ourHero.on("click", function () { interestClicked("about"); });
-    $contactIcon.on("click", function () { interestClicked("about"); });
-    $infoPanelNavNext.on("click", function () { jogInterests(); });
-    $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
-    $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
-    $topMarginContainer.on("click", function (e) { if (e.target === this) { topMarginContainerClicked(e); } });
-    $doc.on("click", "#planetEarth>a", function () { interestClicked($(this).attr("id")); });
-    $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
-    $doc.on("keydown", function (e) { keydown(e); });
-    $win.on("resize", function () { resize(); });
-
     (function ($) {
         $.fn.actorAnimate = function (state, hflip) {
             var flip = (hflip === undefined) ? "false" : hflip,
@@ -808,6 +757,65 @@
     }(jQuery));
 
     $(function () {
+        $doc = $(document);
+        $win = $(window);
+        $theStars = $("#theStars");
+        $theHeavens = $("#theHeavens");
+        $planetEarth = $("#planetEarth");
+        $earthShadow = $("#earthShadow");
+        $ourHero = $("#ourHero");
+        $nature = $("#nature");
+        $sheri = $("#sheri");
+        $computers = $("#computers");
+        $games = $("#games");
+        $moon = $("#moon");
+        $lowEarthOrbit = $("#lowEarthOrbit");
+        $heroStatus = $("#ourHero>#status");
+        $topMarginContainer = $("#topMarginContainer");
+        $contact = $("#contact");
+        $contactIcon = $("#contactIcon");
+        $infoPanel = $("#infoPanel");
+        $infoPanelNavPrev = $("#infoPanel>#prev");
+        $infoPanelNavNext = $("#infoPanel>#next");
+        $infoPanelHead = $("#infoPanel>div>h2");
+        $infoPanelClose = $("#infoPanel>div>#close");
+        $infoPanelContent = $("#infoPanel>div>span");
+        lins = document.getElementsByClassName("lin");
+        isMobile = mobileType.any();
+        isIE = desktopType.IE();
+        isChrome = desktopType.Chrome();
+        isFirefox = desktopType.Firefox();
+        isWebkit = desktopType.Webkit();
+        keys = [];
+        interests = {};
+        worldTurns = true;
+        earthAnimating = false;
+        zoomAnimating = false;
+        zoomed = false;
+        debugPage = false;
+        infoPanelOpen = false;
+        infoPanelAnimating = false;
+        infoPanelTop = 0;
+        curEarthAngle = 0;
+        curMoonAngle = 0;
+        curLEOAngle = 0;
+        konami = "38,38,40,40,37,39,37,39,66,65";
+        codelength = konami.split(",").length;
+        screenWidth = window.innerWidth;
+        screenHeight = window.innerHeight;
+
+        $ourHero.on("click", function () { interestClicked("about"); });
+        $contactIcon.on("click", function () { interestClicked("about"); });
+        $infoPanelNavNext.on("click", function () { jogInterests(); });
+        $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
+        $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
+        $topMarginContainer.on("click", function (e) { if (e.target === this) { topMarginContainerClicked(e); } });
+        $doc.on("click", "#planetEarth>a", function () { interestClicked($(this).attr("id")); });
+        $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
+        $doc.on("keydown", function (e) { keydown(e); });
+        $win.on("resize", function () { resize(); });
+        $win.on("touchmove", function (e) { e.preventDefault(); });
+
         initializeShadow();
         initializeStars();
         initializeInterests();
@@ -825,11 +833,6 @@
         setInterval(function () {
             rotateObjects();
         }, 60);
-
-        window.addEventListener("touchmove",
-            function (event) {
-                event.preventDefault();
-            }, false);
 
         if ((window.devicePixelRatio !== undefined) && (window.devicePixelRatio > 2)) {
             var meta = document.getElementById("viewport");
