@@ -28,7 +28,7 @@
     </script>
 </head>
 <body>
-    <form id="form2" runat="server">
+    <form id="form1" runat="server">
     <asp:ScriptManager EnablePageMethods="true" runat="server">
     </asp:ScriptManager>
     <div>
