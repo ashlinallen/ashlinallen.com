@@ -1,59 +1,60 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-        <script type="text/javascript" src="js/vendor/jquery-1.11.1.min.js"></script>
-<script type="text/javascript">
-    function btnclick() {
-        var array = $("#form1").serializeArray();
-        $.ajax({
-            type: "POST",
-            url: "Default.aspx/SendEmail",
-            data: JSON.stringify({ 'namevaluepair': $("#form1").serializeArray() }),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: fnsuccesscallback,
-            error: fnerrorcallback
-        });
-    }
+    <script type="text/javascript" src="js/vendor/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+        function btnclick() {
+            var nameVal, companyVal, options;
 
-    function fnsuccesscallback(data) {
-        alert("Success");
+            nameVal = $("#txtName").val();
+            companyVal = $("#txtCompany").val();
 
-    }
-    function fnerrorcallback(result) {
-        alert("Error");
-    }
+            options = {
+                type: "POST",
+                url: "Default.aspx/SendEmail",
+                data: "{ Name:" + nameVal + ", Company:" + companyVal + "}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: fnsuccesscallback,
+                error: fnerrorcallback
+            }
+
+            $.ajax(options);
+        }
+
+        function fnsuccesscallback(data) {
+            alert("Success");
+        }
+        function fnerrorcallback(result) {
+            alert("Error");
+        }
     </script>
 </head>
+
 <body>
-    <form id="form1" runat="server">
-    <asp:ScriptManager EnablePageMethods="true" runat="server">
-    </asp:ScriptManager>
-    <div>
-        <table runat="server">
-            <tr>
-                <td>
-                    <label id="lblName" runat="server" title="Name">
-                        Name</label>
-                </td>
-                <td>
-                    <input type="text" id="txtName" runat="server" />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label id="lblCompany" runat="server" title="Company">
-                        Company</label>
-                </td>
-                <td>
-                    <input type="text" id="txtCompany" runat="server" />
-                </td>
-            </tr>
-        </table>
-        <input type="button" style="width: 104px" value="Submit" onclick="btnclick();" />
-    </div>
+    <form runat="server">
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        <asp:Label AssociatedControlID="txtName" Text="Name" />
+                    </td>
+                    <td>
+                        <asp:TextBox id="txtName" ClientIDMode="Static" runat="server" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <asp:Label AssociatedControlID="txtCompany" Text="Company" />
+                    </td>
+                    <td>
+                        <asp:TextBox id="txtCompany" ClientIDMode="Static" runat="server" />
+                    </td>
+                </tr>
+            </table>
+            <input type="button" style="width: 104px" value="Submit" onclick="btnclick();" />
+        </div>
     </form>
 </body>
 </html>
