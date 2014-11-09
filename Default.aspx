@@ -9,7 +9,7 @@
         var array = $("#form1").serializeArray();
         $.ajax({
             type: "POST",
-            url: "Default.aspx/TestFormPost",
+            url: "Default.aspx/SendEmail",
             data: JSON.stringify({ 'namevaluepair': $("#form1").serializeArray() }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -19,11 +19,11 @@
     }
 
     function fnsuccesscallback(data) {
-        alert(data.d);
+        alert("Success");
 
     }
     function fnerrorcallback(result) {
-        alert(result.statusText);
+        alert("Error");
     }
     </script>
 </head>
