@@ -22,12 +22,12 @@
 
             $.ajax(options);
         }
-
         function fnsuccesscallback(data) {
-            alert("Success");
+            alert(data.d);
+
         }
         function fnerrorcallback(result) {
-            alert(data.d);
+            alert(result.statusText);
         }
     </script>
 </head>
