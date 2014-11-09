@@ -3,6 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+        <script type="text/javascript" src="js/vendor/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
     function btnclick() {
         var array = $("#form1").serializeArray();
