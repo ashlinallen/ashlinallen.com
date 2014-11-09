@@ -27,7 +27,7 @@
             alert("Success");
         }
         function fnerrorcallback(result) {
-            alert(d.data);
+            alert(data.d);
         }
     </script>
 </head>
