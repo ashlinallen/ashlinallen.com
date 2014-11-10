@@ -13,7 +13,7 @@
             options = {
                 type: "POST",
                 url: "Default.aspx/SendEmail",
-                data: "{ Name:" + nameVal + ", Company:" + companyVal + "}",
+                data: '{ name: "' + nameVal + '", company: "' + companyVal + '"}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: fnsuccesscallback,
@@ -24,7 +24,6 @@
         }
         function fnsuccesscallback(data) {
             alert(data.d);
-
         }
         function fnerrorcallback(result) {
             alert(result.statusText);
@@ -38,7 +37,7 @@
             <table>
                 <tr>
                     <td>
-                        <asp:Label AssociatedControlID="txtName" Text="Name" />
+                        <asp:Label AssociatedControlID="txtName" Text="Name" runat="server" />
                     </td>
                     <td>
                         <asp:TextBox id="txtName" ClientIDMode="Static" runat="server" />
@@ -46,14 +45,14 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:Label AssociatedControlID="txtCompany" Text="Company" />
+                        <asp:Label AssociatedControlID="txtCompany" Text="Company" runat="server" />
                     </td>
                     <td>
                         <asp:TextBox id="txtCompany" ClientIDMode="Static" runat="server" />
                     </td>
                 </tr>
             </table>
-            <input type="button" style="width: 104px" value="Submit" onclick="btnclick();" />
+            <asp:Button OnClientClick="btnclick();" Text="Submit" runat="server" />
         </div>
     </form>
 </body>
