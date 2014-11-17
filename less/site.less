@@ -132,8 +132,8 @@ span, a {
     font-family: 'geosanslightregular';
     .hCenter(600);
     
-    >#prev,
-    >#next {
+    >#infoPrev,
+    >#infoNext {
         display: block;
         height: 100%;
         width: 50px;
@@ -142,7 +142,7 @@ span, a {
         opacity:0.1;
     }
     
-    >div>#close {
+    >div>#infoClose {
         cursor:pointer;
         float: right;
         margin-top: 2px;
@@ -151,25 +151,25 @@ span, a {
         display:block;
     }
 
-    >#prev {
+    >#infoPrev {
         background:url("../img/arrowLeft.png") no-repeat center center;
         float: left;
     }
     
-    >#next {
+    >#infoNext {
         background:url("../img/arrowRight.png") no-repeat center center;
         float: right;
     }
     
-    &:hover>#prev,
-    &:hover>#next, 
-    &:hover>div>#close {
+    &:hover>#infoPrev,
+    &:hover>#infoNext, 
+    &:hover>div>#infoClose {
         opacity:0.5;
     }
 
-    >#prev:hover,
-    >#next:hover,
-    >div>#close:hover {
+    >#infoPrev:hover,
+    >#infoNext:hover,
+    >div>#infoClose:hover {
         opacity:1;
     }
     
@@ -205,7 +205,7 @@ span, a {
     .fill;
 }
 
-#contact {
+#contactForm {
     font-family: geosanslightregular;
     width: 255px;
     height: 270px;

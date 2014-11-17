@@ -22,6 +22,17 @@ public partial class _Default : System.Web.UI.Page
         msg.Subject = "New contact form submission from ashlinallen.com!";
         msg.Body = HttpContext.Current.Server.HtmlEncode(sbBody.ToString());
 
+        //try {
         client.Send(msg);
+
+        //fail:?
+        //Context.Response.Clear();
+        //Context.Response.ContentType = "application/json";
+        //Context.Response.AddHeader("content-length", strResponse.Length.ToString());
+        //Context.Response.Flush();
+        //
+        //Context.Response.Write(strResponse);
+
+        
     }
 }

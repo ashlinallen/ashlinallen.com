@@ -4,15 +4,15 @@
 
 (function () {
     "use strict";
-    var $doc, $win, $theStars, $stars, $theHeavens, $planetEarth, $earthShadow,
-        $ash, $nature, $sheri, $computers, $games, $moon, $lowEarthOrbit,
-        $heroStatus, $topMarginContainer, $contact, $contactIcon, $infoPanel,
-        $infoPanelNavPrev, $infoPanelNavNext, $infoPanelHead, $infoPanelClose,
-        $infoPanelContent, isMobile, isIE, isChrome, isFirefox, isWebkit, keys,
-        interests, worldTurns, earthAnimating, zoomAnimating, zoomed, debugPage,
-        infoPanelOpen, infoPanelAnimating, infoPanelTop, curEarthAngle,
-        curMoonAngle, curLEOAngle, konami, currentInterest, screenWidth,
-        screenHeight, codelength, mobileType, desktopType, lins;
+
+    var doc, win, theStars, stars, theHeavens, planetEarth, earthShadow, ash,
+        nature, sheri, computers, games, moon, lowEarthOrbit, ashStatus, lins,
+        topMarginContainer, contactForm, contactIcon, infoPanel, infoPrev,
+        infoNext, infoHeader, infoClose, infoContent, isMobile, isIE, isChrome,
+        isFirefox, isWebkit, keys, interests, worldTurns, earthAnimating,
+        zoomAnimating, zoomed, infoPanelOpen, infoPanelAnimating, infoPanelTop,
+        curEarthAngle, curMoonAngle, curLEOAngle, konami, currentInterest,
+        screenWidth, screenHeight, codelength, mobileType, desktopType;
 
     //Interest Object Constructor
     //Input: (string)name, (int)locationAngle
@@ -79,6 +79,7 @@
         if (ev.pageX || ev.pageY) {
             return { x: ev.pageX, y: ev.pageY };
         }
+
         return {
             x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
             y: ev.clientY + document.body.scrollTop - document.body.clientTop
@@ -88,19 +89,20 @@
     //Input: (string)inputString, (bool)clear
     //Renders debug panel to DOM and adds inputStr to the debug panel
     function debug(inputString, clear) {
-        var curDebugHtml, $debugCol, debugCol;
+        var curDebugHtml, debugCol;
 
-        $debugCol = $('#debugCol');
+        debugCol = document.getElementById("debugCol");
 
         //No debug col in DOM, so we'll add it.
-        if ($debugCol.length === 0) {
+        if (debugCol === null || debugCol.value === '') {
             debugCol = document.createElement("span");
             debugCol.setAttribute("id", "debugCol");
-            $("body").append(debugCol);
+
+            document.body.appendChild(debugCol);
         }
 
         //Store current debug col HTML
-        curDebugHtml = $debugCol.html();
+        curDebugHtml = debugCol.innerHTML;
 
         //If clearing the current HTML, do that now.
         if (clear) {
@@ -108,7 +110,7 @@
         }
 
         //Add our new string to the top of current debug HTML and populate debug col with it.
-        $debugCol.html("\n" + inputString + "\n<br>\n" + curDebugHtml);
+        debugCol.innerHTML = "\n" + inputString + "\n<br>\n" + curDebugHtml;
     }
 
     //Input: (HTMLElement)el
@@ -129,14 +131,6 @@
         values = values.split(',');
 
         scaleX = values[0];
-
-        //Unused values, saving for later reference/use.
-        //var skewX, skewY, scaleY, translateX, translateY;
-        //skewX = values[1];
-        //skewY = values[2];
-        //scaleY = values[3];
-        //translateX = values[4];
-        //translateY = values[5];
 
         return scaleX;
     }
@@ -164,7 +158,7 @@
     }
 
     //Input: (int)x, (int)y
-    //Repositions members of $stars on the screen based on 
+    //Repositions members of stars on the screen based on 
     //a range of 1 - 50 mapped to screen dimensions.
     function moveStars(x, y) {
         //IE doesn't perform well enough for this.
@@ -175,8 +169,8 @@
         bgPosX = (50 * (x / screenWidth));
         bgPosY = (50 * (y / screenHeight));
 
-        for (i = 0; i < $stars.length; i += 1) {
-            star = $stars[i];
+        for (i = 0; i < stars.length; i += 1) {
+            star = stars[i];
             scale = getScale(star);
             starY = bgPosY * scale;
             starX = bgPosX * scale;
@@ -190,43 +184,60 @@
         }
     }
 
+    //Input: (string)state, (bool)hflip
+    //Takes a string which will be used for a CSS class, and a boolean to 
+    //set a "flipped" class, which will then be applied to the actor as a 
+    //CSS class.
+    function actorAnimate(el, state, hflip) {
+        var flip = (hflip === undefined) ? "false" : hflip,
+            cssClass = state;
+
+        el.className = "";
+
+        if (flip === true) {
+            cssClass += " flipped";
+        }
+
+        el.className = cssClass;
+    }
+
     //Input: (int)targetAngle
     //Sets sprites based on targetAngle and currentInterest
     function updateAshStatus(targetAngle) {
-        $heroStatus.hide();
+        ashStatus.style.display = "none";
 
         if (targetAngle !== undefined) {
             if (targetAngle < curEarthAngle) {
                 //Face our hero right if we're rotating counter-clockwise.
-                $ash.actorAnimate("walking");
+                actorAnimate(ash, "walking");
             } else {
                 //Face our hero left if we're rotating clockwise.
-                $ash.actorAnimate("walking", true);
+                actorAnimate(ash, "walking", true);
             }
 
             if (curEarthAngle === targetAngle) {
                 //We're at our interest, so just stand still.
-                $ash.actorAnimate("standing");
+                actorAnimate(ash, "standing");
 
                 //Change sprite if we're at an interest that requires it.
                 if (currentInterest === 'computers') {
-                    $ash.actorAnimate("standing-away");
+                    actorAnimate(ash, "standing-away");
                 }
                 if (currentInterest === 'nature') {
-                    $ash.actorAnimate("sitting-camp");
+                    actorAnimate(ash, "sitting-camp");
                 }
                 if (currentInterest === 'games') {
-                    $ash.actorAnimate("sitting-vidya");
+                    actorAnimate(ash, "sitting-vidya");
                 }
             }
         } else {
-            $ash.actorAnimate("walking");
+            actorAnimate(ash, "walking");
         }
 
         if (currentInterest === 'sheri') {
-            $heroStatus.show();
+            ashStatus.style.display = "inline-block";
         } else {
-            $heroStatus.hide();
+            ashStatus.style.display = "none";
         }
     }
 
@@ -239,13 +250,14 @@
         //so I just swap the images with blacked-out versions once zoomed
         //for a lo-fi solution.
         if (isIE) {
-            els = $planetEarth
-                    .add($ash)
-                    .add($sheri)
-                    .add($nature)
-                    .add($computers)
-                    .add($games)
-                    .add($moon);
+            els = $("")
+                    .add(planetEarth)
+                    .add(ash)
+                    .add(sheri)
+                    .add(nature)
+                    .add(computers)
+                    .add(games)
+                    .add(moon);
 
             if (showHide === "show") {
                 els.addClass("dark");
@@ -296,10 +308,7 @@
             //If browser is Chrome, we can use the built-in vendor specific prefix
             //and brightness filter.
             if (isChrome) {
-                els = $planetEarth
-                        .add($ash)
-                        .add($lowEarthOrbit)
-                        .add($moon);
+                els = [planetEarth, ash, lowEarthOrbit, moon];
 
                 TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + startFloat + ')' } });
             }
@@ -312,20 +321,20 @@
     function showContactForm() {
         animBrightness("show");
 
-        TweenLite.to($contact, 2, {
+        TweenLite.to(contactForm, 2, {
             opacity: 1
         });
     }
 
     function hideContactForm() {
-        if ($contact.css("opacity") < 0.1) { return; }
+        if (contactForm.style.opacity < 0.1) { return; }
 
         animBrightness("hide");
 
-        TweenLite.to($contact, 0.5, {
+        TweenLite.to(contactForm, 0.5, {
             opacity: 0,
             onComplete: function () {
-                $contact.css("display", "none");
+                contactForm.style.display = "none";
             }
         });
     }
@@ -335,7 +344,7 @@
 
         //Don't adjust top margin if user is using a mobile device.
         if (!isMobile) {
-            TweenLite.to($topMarginContainer, 2, {
+            TweenLite.to(topMarginContainer, 2, {
                 css: {
                     //todo:set height to screenheight - 50% of planetearth's height. 
                     //then maybe infopanel can be set to 50% height too? something like that.
@@ -345,7 +354,7 @@
             });
         }
 
-        TweenLite.to($theHeavens, 2, {
+        TweenLite.to(theHeavens, 2, {
             css: {
                 scale: 2
             },
@@ -374,7 +383,7 @@
 
         //Don't adjust top margin if user is using a mobile device.
         if (!isMobile) {
-            TweenLite.to($topMarginContainer, 2, {
+            TweenLite.to(topMarginContainer, 2, {
                 css: {
                     y: 0
                 },
@@ -382,11 +391,10 @@
             });
         }
 
-        TweenLite.to($theHeavens, 2, {
+        TweenLite.to(theHeavens, 2, {
             css: {
                 scale: 1,
-                y: 0,
-                z: 1 //todo:necessary?
+                y: 0
             },
             ease: Power1.easeInOut,
             onComplete: function () {
@@ -432,8 +440,8 @@
     //Returns HTML composing a UL and set of LIs for gallery images,
     //if the interest's gallery contains images
     function galleryMarkup(interestName) {
-        var interestGallery, galleryCount, list = null, i, listItem, image,
-            anchor, imgUrl;
+        var interestGallery, galleryCount, i, listItem, image, anchor, imgUrl,
+            list = null;
 
         interestGallery = interests[interestName].gallery;
         galleryCount = interestGallery.length;
@@ -442,9 +450,6 @@
             list = document.createElement("ul");
 
             for (i = 0; i < galleryCount; i += 1) {
-                listItem = document.createElement("li");
-                listItem.className = "interestImage";
-
                 imgUrl = interestGallery[i].url;
 
                 image = document.createElement("img");
@@ -457,7 +462,10 @@
                 anchor.setAttribute("rel", interestName);
                 anchor.appendChild(image);
 
+                listItem = document.createElement("li");
+                listItem.className = "interestImage";
                 listItem.appendChild(anchor);
+
                 list.appendChild(listItem);
             }
         }
@@ -472,15 +480,14 @@
         var myInterest = interests[interestName],
             galleryList = galleryMarkup(interestName);
 
-        $infoPanelContent.empty();
+        infoContent.innerHTML = "";
 
         if (galleryList) {
-            $infoPanelContent.append(galleryList);
+            infoContent.appendChild(galleryList);
         }
 
-        $infoPanelContent.append(myInterest.content);
-
-        $infoPanelHead.html(myInterest.header);
+        infoContent.innerHTML += myInterest.content;
+        infoHeader.innerHTML = myInterest.header;
     }
 
     //Input: (bool)zOut
@@ -495,14 +502,14 @@
         infoPanelAnimating = true;
         infoPanelOpen = false;
 
-        TweenLite.to($infoPanel, 0.5, {
+        TweenLite.to(infoPanel, 0.5, {
             css: {
                 opacity: 0
             },
             onComplete: function () {
-                $infoPanel.removeAttr("style");
+                infoPanel.removeAttribute("style");
                 infoPanelAnimating = false;
-                $infoPanel.css("display", "none");
+                infoPanel.style.display = "none";
             }
         });
     }
@@ -514,7 +521,7 @@
 
         infoPanelAnimating = true;
         worldTurns = false;
-        infoPanelTop = $ash.offset().top - 300;
+        infoPanelTop = ash.offsetTop - 300;
 
         if (infoPanelOpen) {
             duration = 0.8;
@@ -522,10 +529,10 @@
 
         loadContent(interestName);
 
-        $infoPanel.css("top", infoPanelTop);
-        $infoPanel.show();
+        infoPanel.style.top = infoPanelTop;
+        infoPanel.style.display = "inline-block";
 
-        TweenLite.to($infoPanel, duration, {
+        TweenLite.to(infoPanel, duration, {
             css: {
                 opacity: 1,
                 marginTop: "-10px"
@@ -562,7 +569,7 @@
 
         updateAshStatus(targetAngle);
 
-        TweenLite.to($planetEarth, duration, {
+        TweenLite.to(planetEarth, duration, {
             css: {
                 rotationZ: targetAngle + "deg"
             },
@@ -595,6 +602,7 @@
         if (earthAnimating) { return false; }
 
         var targetAngle = getTargetAngle(interestName);
+
         currentInterest = '';
         earthAnimating = true;
 
@@ -614,7 +622,7 @@
             if (worldTurns) {
                 curEarthAngle -= 0.50;
 
-                TweenLite.to($planetEarth, 0, {
+                TweenLite.to(planetEarth, 0, {
                     css: {
                         rotationZ: curEarthAngle
                     }
@@ -622,14 +630,14 @@
             }
 
             curMoonAngle += 0.125;
-            TweenLite.to($moon, 0, {
+            TweenLite.to(moon, 0, {
                 css: {
                     rotationZ: curMoonAngle
                 }
             });
 
             curLEOAngle += 0.25;
-            TweenLite.to($lowEarthOrbit, 0, {
+            TweenLite.to(lowEarthOrbit, 0, {
                 css: {
                     rotationZ: curLEOAngle
                 }
@@ -674,8 +682,8 @@
     function randomizeStarAttributes() {
         var i, el, left, top, sca, colorLottery, opa, rgb, bs;
 
-        for (i = 0; i < $stars.length;  i += 1) {
-            el = $stars[i];
+        for (i = 0; i < stars.length;  i += 1) {
+            el = stars[i];
             left = rFloat(-1, 101);
             top = rFloat(-1, 101);
             sca = rFloat(0.1, 1.2);
@@ -760,26 +768,38 @@
     //Input: (int)startX, (int)startY
     //Create and animate a meteor from position startX, startY
     function meteor(startX, startY) {
-        var mymeteor = document.createElement("span");
+        var mymeteor = document.getElementById("meteor");
 
-        mymeteor.cellSpacing = 0;
-        mymeteor.className = "meteor";
+        //No meteor in DOM, so we'll add it.
+        if (mymeteor === null || mymeteor.value === '') {
+            mymeteor = document.createElement("span");
+            mymeteor.setAttribute("id", "meteor");
 
-        $(mymeteor)
-            .css("top", startY)
-            .css("left", startX);
+            theStars.appendChild(mymeteor);
+        }
 
-        $theStars.append(mymeteor);
+        mymeteor.style.display = "block";
+        mymeteor.style.top = startY + "px";
+        mymeteor.style.left = startX + "px";
+
+        theStars.appendChild(mymeteor);
 
         TweenLite.to(mymeteor, 0.5, {
             css: {
                 x: "-650px",
                 y: "+450px",
-                opacity: 0.1
+                opacity: 0
             },
             ease: Sine.easeInOut,
             onComplete: function () {
-                $(mymeteor).remove();
+                mymeteor.style.display = "none";
+                mymeteor.style.opacity = "1";
+                TweenLite.to(mymeteor, 0, {
+                    css: {
+                        x: "0px",
+                        y: "0px"
+                    }
+                });
                 meteorShower();
             }
         });
@@ -787,7 +807,7 @@
 
     //Kicks off a meteor, then loops at a random interval.
     function meteorShower() {
-        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 1500),
+        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 500),
             startX = rInt(-100, (screenWidth + 100)),
             startY = rInt(-100, (screenHeight + 100));
 
@@ -879,21 +899,22 @@
 
     //Creates stars then randomizes their attributes.
     function initStars() {
-        if ($(".star").length === 0) {
-            var starsCount = isMobile ? (mobileType.Android() ? 30 : 10) : (isChrome ? 60 : 40),
-                i,
-                star;
+        stars = theStars.getElementsByTagName("i");
+
+        if (stars.length === 0) {
+            var starsCount, i, star;
+
+            starsCount = isMobile ? (mobileType.Android() ? 30 : 10) : (isChrome ? 60 : 40);
 
             for (i = 0; i < starsCount;  i += 1) {
-                star = document.createElement("span");
+                star = document.createElement("i");
                 star.cellSpacing = 0;
-                star.className = "star";
 
-                $theStars.append(star);
+                theStars.appendChild(star);
                 twinkle(star);
             }
 
-            $stars = $(".star");
+            stars = theStars.getElementsByTagName("i");
         }
 
         randomizeStarAttributes();
@@ -952,7 +973,7 @@
             centerX = screenWidth / 2,
             length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2)));
 
-        $earthShadow.css("width", length);
+        earthShadow.style.width = length + "px";
     }
 
     //Handles screen resize events.
@@ -961,49 +982,31 @@
         initShadow();
     }
 
-    (function ($) {
-        //Input: (string)state, (bool)hflip
-        //Takes a string which will be used for a CSS class, and a boolean to 
-        //set a "flipped" class, which will then be applied to the actor as a 
-        //CSS class.
-        $.fn.actorAnimate = function (state, hflip) {
-            var flip = (hflip === undefined) ? "false" : hflip,
-                cssClass = state;
-
-            $(this).removeClass();
-            $(this).addClass(cssClass);
-
-            if (flip === true) {
-                $(this).addClass("flipped");
-            }
-        };
-    }(jQuery));
-
     $(function () {
-        //Set up our variables.
-        $doc = $(document);
-        $win = $(window);
-        $theStars = $("#theStars");
-        $theHeavens = $("#theHeavens");
-        $planetEarth = $("#planetEarth");
-        $earthShadow = $("#earthShadow");
-        $ash = $("#ash");
-        $nature = $("#nature");
-        $sheri = $("#sheri");
-        $computers = $("#computers");
-        $games = $("#games");
-        $moon = $("#moon");
-        $lowEarthOrbit = $("#lowEarthOrbit");
-        $heroStatus = $("#ash>#status");
-        $topMarginContainer = $("#topMarginContainer");
-        $contact = $("#contact");
-        $contactIcon = $("#contactIcon");
-        $infoPanel = $("#infoPanel");
-        $infoPanelNavPrev = $("#infoPanel>#prev");
-        $infoPanelNavNext = $("#infoPanel>#next");
-        $infoPanelHead = $("#infoPanel>div>h2");
-        $infoPanelClose = $("#infoPanel>div>#close");
-        $infoPanelContent = $("#infoPanel>div>span");
+        //Set up variables.
+        doc = document;
+        win = window;
+        theStars = doc.getElementById("theStars");
+        theHeavens = doc.getElementById("theHeavens");
+        planetEarth = doc.getElementById("planetEarth");
+        earthShadow = doc.getElementById("earthShadow");
+        ash = doc.getElementById("ash");
+        ashStatus = doc.getElementById("status");
+        nature = doc.getElementById("nature");
+        sheri = doc.getElementById("sheri");
+        computers = doc.getElementById("computers");
+        games = doc.getElementById("games");
+        moon = doc.getElementById("moon");
+        lowEarthOrbit = doc.getElementById("lowEarthOrbit");
+        topMarginContainer = doc.getElementById("topMarginContainer");
+        contactForm = doc.getElementById("contactForm");
+        contactIcon = doc.getElementById("contactIcon");
+        infoPanel = doc.getElementById("infoPanel");
+        infoPrev = doc.getElementById("infoPrev");
+        infoNext = doc.getElementById("infoNext");
+        infoClose = doc.getElementById("infoClose");
+        infoHeader = doc.getElementById("infoHeader");
+        infoContent = doc.getElementById("infoContent");
         keys = [];
         interests = {};
         mobileType = {};
@@ -1012,7 +1015,6 @@
         earthAnimating = false;
         zoomAnimating = false;
         zoomed = false;
-        debugPage = false;
         infoPanelOpen = false;
         infoPanelAnimating = false;
         infoPanelTop = 0;
@@ -1034,24 +1036,24 @@
         rotateObjects();
 
         //Init earth rotation in javascript.
-        TweenLite.to($planetEarth, 0, {
+        TweenLite.to(planetEarth, 0, {
             css: {
                 rotationZ: curEarthAngle
             }
         });
 
         //Set up a bunch of event handlers.
-        $ash.on("click", function () { interestClicked("about"); });
-        $contactIcon.on("click", function () { interestClicked("about"); });
-        $infoPanelNavNext.on("click", function () { jogInterests(); });
-        $infoPanelNavPrev.on("click", function () { jogInterests("prev"); });
-        $infoPanelClose.on("click", function (e) { topMarginContainerClicked(e); });
-        $topMarginContainer.on("click", function (e) { if (e.target === this) { topMarginContainerClicked(e); } });
-        $doc.on("click", "#planetEarth>a", function () { interestClicked($(this).attr("id")); });
-        $doc.on("mousemove", $theStars, function (e) { mousemove(e); });
-        $doc.on("keydown", function (e) { keydown(e); });
-        $win.on("resize", function () { resize(); });
-        $win.on("touchmove", function (e) { e.preventDefault(); });
+        $(ash).on("click", function () { interestClicked("about"); });
+        $(contactIcon).on("click", function () { interestClicked("about"); });
+        $(infoNext).on("click", function () { jogInterests(); });
+        $(infoPrev).on("click", function () { jogInterests("prev"); });
+        $(infoClose).on("click", function (e) { topMarginContainerClicked(e); });
+        $(topMarginContainer).on("click", function (e) { if (e.target === this) { topMarginContainerClicked(e); } });
+        $(doc).on("click", "#planetEarth>a", function () { interestClicked($(this).attr("id")); });
+        $(doc).on("mousemove", theStars, function (e) { mousemove(e); });
+        $(doc).on("keydown", function (e) { keydown(e); });
+        $(win).on("resize", function () { resize(); });
+        $(win).on("touchmove", function (e) { e.preventDefault(); });
 
         //Don't allow user to scale display on mobile.
         if ((window.devicePixelRatio !== undefined) && (window.devicePixelRatio > 2)) {
@@ -1082,17 +1084,5 @@
                 }
             }
         });
-
-        //Some debug functionality for my use.
-        if (debugPage === true) {
-            setInterval(function () {
-                debug("worldTurns:" + worldTurns + "<br>", true);
-                debug("infoPanelOpen:" + infoPanelOpen + "<br>");
-                debug("earthAnimating:" + earthAnimating + "<br>");
-                if (isMobile) {
-                    debug(screenWidth);
-                }
-            }, 3);
-        }
     });
 }());
