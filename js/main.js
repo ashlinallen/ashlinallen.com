@@ -807,9 +807,9 @@
 
     //Kicks off a meteor, then loops at a random interval.
     function meteorShower() {
-        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 500),
-            startX = rInt(-100, (screenWidth + 100)),
-            startY = rInt(-100, (screenHeight + 100));
+        var rTimeout = Math.round((Math.random() * (3000 - 500)) + 100),
+            startX = rInt(0, screenWidth),
+            startY = rInt(0, screenHeight);
 
         setTimeout(function () {
             meteor(startX, startY);
