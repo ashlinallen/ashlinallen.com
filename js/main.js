@@ -982,7 +982,7 @@
         initShadow();
     }
 
-    $(function () {
+    define(["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics"], function($) {
         //Set up variables.
         doc = document;
         win = window;
