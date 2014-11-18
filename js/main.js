@@ -34,6 +34,12 @@
         //Push new image into the gallery for the interest we took as a param
         interests[interestName].gallery.push(this);
     }
+    
+    //Input: (float)input
+    //Return: (float) with a precision of two (x.xx)
+    function pFloat(input) {
+        return ((input * 10) / 10);
+    }
 
     //Input: (int)minValue, (int)maxValue
     //Return: (int) which is greater than minValue and less than maxValue.
@@ -44,7 +50,9 @@
     //Input: (float)minValue, (float)maxValue
     //Return: (float) which is greater than minValue and less than maxValue.
     function rFloat(minValue, maxValue) {
-        return parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)), maxValue).toFixed(2));
+        var r = parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)), maxValue));
+        
+        return pFloat(r);
     }
 
     //Return: (string)CSS property for a random RGB value.
@@ -185,9 +193,8 @@
     }
 
     //Input: (string)state, (bool)hflip
-    //Takes a string which will be used for a CSS class, and a boolean to 
-    //set a "flipped" class, which will then be applied to the actor as a 
-    //CSS class.
+    //Takes a string which will be used for a CSS class, and a boolean to set a 
+    //"flipped" class, which will then be applied to the actor as a CSS class.
     function actorAnimate(el, state, hflip) {
         var flip = (hflip === undefined) ? "false" : hflip,
             cssClass = state;
@@ -246,9 +253,9 @@
     function animBrightness(showHide) {
         var startFloat, endFloat, els, anim, i;
 
-        //If the browser is IE we can't depend on CSS filters or SVG,
-        //so I just swap the images with blacked-out versions once zoomed
-        //for a lo-fi solution.
+        //If the browser is IE we can't depend on CSS filters or SVG, so I just 
+        //swap the images with blacked-out versions once zoomed for a lo-fi 
+        //solution.
         if (isIE) {
             els = $("")
                     .add(planetEarth)
@@ -285,13 +292,11 @@
             //Add or subtract 0.1 from our start value, depending on
             //whether or not we're showing/hiding.
             if (showHide === "show") {
-                //Float math is kinda flaky and I want exact single
-                //accuracy floats, so we multiply both values by ten, subtract,
-                //then divide the result by 10 to get the needed accuracy.
-                next = (((startFloat * 10) - (0.1 * 10)) / 10);
+                //Subtract
+                next = pFloat(startFloat) - pFloat(0.1);
             } else {
-                //Add, instead.
-                next = (((startFloat * 10) + (0.1 * 10)) / 10);
+                //Add
+                next = pFloat(startFloat) + pFloat(0.1);
             }
 
             startFloat = next.toFixed(1);
