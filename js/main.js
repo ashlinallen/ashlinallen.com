@@ -1040,13 +1040,6 @@
         meteorShower();
         rotateObjects();
 
-        //Init earth rotation in javascript.
-        TweenLite.to(planetEarth, 0, {
-            css: {
-                rotationZ: curEarthAngle
-            }
-        });
-
         //Set up a bunch of event handlers.
         $(ash).on("click", function () { interestClicked("about"); });
         $(contactIcon).on("click", function () { interestClicked("about"); });
