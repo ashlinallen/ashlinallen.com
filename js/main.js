@@ -1,6 +1,6 @@
 /*jshint nonew: false */
 /*jslint browser: true, indent: 4*/
-/*global $, jQuery, TweenLite, Power1, Sine, Linear */
+/*global $, jQuery, TweenLite, Power1, Sine, Linear, define */
 
 (function () {
     "use strict";
@@ -12,7 +12,9 @@
         isFirefox, isWebkit, keys, interests, worldTurns, earthAnimating,
         zoomAnimating, zoomed, infoPanelOpen, infoPanelAnimating, infoPanelTop,
         curEarthAngle, curMoonAngle, curLEOAngle, konami, currentInterest,
-        screenWidth, screenHeight, codelength, mobileType, desktopType;
+        screenWidth, screenHeight, codelength, mobileType, desktopType, requires;
+
+    requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics"];
 
     //Interest Object Constructor
     //Input: (string)name, (int)locationAngle
@@ -34,7 +36,7 @@
         //Push new image into the gallery for the interest we took as a param
         interests[interestName].gallery.push(this);
     }
-    
+
     //Input: (float)input
     //Return: (float) with a precision of two (x.xx)
     function pFloat(input) {
@@ -51,7 +53,7 @@
     //Return: (float) which is greater than minValue and less than maxValue.
     function rFloat(minValue, maxValue) {
         var r = parseFloat(Math.min(minValue + (Math.random() * (maxValue - minValue)), maxValue));
-        
+
         return pFloat(r);
     }
 
@@ -970,6 +972,38 @@
         isWebkit = desktopType.Webkit();
     }
 
+    function preventMobileScale() {
+        if ((window.devicePixelRatio !== undefined) && (window.devicePixelRatio > 2)) {
+            var meta, metaValue;
+
+            meta = document.getElementById("viewport");
+
+            if (meta !== undefined) {
+                metaValue = 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no';
+                meta.setAttribute('content', metaValue);
+            }
+        }
+    }
+
+    function initFancybox() {
+        $(".fancybox").fancybox({
+            helpers: {
+                title: {
+                    type: 'inside'
+                },
+                overlay: {
+                    css: {
+                        'background' : 'rgba(0, 0, 0, 0.75)'
+                    }
+                },
+                thumbs: {
+                    width: 50,
+                    height: 50
+                }
+            }
+        });
+    }
+
     //Creates shadow and sets its length based on some math that finds the 
     //distance to the corner.
     //Source: I don't recall where I got it, but this is borrowed code.
@@ -987,8 +1021,8 @@
         initShadow();
     }
 
-    define(["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics"], function($) {
-        //Set up variables.
+    define(requires, function ($) {
+        //Set variable values.
         doc = document;
         win = window;
         theStars = doc.getElementById("theStars");
@@ -1029,18 +1063,22 @@
         konami = "38,38,40,40,37,39,37,39,66,65";
         codelength = konami.split(",").length;
 
-        //Call our startup functions and kick off any loops.
+        //Call startup functions and kick off any loops.
         updateScreenDims();
         initUADetection();
+        preventMobileScale();
+
         initShadow();
         initStars();
         initInterests();
         initImages();
         initContent();
+        initFancybox();
+
         meteorShower();
         rotateObjects();
 
-        //Set up a bunch of event handlers.
+        //Set up event handlers.
         $(ash).on("click", function () { interestClicked("about"); });
         $(contactIcon).on("click", function () { interestClicked("about"); });
         $(infoNext).on("click", function () { jogInterests(); });
@@ -1052,35 +1090,5 @@
         $(doc).on("keydown", function (e) { keydown(e); });
         $(win).on("resize", function () { resize(); });
         $(win).on("touchmove", function (e) { e.preventDefault(); });
-
-        //Don't allow user to scale display on mobile.
-        if ((window.devicePixelRatio !== undefined) && (window.devicePixelRatio > 2)) {
-            var meta, metaValue;
-
-            meta = document.getElementById("viewport");
-
-            if (meta !== undefined) {
-                metaValue = 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no';
-                meta.setAttribute('content', metaValue);
-            }
-        }
-
-        //Kick off fancybox instance.
-        $(".fancybox").fancybox({
-            helpers: {
-                title: {
-                    type: 'inside'
-                },
-                overlay: {
-                    css: {
-                        'background' : 'rgba(0, 0, 0, 0.75)'
-                    }
-                },
-                thumbs: {
-                    width: 50,
-                    height: 50
-                }
-            }
-        });
     });
 }());
