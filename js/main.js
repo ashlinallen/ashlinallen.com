@@ -1010,15 +1010,33 @@
     function initShadow() {
         var centerY = screenHeight / 2,
             centerX = screenWidth / 2,
-            length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2)));
+            length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2))),
+            earthWidth = parseInt(planetEarth.offsetWidth) - 10;
 
         earthShadow.style.width = length + "px";
+        earthShadow.style.height = earthWidth + "px";
+        earthShadow.style.marginTop = -Math.abs(earthWidth / 2) + "px";
     }
 
     //Handles screen resize events.
     function resize() {
         updateScreenDims();
         initShadow();
+        initObjectSizes();
+    }
+    
+    function initObjectSizes() {
+        var width = planetEarth.offsetWidth,
+            pct = Math.floor((planetEarth.offsetWidth / 390) * 100) / 100;
+
+        planetEarth.style.height = planetEarth.offsetWidth + "px";
+        planetEarth.style.marginTop = -Math.abs(width / 2) + "px";
+        planetEarth.style.marginLeft = -Math.abs(width / 2) + "px";
+
+        ash.style.width = (38 * pct) + "px";
+        ash.style.height = (76 * pct) + "px";
+        ash.style.marginLeft = -Math.abs(ash.offsetWidth / 2) + "px";
+        ash.style.marginTop = (-Math.abs((planetEarth.offsetHeight - (planetEarth.offsetHeight * 0.075)) / 2) - ash.offsetHeight) + "px";
     }
 
     define(requires, function ($) {
@@ -1074,6 +1092,7 @@
         initImages();
         initContent();
         initFancybox();
+        initObjectSizes();
 
         meteorShower();
         rotateObjects();
