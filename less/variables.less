@@ -11,7 +11,7 @@
     transform:rotate(@deg);
 }
 
-.border-radii(@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+.border-radii (@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
     border-top-right-radius: @topright;
     border-bottom-right-radius: @bottomright;
     border-bottom-left-radius: @bottomleft;
@@ -35,12 +35,9 @@
     position: absolute;
 }
 
-.vCenter (@height) {
-    @halved: (@height / 2);
-    
-    height:@height*(1px);
-    margin-top:@halved*(-1px);
-    top: 50%;
+.centered {
+    top:50%;
+    left:50%;
     position: absolute;
 }
 

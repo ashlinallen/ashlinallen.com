@@ -10,8 +10,9 @@
 
 #theHeavens,
 #theStars {
-    position:absolute;
-    overflow:hidden;
+    position: absolute;
+    overflow: hidden;
+    
     .fill;
 }
 
@@ -26,11 +27,11 @@
 }
 
 #meteor {
-    height:2px;
-    width:400px;
-    z-index:100;
-    position:absolute;
-    display:block;
+    height: 2px;
+    width: 400px;
+    z-index: 100;
+    position: absolute;
+    display: block;
     background: -moz-linear-gradient(left,  rgba(255,255,255,0.25) 0%, rgba(30,234,234,1) 3%, rgba(255,255,255,0.25) 6%, rgba(255,255,255,0) 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(255,255,255,0.25)), color-stop(3%,rgba(30,234,234,1)), color-stop(6%,rgba(255,255,255,0.25)), color-stop(100%,rgba(255,255,255,0)));
     background: -webkit-linear-gradient(left,  rgba(255,255,255,0.25) 0%,rgba(30,234,234,1) 3%,rgba(255,255,255,0.25) 6%,rgba(255,255,255,0) 100%);
@@ -38,38 +39,47 @@
     background: -ms-linear-gradient(left,  rgba(255,255,255,0.25) 0%,rgba(30,234,234,1) 3%,rgba(255,255,255,0.25) 6%,rgba(255,255,255,0) 100%);
     background: linear-gradient(to right,  rgba(255,255,255,0.25) 0%,rgba(30,234,234,1) 3%,rgba(255,255,255,0.25) 6%,rgba(255,255,255,0) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40ffffff', endColorstr='#00ffffff',GradientType=1 );
+    
     .rotate(-35deg);
 }
 
-#planetEarth, #nature, #computers, #sheri, #games, #ash {
-    background-size:contain;
+#planetEarth, #nature, #computers, #sheri, #games, 
+#ash, #lowEarthOrbit, #spaceShuttle, #satellite {
+    background-size: contain;
+}
+
+
+#moon, #lowEarthOrbit, #earthShadow {
+    pointer-events: none;
 }
 
 #planetEarth {
-    width:30%;
-    top:50%;
-    left:50%;
-    position: absolute;
-    background-image:url("../img/earth.png");
+    width: 30%;
+    background-image: url("../img/earth.png");
+    
+    .centered;
     
     &.dark {
-        background-image:url("../img/earth_dark.png");
+        background-image: url("../img/earth_dark.png");
     }
     
     >a {
-        margin:0 auto;
-        position:absolute;
-        display:block;
-        cursor:pointer;
+        margin: 0 auto;
+        position: absolute;
+        display: block;
+        cursor: pointer;
     }
 }
 
 #moon {
-    .hCenter(900);
-    .vCenter(900);
-    background-position:bottom left;
-    background-image:url("../img/moon.png");
-    background-size:125px 125px;
+    width: 70%; /*900*/
+    margin-left: -35%;
+    margin-top: -25%;
+    background-position: bottom left;
+    background-image: url("../img/moon.png");
+    background-size: 15% 15%;
+    
+    .centered;
     
     &.dark {
         background-image:url("../img/moon_dark.gif");
@@ -77,90 +87,87 @@
 }
 
 #lowEarthOrbit {
-    .hCenter(600);
-    .vCenter(600);
-    background-size:600px 600px;
+    .centered;
+    
+    width: 50%;/*600*/
 }
 
 #spaceShuttle {
-    height:40px;
-    left:125px;
-    position:absolute;
-    width:75px;
-    background-image:url("../img/spaceshuttle.gif");
-    background-size:75px 40px;
+    height: 6.666666666666667%;/*40*/
+    left: 20.833333333333336%;/*125*/
+    position: absolute;
+    width: 12.5%;/*75*/
+    background-image: url("../img/spaceshuttle.gif");
 }
 
 #satellite {
-    height: 76px;
-    right: 0px;
-    bottom: 0px;
+    height: 12.666666666666668%;/*76*/
+    right: 0;
+    bottom: 0;
     position: absolute;
-    width: 92px;
-    .rotate(90deg);
+    width: 15.333333333333332%;/*92*/
     background-image: url("../img/satellite.png");
-    background-size: 92px 76px;
+    
+    .rotate(90deg);
 }
 
 #ash {
-    width:38px;
-    height:76px;
     z-index:1;
-    top: 50%;
-    left:50%;
-    position: absolute;
     transform: translate(0px,0px);
     cursor:pointer;
+    
+    .centered;
     
     >#status {
         width: 42px;
         height: 42px;
         top: -42px;
         right: -27px;
-        background-image:url("../img/hearts.gif");
-        position:absolute;
-        display:none;
+        background-image: url("../img/hearts.gif");
+        position: absolute;
+        display: none;
+        
         .rotate(8deg);
     }
     
     &.walking {
-        width:38px;
-        background-image:url("../img/ash_walking.gif");
+        width: 38px;
+        background-image: url("../img/ash_walking.gif");
     }
     
     &.standing {
-        width:34px;
-        background-image:url("../img/ash_standing.gif");
+        width: 34px;
+        background-image: url("../img/ash_standing.gif");
     }
     
     &.standing-away {
         margin-left: -11px;
-        transform:rotate(0deg);
-        width:30px;
-        background-image:url("../img/ash_standing_away.gif");
+        transform: rotate(0deg);
+        width: 30px;
+        background-image: url("../img/ash_standing_away.gif");
     }
     
     &.sitting-camp {
         margin-left: -26px;
         margin-top: -237px;
-        transform:rotate(0deg);
-        height:58px;
-        width:36px;
-        background-image:url("../img/ash_sitting_camp.gif");
+        transform: rotate(0deg);
+        height: 58px;
+        width: 36px;
+        background-image: url("../img/ash_sitting_camp.gif");
     }
     
     &.sitting-vidya {
         margin-left: -29px;
         margin-top: -235px;
         transform: rotate(0deg);
-        height:58px;
+        height: 58px;
         width: 32px;
         background-image: url(../img/ash_sitting_vidya.gif);
     }
     
     &.dark {
-        width:34px;
-        background-image:url("../img/ash_standing_dark.gif");
+        width: 34px;
+        background-image: url("../img/ash_standing_dark.gif");
     }
     
     &.flipped {
@@ -174,68 +181,66 @@
 }
 
 #computers {
-    width: 19.48717948717949%;/*76px*/
-    height: 15.897435897435896%;/*62px*/
-    bottom: -11.794871794871794%;/*46px*/
-    left: 32.56410256410256%;/*127px*/
-    background-image:url("../img/sprite_desk.png");
+    width: 19.48717948717949%;/*76*/
+    height: 15.897435897435896%;/*62*/
+    bottom: -11.794871794871794%;/*46*/
+    left: 32.56410256410256%;/*127*/
+    background-image: url("../img/sprite_desk.png");
+    
     .rotate(186deg);
     
     &.dark {
-        background-image:url("../img/sprite_desk_dark.png");
+        background-image: url("../img/sprite_desk_dark.png");
     }
 }
 
 #nature {
-    width: 45.12820512820513%; /*176px*/
-    height: 25.128205128205128%; /*98px*/
-    top: -6.153846153846154%; /*24px*/
-    left: -5.897435897435897%; /*23px*/
+    width: 45.12820512820513%; /*176*/
+    height: 25.128205128205128%; /*98*/
+    top: -6.153846153846154%; /*24*/
+    left: -5.897435897435897%; /*23*/
     .rotate(-36deg);
     background-image: url(../img/mountain.gif);
     
     &.dark {
-        background-image:url("../img/mountain_dark.png");
+        background-image: url("../img/mountain_dark.png");
     }
 }
 
 #games {
-    width: 22.05128205128205%;/*86px*/
-    height: 21.53846153846154%;/*84px*/
-    top: -0.5128205128205128%;/*2px*/
+    width: 22.05128205128205%;/*86*/
+    height: 21.53846153846154%;/*84*/
+    top: -0.5128205128205128%;/*2*/
     right: 0;
-    background-image:url("../img/games.png");
+    background-image: url("../img/games.png");
+    
     .rotate(47deg);
     
     &.dark {
-        background-image:url("../img/games_dark.png");
+        background-image: url("../img/games_dark.png");
     }
 }
 
 #sheri {
-    width:8.717948717948717%;/*34px*/
-    height:17.94871794871795%;/*70px*/
-    top:42.30769230769231%;/*165px*/
-    right:-9.743589743589745%;/*38px*/
-    background-image:url("../img/sheri_standing.gif");
+    width: 8.717948717948717%;/*34*/
+    height: 17.94871794871795%;/*70*/
+    top: 42.30769230769231%;/*165*/
+    right: -9.743589743589745%;/*38*/
+    background-image: url("../img/sheri_standing.gif");
+    
     .rotate(90deg);
     
     &.dark {
-        background-image:url("../img/sheri_standing_dark.gif");
+        background-image: url("../img/sheri_standing_dark.gif");
     }
 }
 
-#moon, #lowEarthOrbit, #earthShadow {
-    pointer-events:none;
-}
-
 #earthShadow {
-    display:inline-block;
-    top:50%;
-    right:50%;
-    position:absolute;
-    overflow:hidden;
-    background-position:center center;
+    display: inline-block;
+    top: 50%;
+    right: 50%;
+    position: absolute;
+    overflow: hidden;
     background: -moz-linear-gradient(left,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 97%, rgba(0,0,0,0) 99%, rgba(0,0,0,0) 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.5)), color-stop(97%,rgba(0,0,0,0.5)), color-stop(99%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
     background: -webkit-linear-gradient(left,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 97%,rgba(0,0,0,0) 99%,rgba(0,0,0,0) 100%);
@@ -243,6 +248,7 @@
     background: -ms-linear-gradient(left,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 97%,rgba(0,0,0,0) 99%,rgba(0,0,0,0) 100%);
     background: linear-gradient(to right,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 97%,rgba(0,0,0,0) 99%,rgba(0,0,0,0) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80000000', endColorstr='#00000000',GradientType=1 );
+    
     .rotate(-35deg);
     .origin(1);
 }

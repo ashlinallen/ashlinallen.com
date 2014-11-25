@@ -12,7 +12,8 @@
         isFirefox, isWebkit, keys, interests, worldTurns, earthAnimating,
         zoomAnimating, zoomed, infoPanelOpen, infoPanelAnimating, infoPanelTop,
         curEarthAngle, curMoonAngle, curLEOAngle, konami, currentInterest,
-        screenWidth, screenHeight, codelength, mobileType, desktopType, requires;
+        screenWidth, screenHeight, codelength, mobileType, desktopType, requires,
+        contactVisible, contactAnimating, resized;
 
     requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics"];
 
@@ -326,21 +327,49 @@
     }
 
     function showContactForm() {
+        if (contactVisible || contactAnimating) { return; }
+    
         animBrightness("show");
+        
+        worldTurns = false;
+        
+        actorAnimate(ash, "standing");
+        
+        var contactTop = planetEarth.offsetTop + (planetEarth.offsetHeight * 0.15) + "px",
+            contactHeight = (planetEarth.offsetHeight * 0.7) + "px",
+            contactMarginLeft = -Math.abs((planetEarth.offsetHeight * 0.7) / 2) + "px";
+        
+        contactForm.style.display = "inline-block";
+        contactForm.style.top = contactTop;
+        contactForm.style.height = contactHeight;
+        contactForm.style.width = contactHeight;
+        contactForm.style.marginLeft = contactMarginLeft;
 
-        TweenLite.to(contactForm, 2, {
-            opacity: 1
+        contactAnimating = true;
+        TweenLite.to(contactForm, 0.5, {
+            opacity: 1,
+            onComplete: function () {
+                contactVisible = true;
+                contactAnimating = false;
+            }
         });
     }
 
     function hideContactForm() {
-        if (contactForm.style.opacity < 0.1) { return; }
+        if ((contactForm.style.opacity < 0.1) || !contactVisible || contactAnimating) { return; }
 
+        worldTurns = true;
+        
         animBrightness("hide");
+        
+        actorAnimate(ash, "walking");
 
+        contactAnimating = true;
         TweenLite.to(contactForm, 0.5, {
             opacity: 0,
             onComplete: function () {
+                contactVisible = false;
+                contactAnimating = false;
                 contactForm.style.display = "none";
             }
         });
@@ -349,8 +378,9 @@
     function zoomIn(callbackFn) {
         zoomAnimating = true;
 
-        //Don't adjust top margin if user is using a mobile device.
-        if (!isMobile) {
+        //Don't adjust top margin if user is using a mobile device or if interest 
+        //is contact.
+        if (!isMobile || currentInterest === "contact") {
             TweenLite.to(topMarginContainer, 2, {
                 css: {
                     //todo:set height to screenheight - 50% of planetearth's height. 
@@ -379,17 +409,14 @@
     function zoomOut() {
         if (zoomAnimating) { return false; }
 
-        if (currentInterest === "about") {
-            hideContactForm();
-        }
-
         currentInterest = '';
         worldTurns = true;
         zoomAnimating = true;
         updateAshStatus();
 
-        //Don't adjust top margin if user is using a mobile device.
-        if (!isMobile) {
+        //Don't adjust top margin if user is using a mobile device or 
+        //currentInterest is "contact".
+        if (!isMobile || currentInterest === "contact") {
             TweenLite.to(topMarginContainer, 2, {
                 css: {
                     y: 0
@@ -534,7 +561,9 @@
             duration = 0.8;
         }
 
-        loadContent(interestName);
+        if (interestName !== "contact") {
+            loadContent(interestName);
+        }
 
         infoPanel.style.top = infoPanelTop;
         infoPanel.style.display = "inline-block";
@@ -592,10 +621,6 @@
                     });
                 } else {
                     openInfoPanel(interestName);
-                }
-
-                if (interestName === "about") {
-                    showContactForm();
                 }
 
                 earthAnimating = false;
@@ -767,9 +792,15 @@
 
     //Close info panel when "neutral" area is clicked around earth.
     function topMarginContainerClicked() {
-        if (earthAnimating || !zoomed) { return false; }
+        if (earthAnimating) { return false; } 
 
-        closeInfoPanel(true);
+        if (zoomed) {
+            closeInfoPanel(true);
+        }
+        
+        if (contactVisible) {
+            hideContactForm();
+        }
     }
 
     //Input: (int)startX, (int)startY
@@ -837,6 +868,7 @@
     function initInterests() {
         interests = {
             about: new Interest("about", 0),
+            contact: new Interest("contact", 1),
             games: new Interest("games", -30),
             sheri: new Interest("sheri", -82),
             computers: new Interest("computers", 174),
@@ -1011,20 +1043,13 @@
         var centerY = screenHeight / 2,
             centerX = screenWidth / 2,
             length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2))),
-            earthWidth = parseInt(planetEarth.offsetWidth) - 10;
+            earthWidth = parseInt(planetEarth.offsetWidth) - 9;
 
         earthShadow.style.width = length + "px";
         earthShadow.style.height = earthWidth + "px";
         earthShadow.style.marginTop = -Math.abs(earthWidth / 2) + "px";
     }
 
-    //Handles screen resize events.
-    function resize() {
-        updateScreenDims();
-        initShadow();
-        initObjectSizes();
-    }
-    
     function initObjectSizes() {
         var width = planetEarth.offsetWidth,
             pct = Math.floor((planetEarth.offsetWidth / 390) * 100) / 100;
@@ -1037,6 +1062,21 @@
         ash.style.height = (76 * pct) + "px";
         ash.style.marginLeft = -Math.abs(ash.offsetWidth / 2) + "px";
         ash.style.marginTop = (-Math.abs((planetEarth.offsetHeight - (planetEarth.offsetHeight * 0.075)) / 2) - ash.offsetHeight) + "px";
+        
+        moon.style.height = moon.offsetWidth + "px";
+        moon.style.marginTop = -Math.abs(moon.offsetWidth / 2) + "px";
+        
+        lowEarthOrbit.style.height = lowEarthOrbit.offsetWidth + "px";
+        lowEarthOrbit.style.marginTop = -Math.abs(lowEarthOrbit.offsetWidth / 2) + "px";
+        lowEarthOrbit.style.marginLeft = -Math.abs(lowEarthOrbit.offsetWidth / 2) + "px";
+    }
+
+    //Handles screen resize events.
+    function resize() {
+        resized = true;
+        updateScreenDims();
+        initShadow();
+        initObjectSizes();
     }
 
     define(requires, function ($) {
@@ -1074,6 +1114,8 @@
         zoomed = false;
         infoPanelOpen = false;
         infoPanelAnimating = false;
+        contactVisible = false;
+        contactAnimating = false;
         infoPanelTop = 0;
         curEarthAngle = 0;
         curMoonAngle = 0;
@@ -1099,7 +1141,7 @@
 
         //Set up event handlers.
         $(ash).on("click", function () { interestClicked("about"); });
-        $(contactIcon).on("click", function () { interestClicked("about"); });
+        $(contactIcon).on("click", function () { showContactForm(); });
         $(infoNext).on("click", function () { jogInterests(); });
         $(infoPrev).on("click", function () { jogInterests("prev"); });
         $(infoClose).on("click", function (e) { topMarginContainerClicked(e); });
