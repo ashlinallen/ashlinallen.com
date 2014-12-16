@@ -43,21 +43,18 @@
     .rotate(-35deg);
 }
 
-#planetEarth, #nature, #computers, #sheri, #games, 
-#ash, #lowEarthOrbit, #spaceShuttle, #satellite {
-    background-size: contain;
-}
-
 
 #moon, #lowEarthOrbit, #earthShadow {
     pointer-events: none;
 }
 
 #planetEarth {
-    width: 30%;
+    /*width: 390px;30%;*/
     background-image: url("../img/earth.png");
+    background-size:390px 390px;
     
-    .centered;
+    .hCenter(390);
+    .vCenter(390);
     
     &.dark {
         background-image: url("../img/earth_dark.png");
@@ -72,14 +69,18 @@
 }
 
 #moon {
-    width: 70%; /*900*/
-    margin-left: -35%;
-    margin-top: -25%;
+    /*
+    width: 900px;/*70%;*
+    margin-left: -450px;/*-35%;*
+    margin-top: -400px;/*-25%;*
+    .centered;
+    */
     background-position: bottom left;
     background-image: url("../img/moon.png");
-    background-size: 15% 15%;
+    background-size: 104px 104px;
     
-    .centered;
+    .hCenter(900);
+    .vCenter(900);
     
     &.dark {
         background-image:url("../img/moon_dark.gif");
@@ -87,26 +88,31 @@
 }
 
 #lowEarthOrbit {
+    /*
     .centered;
-    
-    width: 50%;/*600*/
+    width: 600px;/*50%;*
+    */
+    .hCenter(600);
+    .vCenter(600);
 }
 
 #spaceShuttle {
-    height: 6.666666666666667%;/*40*/
-    left: 20.833333333333336%;/*125*/
     position: absolute;
-    width: 12.5%;/*75*/
+    left: 125px;/*20.833333333333336%;*/
+    height: 40px;/*6.666666666666667%;*/
+    width: 75px;/*12.5%;*/
     background-image: url("../img/spaceshuttle.gif");
+    background-size:75px 40px;
 }
 
 #satellite {
-    height: 12.666666666666668%;/*76*/
+    position: absolute;
     right: 0;
     bottom: 0;
-    position: absolute;
-    width: 15.333333333333332%;/*92*/
+    height: 76px;/*12.666666666666668%;*/
+    width: 92px;/*15.333333333333332%;*/
     background-image: url("../img/satellite.png");
+    background-size:92px 76px;
     
     .rotate(90deg);
 }
@@ -115,17 +121,24 @@
     z-index:1;
     transform: translate(0px,0px);
     cursor:pointer;
+    height:76px;
+    width: 34px;
+    background-size:34px 76px;
+    margin-top: -257px;
+    margin-left:-17px;
+    position:absolute;
     
     .centered;
     
     >#status {
+        position: absolute;
+        display: none;
         width: 42px;
         height: 42px;
         top: -42px;
         right: -27px;
         background-image: url("../img/hearts.gif");
-        position: absolute;
-        display: none;
+        background-size:42px 42px;
         
         .rotate(8deg);
     }
@@ -133,10 +146,10 @@
     &.walking {
         width: 38px;
         background-image: url("../img/ash_walking.gif");
+        background-size:38px 76px;
     }
     
     &.standing {
-        width: 34px;
         background-image: url("../img/ash_standing.gif");
     }
     
@@ -145,6 +158,7 @@
         transform: rotate(0deg);
         width: 30px;
         background-image: url("../img/ash_standing_away.gif");
+        background-size:30px 76px;
     }
     
     &.sitting-camp {
@@ -154,6 +168,7 @@
         height: 58px;
         width: 36px;
         background-image: url("../img/ash_sitting_camp.gif");
+        background-size:36px 58px;
     }
     
     &.sitting-vidya {
@@ -163,10 +178,10 @@
         height: 58px;
         width: 32px;
         background-image: url(../img/ash_sitting_vidya.gif);
+        background-size:32px 58px;
     }
     
     &.dark {
-        width: 34px;
         background-image: url("../img/ash_standing_dark.gif");
     }
     
@@ -181,11 +196,12 @@
 }
 
 #computers {
-    width: 19.48717948717949%;/*76*/
-    height: 15.897435897435896%;/*62*/
-    bottom: -11.794871794871794%;/*46*/
-    left: 32.56410256410256%;/*127*/
+    width: 76px;/*19.48717948717949%;*/
+    height: 62px;/*15.897435897435896%;*/
+    bottom: -46px;/*-11.794871794871794%;*/
+    left: 127px;/*32.56410256410256%;*/
     background-image: url("../img/sprite_desk.png");
+    background-size:76px 62px;
     
     .rotate(186deg);
     
@@ -195,12 +211,13 @@
 }
 
 #nature {
-    width: 45.12820512820513%; /*176*/
-    height: 25.128205128205128%; /*98*/
-    top: -6.153846153846154%; /*24*/
-    left: -5.897435897435897%; /*23*/
+    width: 176px;/*45.12820512820513%;*/
+    height: 98px;/*25.128205128205128%;*/
+    top: -24px;/*-6.153846153846154%;*/
+    left: -23px;/*-5.897435897435897%;*/
     .rotate(-36deg);
     background-image: url(../img/mountain.gif);
+    background-size:176px 98px;
     
     &.dark {
         background-image: url("../img/mountain_dark.png");
@@ -208,11 +225,12 @@
 }
 
 #games {
-    width: 22.05128205128205%;/*86*/
-    height: 21.53846153846154%;/*84*/
-    top: -0.5128205128205128%;/*2*/
+    width: 86px;/*22.05128205128205%;*/
+    height: 84px;/*21.53846153846154%;*/
+    top: -2px;/*-0.5128205128205128%;*/
     right: 0;
     background-image: url("../img/games.png");
+    background-size:86px 84px;
     
     .rotate(47deg);
     
@@ -222,11 +240,12 @@
 }
 
 #sheri {
-    width: 8.717948717948717%;/*34*/
-    height: 17.94871794871795%;/*70*/
-    top: 42.30769230769231%;/*165*/
-    right: -9.743589743589745%;/*38*/
+    width: 34px;/*8.717948717948717%;*/
+    height: 70px;/*17.94871794871795%;*/
+    top: 165px;/*42.30769230769231%;*/
+    right: -38px;/*-9.743589743589745%;*/
     background-image: url("../img/sheri_standing.gif");
+    background-size:34px 70px;
     
     .rotate(90deg);
     
