@@ -1010,7 +1010,7 @@
 
             meta = document.getElementById("viewport");
 
-            if (meta !== undefined) {
+            if ((meta !== undefined) && (meta !== null)) {
                 metaValue = 'width=device-width, initial-scale=' + (2 / window.devicePixelRatio) + ', user-scalable=no';
                 meta.setAttribute('content', metaValue);
             }
@@ -1040,64 +1040,17 @@
     //distance to the corner.
     //Source: I don't recall where I got it, but this is borrowed code.
     function initShadow() {
-        var centerY = screenHeight / 2,
-            centerX = screenWidth / 2,
-            length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2))),
-            earthWidth = parseInt(planetEarth.offsetWidth) - 9,
-            scale = 1;
+        if ((screenWidth <= 500) || (screenHeight <= 600)) 
+        { 
+            earthShadow.style.display = "none";
+        } else {
+            var centerY = screenHeight / 2,
+                centerX = screenWidth / 2,
+                length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2)));
 
-        if (topMarginContainer.style.transform !== null) {
-            scale = getScale(topMarginContainer);
+            earthShadow.style.width = length + "px";
+            earthShadow.style.display = "inline-block";
         }
-        
-        length = length * scale;
-        
-        earthShadow.style.width = length + "px";
-        earthShadow.style.height = earthWidth + "px";
-        earthShadow.style.marginTop = -Math.abs(earthWidth / 2) + "px";
-    }
-
-    //function initObjectSizes() {
-    //    var width = planetEarth.offsetWidth,
-    //        pct = Math.floor((planetEarth.offsetWidth / 390) * 100) / 100;
-    //
-    //    planetEarth.style.height = planetEarth.offsetWidth + "px";
-    //    planetEarth.style.marginTop = -Math.abs(width / 2) + "px";
-    //    planetEarth.style.marginLeft = -Math.abs(width / 2) + "px";
-    //
-    //    ash.style.width = (38 * pct) + "px";
-    //    ash.style.height = (76 * pct) + "px";
-    //    ash.style.marginLeft = -Math.abs(ash.offsetWidth / 2) + "px";
-    //    ash.style.marginTop = (-Math.abs((planetEarth.offsetHeight - (planetEarth.offsetHeight * 0.075)) / 2) - ash.offsetHeight) + "px";
-    //    
-    //    moon.style.height = moon.offsetWidth + "px";
-    //    moon.style.marginTop = -Math.abs(moon.offsetWidth / 2) + "px";
-    //    
-    //    lowEarthOrbit.style.height = lowEarthOrbit.offsetWidth + "px";
-    //    lowEarthOrbit.style.marginTop = -Math.abs(lowEarthOrbit.offsetWidth / 2) + "px";
-    //    lowEarthOrbit.style.marginLeft = -Math.abs(lowEarthOrbit.offsetWidth / 2) + "px";
-    //}
-    
-    function initTmcDims() {
-        var tgtEarthPctOfScreen = 0.35,
-            tgtPctInPx = screenWidth * tgtEarthPctOfScreen,
-            tgtScale = (tgtPctInPx / 390).toFixed(3),
-            els = $("")
-                    .add(earthShadow)
-                    .add(ash)
-                    .add(planetEarth)
-                    .add(lowEarthOrbit)
-                    .add(moon);
-                    
-        if (tgtScale > 1.0) { tgtScale = 1.0 };
-        if (tgtScale < 0.5) { tgtScale = 0.5 };
-        
-        TweenLite.to(topMarginContainer, 0, {
-            css: {
-                scale: tgtScale
-            },
-            ease: Power1.easeInOut
-        });
     }
 
     //Handles screen resize events.
@@ -1105,9 +1058,7 @@
         resized = true;
 
         updateScreenDims();
-        initTmcDims();
         initShadow();
-        //initObjectSizes();
     }
 
     define(requires, function ($) {
@@ -1164,7 +1115,6 @@
         initImages();
         initContent();
         initFancybox();
-        initTmcDims();
         initShadow();
 
         meteorShower();

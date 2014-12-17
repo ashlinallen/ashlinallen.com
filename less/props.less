@@ -259,6 +259,8 @@
     top: 50%;
     right: 50%;
     position: absolute;
+    height:390px;
+    margin-top:-195px;
     overflow: hidden;
     background: -moz-linear-gradient(left,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 97%, rgba(0,0,0,0) 99%, rgba(0,0,0,0) 100%);
     background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.5)), color-stop(97%,rgba(0,0,0,0.5)), color-stop(99%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0)));
@@ -270,4 +272,27 @@
     
     .rotate(-35deg);
     .origin(1);
+}
+
+@media (max-width: 900px) {
+}
+
+@media (max-height: 600px), (max-width: 500px) {
+    #planetEarth {
+        margin-bottom: -300px;
+        bottom: 0;
+        top: auto;
+    }
+
+    #ash {
+        margin-bottom: 75px;
+        bottom: 0;
+        top: auto;
+    }
+    
+    #earthShadow {
+    }
+}
+
+@media (max-width: 400px) {
 }
