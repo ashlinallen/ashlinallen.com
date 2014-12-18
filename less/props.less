@@ -274,10 +274,17 @@
     .origin(1);
 }
 
-@media (max-width: 900px) {
-}
+@media (max-height: 800px), 
+       (max-width: 600px) {
+    html { 
+        font-size: 13px;
+    }
+    
+    body {
+        background-position: center 750px;
+        background-size: 1500px 1500px;
+    }
 
-@media (max-height: 600px), (max-width: 500px) {
     #planetEarth {
         margin-bottom: -300px;
         bottom: 0;
@@ -289,10 +296,120 @@
         bottom: 0;
         top: auto;
     }
-    
-    #earthShadow {
+}
+
+@media (min-width: 600px) {
+    html { 
+        font-size: 15px;
+    }
+
+    body {
+        background-size: 1500px 1500px;
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 350px) {
+    html { 
+        font-size: 11px;
+    }
+
+    body {
+        background-size: 1500px 1500px;
+    }
+
+    #planetEarth {
+        width:195px;
+        height:195px;
+        background-size:195px 195px;
+        margin-bottom:-97px;
+        margin-left:-97px;
+        bottom: 0;
+        top: auto;
+    }
+    
+    #ash {
+        height: 38px;
+        width: 17px;
+        background-size:17px 38px;
+        margin-left:-8px;
+        margin-bottom: 91px;
+        bottom: 0;
+        top: auto;
+        
+        >#status {
+            width: 21px;
+            height: 21px;
+            top: -21px;
+            right: -13px;
+            background-size:21px 21px;
+        }
+        
+        &.walking {
+            width: 19px;
+            background-size:19px 38px;
+        }
+        
+        &.standing-away {
+            margin-left: -5px;
+            width: 15px;
+            background-size:15px 38px;
+        }
+        
+        &.sitting-camp {
+            margin-left: -13px;
+            margin-top: -118px;
+            height: 29px;
+            width: 18px;
+            background-size: 18px 29px;
+        }
+        
+        &.sitting-vidya {
+            margin-left: -14px;
+            margin-top: -117px;
+            height: 29px;
+            width: 16px;
+            background-size:16px 29px;
+        }
+        
+        &.flipped {
+            -moz-transform: scaleX(-1);
+            -o-transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+            filter: FlipH;
+            -ms-filter: "FlipH";
+        }
+    }
+
+    #computers {
+        width: 38px;
+        height: 31px;
+        bottom: -23px;
+        left: 63px;
+        background-size:38px 31px;
+    }
+
+    #nature {
+        width: 88px;
+        height: 49px;
+        top: -12px;
+        left: -11px;
+        background-size:88px 49px;
+    }
+
+    #games {
+        width: 43px;
+        height: 42px;
+        top: -1px;
+        right: 0;
+        background-size:43px 42px;
+    }
+
+    #sheri {
+        width: 17px;
+        height: 35px;
+        top: 82px;
+        right: -19px;
+        background-size: 17px 35px;
+    }
 }

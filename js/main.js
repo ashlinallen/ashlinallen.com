@@ -1040,7 +1040,7 @@
     //distance to the corner.
     //Source: I don't recall where I got it, but this is borrowed code.
     function initShadow() {
-        if ((screenWidth <= 500) || (screenHeight <= 600)) 
+        if ((screenWidth <= 600) || (screenHeight <= 800)) 
         { 
             earthShadow.style.display = "none";
         } else {
