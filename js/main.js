@@ -328,17 +328,17 @@
 
     function showContactForm() {
         if (contactVisible || contactAnimating) { return; }
-    
+
         animBrightness("show");
-        
+
         worldTurns = false;
-        
+
         actorAnimate(ash, "standing");
-        
+
         var contactTop = planetEarth.offsetTop + (planetEarth.offsetHeight * 0.15) + "px",
             contactHeight = (planetEarth.offsetHeight * 0.7) + "px",
             contactMarginLeft = -Math.abs((planetEarth.offsetHeight * 0.7) / 2) + "px";
-        
+
         contactForm.style.display = "inline-block";
         contactForm.style.top = contactTop;
         contactForm.style.height = contactHeight;
@@ -359,9 +359,9 @@
         if ((contactForm.style.opacity < 0.1) || !contactVisible || contactAnimating) { return; }
 
         worldTurns = true;
-        
+
         animBrightness("hide");
-        
+
         actorAnimate(ash, "walking");
 
         contactAnimating = true;
@@ -380,12 +380,17 @@
 
         //Don't adjust top margin if user is using a mobile device or if interest 
         //is contact.
-        if (!isMobile || currentInterest === "contact") {
+        if (!isMobile || (currentInterest === "contact")) {
+            var yPos = 250;
+
+            if ((screenWidth <= 600) && (screenWidth >= 350)) { yPos = -200; }
+            if (screenWidth <= 350) { yPos = -200; }
+
             TweenLite.to(topMarginContainer, 2, {
                 css: {
                     //todo:set height to screenheight - 50% of planetearth's height. 
                     //then maybe infopanel can be set to 50% height too? something like that.
-                    y: 250
+                    y: yPos
                 },
                 ease: Power1.easeInOut
             });
@@ -792,12 +797,12 @@
 
     //Close info panel when "neutral" area is clicked around earth.
     function topMarginContainerClicked() {
-        if (earthAnimating) { return false; } 
+        if (earthAnimating) { return false; }
 
         if (zoomed) {
             closeInfoPanel(true);
         }
-        
+
         if (contactVisible) {
             hideContactForm();
         }
@@ -1039,9 +1044,8 @@
     //Creates shadow and sets its length based on some math that finds the 
     //distance to the corner.
     //Source: I don't recall where I got it, but this is borrowed code.
-    function initShadow() {
-        if ((screenWidth <= 600) || (screenHeight <= 800)) 
-        { 
+    function renderShadow() {
+        if ((screenWidth <= 600) || (screenHeight <= 800)) {
             earthShadow.style.display = "none";
         } else {
             var centerY = screenHeight / 2,
@@ -1053,12 +1057,36 @@
         }
     }
 
+    function renderGlow() {
+        var bgPos = null;
+
+        if ((screenHeight <= 800) || (screenWidth <= 350)) {
+            bgPos = screenHeight - 325;
+        }
+
+        if (((screenWidth > 350) && (screenWidth <= 600)) ||
+                ((screenHeight <= 800) && (screenWidth > 600))) {
+            bgPos = screenHeight - 625;
+        }
+
+        if (bgPos !== null) {
+            if (bgPos <= 50) {
+                bgPos = 50;
+            }
+
+            bgPos = "center " + bgPos + "px";
+        }
+
+        document.body.style.backgroundPosition = bgPos;
+    }
+
     //Handles screen resize events.
     function resize() {
-        resized = true;
+        resized = true; //TODO: Set up timeout for this so it doesn't spam resize events.
 
         updateScreenDims();
-        initShadow();
+        renderShadow();
+        renderGlow();
     }
 
     define(requires, function ($) {
@@ -1115,7 +1143,9 @@
         initImages();
         initContent();
         initFancybox();
-        initShadow();
+
+        renderShadow();
+        renderGlow();
 
         meteorShower();
         rotateObjects();
