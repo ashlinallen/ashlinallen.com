@@ -1053,25 +1053,28 @@
                 length = Math.floor(Math.sqrt(Math.pow(-Math.abs(centerX), 2) + Math.pow(screenHeight - centerY, 2)));
 
             earthShadow.style.width = length + "px";
-            earthShadow.style.display = "inline-block";
+            earthShadow.style.display = "";
         }
     }
 
     function renderGlow() {
         var bgPos = null;
+        var minPos = null;
 
         if ((screenHeight <= 800) || (screenWidth <= 350)) {
-            bgPos = screenHeight - 325;
+            bgPos = screenHeight - 350;
+            minPos = 50;
         }
 
         if (((screenWidth > 350) && (screenWidth <= 600)) ||
                 ((screenHeight <= 800) && (screenWidth > 600))) {
             bgPos = screenHeight - 625;
+            minPos = -225;
         }
 
         if (bgPos !== null) {
-            if (bgPos <= 50) {
-                bgPos = 50;
+            if (bgPos <= minPos) {
+                bgPos = minPos;
             }
 
             bgPos = "center " + bgPos + "px";
@@ -1083,6 +1086,10 @@
     //Handles screen resize events.
     function resize() {
         resized = true; //TODO: Set up timeout for this so it doesn't spam resize events.
+
+        if (zoomed) {
+            closeInfoPanel(true);
+        }
 
         updateScreenDims();
         renderShadow();
