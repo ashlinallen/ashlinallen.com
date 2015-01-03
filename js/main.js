@@ -10,7 +10,7 @@
         topMarginContainer, contactForm, contactIcon, infoPanel, infoPrev,
         infoNext, infoHeader, infoClose, infoContent, isMobile, isIE, isChrome,
         isFirefox, isWebkit, keys, interests, worldTurns, earthAnimating,
-        zoomAnimating, zoomed, infoPanelOpen, infoPanelAnimating, infoPanelTop,
+        zoomAnimating, zoomed, infoPanelOpen, infoPanelAnimating, earthTop,
         curEarthAngle, curMoonAngle, curLEOAngle, konami, currentInterest,
         screenWidth, screenHeight, codelength, mobileType, desktopType, requires,
         contactVisible, contactAnimating, resized;
@@ -377,28 +377,32 @@
 
     function zoomIn(callbackFn) {
         zoomAnimating = true;
+        var zScale = 0;
 
         //Don't adjust top margin if user is using a mobile device or if interest 
         //is contact.
         if (!isMobile || (currentInterest === "contact")) {
-            var yPos = 250;
+            var yPos = ((screenHeight * 0.5) - ((planetEarth.offsetHeight + 100) * 0.35));
 
-            if ((screenWidth <= 600) && (screenWidth >= 350)) { yPos = -200; }
-            if (screenWidth <= 350) { yPos = -200; }
+            if ((screenWidth <= 600) && (screenWidth > 350) ||
+                (screenHeight <= 800) ||
+                (screenWidth <= 350)) { 
+                yPos = -Math.abs(screenHeight / 5);
+            }
 
             TweenLite.to(topMarginContainer, 2, {
                 css: {
-                    //todo:set height to screenheight - 50% of planetearth's height. 
-                    //then maybe infopanel can be set to 50% height too? something like that.
                     y: yPos
                 },
                 ease: Power1.easeInOut
             });
+
+            zScale = 2;
         }
 
         TweenLite.to(theHeavens, 2, {
             css: {
-                scale: 2
+                scale: zScale
             },
             ease: Power1.easeInOut,
             onComplete: function () {
@@ -411,18 +415,23 @@
         });
     }
 
-    function zoomOut() {
+    function zoomOut(instant) {
         if (zoomAnimating) { return false; }
 
         currentInterest = '';
         worldTurns = true;
         zoomAnimating = true;
         updateAshStatus();
+        var dur = 2;
+
+        if (instant === true) {
+            dur = 0;
+        }
 
         //Don't adjust top margin if user is using a mobile device or 
         //currentInterest is "contact".
         if (!isMobile || currentInterest === "contact") {
-            TweenLite.to(topMarginContainer, 2, {
+            TweenLite.to(topMarginContainer, dur, {
                 css: {
                     y: 0
                 },
@@ -430,7 +439,7 @@
             });
         }
 
-        TweenLite.to(theHeavens, 2, {
+        TweenLite.to(theHeavens, dur, {
             css: {
                 scale: 1,
                 y: 0
@@ -531,17 +540,26 @@
 
     //Input: (bool)zOut
     //Closes infoPanel and triggers zoomout if zOut is true.
-    function closeInfoPanel(zOut) {
-        var doZoomOut = (zOut === undefined) ? "false" : zOut;
+    function closeInfoPanel(zOut, instant) {
+        var doZoomOut = (zOut === undefined) ? "false" : zOut,
+            dur = 0.5;
+
+        if (instant === true) {
+            dur = 0;
+        }
 
         if (doZoomOut === true) {
-            zoomOut();
+            if (instant === true) {
+                zoomOut(true);
+            } else {
+                zoomOut();
+            }
         }
 
         infoPanelAnimating = true;
         infoPanelOpen = false;
 
-        TweenLite.to(infoPanel, 0.5, {
+        TweenLite.to(infoPanel, dur, {
             css: {
                 opacity: 0
             },
@@ -560,7 +578,7 @@
 
         infoPanelAnimating = true;
         worldTurns = false;
-        infoPanelTop = ash.offsetTop - 300;
+        earthTop = planetEarth.offsetTop + 150;
 
         if (infoPanelOpen) {
             duration = 0.8;
@@ -570,13 +588,12 @@
             loadContent(interestName);
         }
 
-        infoPanel.style.top = infoPanelTop;
+        infoPanel.style.bottom = earthTop + "px";
         infoPanel.style.display = "inline-block";
 
         TweenLite.to(infoPanel, duration, {
             css: {
-                opacity: 1,
-                marginTop: "-10px"
+                opacity: 1
             },
             onComplete:
                 function () {
@@ -1088,7 +1105,7 @@
         resized = true; //TODO: Set up timeout for this so it doesn't spam resize events.
 
         if (zoomed) {
-            closeInfoPanel(true);
+            closeInfoPanel(true, true);
         }
 
         updateScreenDims();
@@ -1133,7 +1150,7 @@
         infoPanelAnimating = false;
         contactVisible = false;
         contactAnimating = false;
-        infoPanelTop = 0;
+        earthTop = 0;
         curEarthAngle = 0;
         curMoonAngle = 0;
         curLEOAngle = 0;
