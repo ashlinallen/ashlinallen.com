@@ -24,7 +24,6 @@
 }
 
 * {
-    backface-visibility: hidden;
     image-rendering: -moz-crisp-edges;
     image-rendering: -o-crisp-edges;
     image-rendering: crisp-edges;
@@ -115,11 +114,11 @@ span, a {
 
 #infoPanel {
     display: none;
-    position: absolute;
+    position: relative;
     color: #fff;
     opacity: 0;
     z-index: 4;
-    height: 350px;
+    height: 250px;
     font-family: 'geosanslightregular';
     .hCenter(600);
     
@@ -194,7 +193,6 @@ span, a {
 #topMarginContainer {
     position: absolute;
     transform:scale(1);
-    
     .fill;
 }
 

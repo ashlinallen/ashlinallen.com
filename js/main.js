@@ -13,7 +13,7 @@
         zoomAnimating, zoomed, infoPanelOpen, infoPanelAnimating, earthTop,
         curEarthAngle, curMoonAngle, curLEOAngle, konami, currentInterest,
         screenWidth, screenHeight, codelength, mobileType, desktopType, requires,
-        contactVisible, contactAnimating, resized;
+        contactVisible, contactAnimating, resized, zoomYPos;
 
     requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics"];
 
@@ -377,22 +377,15 @@
 
     function zoomIn(callbackFn) {
         zoomAnimating = true;
-        var zScale = 0;
+        var zScale = 1;
 
         //Don't adjust top margin if user is using a mobile device or if interest 
         //is contact.
+
         if (!isMobile || (currentInterest === "contact")) {
-            var yPos = ((screenHeight * 0.5) - ((planetEarth.offsetHeight + 100) * 0.35));
-
-            if ((screenWidth <= 600) && (screenWidth > 350) ||
-                (screenHeight <= 800) ||
-                (screenWidth <= 350)) { 
-                yPos = -Math.abs(screenHeight / 5);
-            }
-
             TweenLite.to(topMarginContainer, 2, {
                 css: {
-                    y: yPos
+                    top: zoomYPos
                 },
                 ease: Power1.easeInOut
             });
@@ -433,7 +426,7 @@
         if (!isMobile || currentInterest === "contact") {
             TweenLite.to(topMarginContainer, dur, {
                 css: {
-                    y: 0
+                    top: 0
                 },
                 ease: Power1.easeInOut
             });
@@ -574,11 +567,11 @@
     //Input: (string)interestName
     //Opens info panel and calls loadContent.
     function openInfoPanel(interestName) {
-        var duration = 0.8;
+        var duration = 0.8,
+            infoPanelBottom = (screenHeight / 2) - infoPanel.offsetHeight);
 
         infoPanelAnimating = true;
         worldTurns = false;
-        earthTop = planetEarth.offsetTop + 150;
 
         if (infoPanelOpen) {
             duration = 0.8;
@@ -588,7 +581,7 @@
             loadContent(interestName);
         }
 
-        infoPanel.style.bottom = earthTop + "px";
+        infoPanel.style.bottom = infoPanelBottom + "px";
         infoPanel.style.display = "inline-block";
 
         TweenLite.to(infoPanel, duration, {
@@ -1100,6 +1093,21 @@
         document.body.style.backgroundPosition = bgPos;
     }
 
+    function updateZoomYPos() {
+        var combinedHeight = planetEarth.offsetHeight + infoPanel.offsetHeight + 120;
+        zoomYPos = (combinedHeight / 2);
+
+        if ((screenWidth <= 600) && (screenWidth > 350) ||
+            (screenHeight <= 800)) {
+            zoomYPos = -Math.abs(planetEarth.offsetHeight / 2);
+        }
+
+        if (screenWidth <= 350) {
+            zoomYPos = -Math.abs(planetEarth.offsetHeight);
+        }
+
+    }
+
     //Handles screen resize events.
     function resize() {
         resized = true; //TODO: Set up timeout for this so it doesn't spam resize events.
@@ -1109,6 +1117,7 @@
         }
 
         updateScreenDims();
+        updateZoomYPos();
         renderShadow();
         renderGlow();
     }
@@ -1158,7 +1167,7 @@
         codelength = konami.split(",").length;
 
         //Call startup functions and kick off any loops.
-        updateScreenDims();
+        resize();
         initUADetection();
         preventMobileScale();
 
@@ -1167,9 +1176,6 @@
         initImages();
         initContent();
         initFancybox();
-
-        renderShadow();
-        renderGlow();
 
         meteorShower();
         rotateObjects();
