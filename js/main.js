@@ -494,7 +494,7 @@
         //Don't adjust top margin if user is using a mobile device or if interest 
         //is contact.
 
-        if (!isMobile || (currentInterest === "contact")) {
+        if (!isMobile) {
             TweenLite.to(topMarginContainer, 2, {
                 css: {
                     top: zoomYPos
@@ -537,7 +537,7 @@
 
         //Don't adjust top margin if user is using a mobile device or 
         //currentInterest is "contact".
-        if (!isMobile || currentInterest === "contact") {
+        if (!isMobile) {
             TweenLite.to(topMarginContainer, dur, {
                 css: {
                     top: 0
@@ -711,9 +711,7 @@
                 dur = 0.8;
             }
 
-            if (interestName !== "contact") {
-                loadContent(interestName);
-            }
+            loadContent(interestName);
 
             infoPanel.style.bottom = infoPanelBottom + "px";
             infoPanel.style.display = "inline-block";
@@ -744,14 +742,6 @@
         easing = Sine.easeOut;
 
         function fn() {
-            //If the current interest is "about", we stop spinning immediately and
-            //display the infoPanel
-            if (interestName === "about") {
-                targetAngle = curEarthAngle;
-                easing = Linear.easeNone;
-                dur = 0;
-            }
-
             worldTurns = false;
             earthAnimating = true;
             currentInterest = '';
@@ -1069,7 +1059,6 @@
     function initInterests() {
         interests = {
             about: new Interest("about", 0),
-            contact: new Interest("contact", 1),
             games: new Interest("games", -30),
             sheri: new Interest("sheri", -82),
             computers: new Interest("computers", 174),
@@ -1346,6 +1335,34 @@
 
         return fn();
     }
+    
+    function btnclick() {
+        var nameVal, emailVal, noteVal;
+
+        nameVal = $("#txtName").val();
+        emailVal = $("#txtEmail").val();
+        noteVal = $("#txtNote").val();
+
+        options = {
+            type: "POST",
+            url: "Default.aspx/SendEmail",
+            data: '{ name: "' + nameVal + '", email: "' + emailVal + '", note: "' + noteVal +'"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: fnSuccessCallback,
+            error: fnErrorCallback
+        }
+
+        $.ajax(options);
+    }
+
+    function fnSuccessCallback(data) {
+        alert(data.d);
+    }
+
+    function fnErrorCallback(result) {
+        alert(result.statusText);
+    }
 
     define(requires, function ($) {
         //Set up some global variables.
@@ -1387,6 +1404,7 @@
 
         //Set up event handlers.
         $("#contactIcon").on("click", function () { showContactForm(); });
+        $("#contactSend").on("click", function () { btnclick(); });
         $("#infoNext").on("click", function () { jogInterests(); });
         $("#infoPrev").on("click", function () { jogInterests("prev"); });
         $("#infoClose").on("click", function (e) { topMarginContainerClicked(e); });
