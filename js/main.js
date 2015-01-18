@@ -1243,11 +1243,11 @@
 
         return {
             successCallback : function (data) {
-                alert(data.d);
+                page.debug("success: " + data.d);
             },
 
             errorCallback : function (result) {
-                alert(result.statusText);
+                page.debug("error: " + result.statusText);
             },
 
             submit : function () {
@@ -1260,7 +1260,7 @@
                 options = {
                     type: "POST",
                     url: "Default.aspx/SendEmail",
-                    data: '{ name: "' + nameVal + '", email: "' + emailVal + '", note: "' + noteVal + '"}',
+                    data: '{ "name": "' + nameVal + '", "email": "' + emailVal + '", "note": "' + noteVal + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: contactForm.successCallback,
@@ -1269,7 +1269,7 @@
 
                 $.ajax(options);
 
-                alert("hit");
+                page.debug("submit");
             },
 
             show : function () {
@@ -1435,7 +1435,6 @@
             }
         };
     }());
-
 
     define(requires, function ($) {
         //Set up some global variables.
