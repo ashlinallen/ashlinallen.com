@@ -490,7 +490,7 @@
 
         return {
             zoomOut : function (instant) {
-                if (zoomAnimating) { return false; }
+                if (zoomAnimating && (instant !== true)) { return false; }
 
                 var dur;
 
@@ -577,9 +577,7 @@
             },
 
             resize : function () {
-                if (zoomed) {
-                    infoPanel.close(true, true);
-                }
+                infoPanel.close(true, true);
 
                 screenDims.update();
                 page.renderGlow();
@@ -1240,10 +1238,13 @@
 
     contactForm = (function () {
         var contactFormEl, contactAnimating;
-
+        //todo: handle keydowns on form elements and validate note/name for !=null, regex validate email.
         return {
             successCallback : function (data) {
-                page.debug("success: " + data.d);
+                //todo: handle form success/failure with feedback on earth.
+                $("#txtName").val("");
+                $("#txtEmail").val("");
+                $("#txtNote").val("");
             },
 
             errorCallback : function (result) {
@@ -1252,7 +1253,7 @@
 
             submit : function () {
                 var nameVal, emailVal, noteVal, options;
-
+                //todo: validate input before submitting
                 nameVal = $("#txtName").val();
                 emailVal = $("#txtEmail").val();
                 noteVal = $("#txtNote").val();
@@ -1268,8 +1269,6 @@
                 };
 
                 $.ajax(options);
-
-                page.debug("submit");
             },
 
             show : function () {
