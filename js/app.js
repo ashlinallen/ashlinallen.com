@@ -17,13 +17,21 @@ requirejs.config({
             'http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min',
             'vendor/gsap/TweenMax.min'
         ],
+        happyjs: [
+            'vendor/happyjs/happy.min'
+        ],
+        happymethods: [
+            'vendor/happyjs/happy.methods.min'
+        ],
         analytics: [
             'ga'
         ]
     },
     shim: {
         fancybox: ['jquery'],
-        fancybox_thumbs: ['fancybox']
+        fancybox_thumbs: ['fancybox'],
+        happyjs: ['jquery'],
+        happymethods: ['happyjs']
     }
 });
 

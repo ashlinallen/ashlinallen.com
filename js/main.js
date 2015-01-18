@@ -1,6 +1,6 @@
 /*jshint nonew: false */
 /*jslint browser: true, indent: 4*/
-/*global $, TweenLite, Power1, Sine, define, alert */
+/*global $, TweenLite, Power1, Sine, define, happy */
 
 (function () {
     "use strict";
@@ -12,7 +12,7 @@
         keydown, images, mathHelpers, infoPanel, contactForm,
         interests, content, page, earth;
 
-    requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics"];
+    requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics", "happyjs", "happymethods"];
 
     document.createElement = (function (fn) {
         //Override createElement to take ID and Class.
@@ -1238,22 +1238,26 @@
 
     contactForm = (function () {
         var contactFormEl, contactAnimating;
-        //todo: handle keydowns on form elements and validate note/name for !=null, regex validate email.
+
         return {
             successCallback : function (data) {
-                //todo: handle form success/failure with feedback on earth.
+                //check data for success.
+
                 $("#txtName").val("");
                 $("#txtEmail").val("");
                 $("#txtNote").val("");
+
+                //todo: handle ajax success with feedback on earth.
             },
 
             errorCallback : function (result) {
-                page.debug("error: " + result.statusText);
+                //For the time being, I'm assuming I won't see any errors.
+                //page.debug("error: " + result.statusText);
             },
 
             submit : function () {
                 var nameVal, emailVal, noteVal, options;
-                //todo: validate input before submitting
+
                 nameVal = $("#txtName").val();
                 emailVal = $("#txtEmail").val();
                 noteVal = $("#txtNote").val();
@@ -1333,7 +1337,26 @@
                 contactAnimating = false;
 
                 $("#contactIcon").on("click", function () { contactForm.show(); });
-                $("#contactSend").on("click", function () { contactForm.submit(); });
+
+                $("form").isHappy({
+                    fields: {
+                        '#txtName': {
+                            required: true,
+                            message: '*'
+                        },
+                        '#txtEmail': {
+                            required: true,
+                            message: '*',
+                            test: happy.email
+                        },
+                        '#txtNote': {
+                            required: true,
+                            message: '*'
+                        }
+                    },
+                    submitButton: "#contactSend",
+                    happy: contactForm.submit
+                });
             }
         };
     }());

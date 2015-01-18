@@ -6,33 +6,47 @@ using System.Web.Services;
 
 public partial class _Default : System.Web.UI.Page
 {
-    [WebMethod, ScriptMethod]
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static void SendEmail(string name, string email, string note)
     {
-        StringBuilder sbBody = new StringBuilder();
-        SmtpClient client = new SmtpClient();
-        MailAddress from = new MailAddress("contactform@ashlinallen.com");
-        MailAddress to = new MailAddress("ashlin.allen@gmail.com");
-        MailMessage msg = new MailMessage(from, to);
+        string str;
+        Context.Response.Clear();
+        Context.Response.AddHeader("Access-Control-Allow-Origin", "*");
+        Context.Response.ContentType = "application/json";
+        JavaScriptSerializer js = new JavaScriptSerializer();
 
-        sbBody.Append("Name: " + name);
-        sbBody.Append("\n");
-        sbBody.Append("Email: " + email);
-        sbBody.Append("\n");
-        sbBody.Append("Note: " + note);
+        try {
+            StringBuilder sbBody = new StringBuilder();
+            SmtpClient client = new SmtpClient();
+            MailAddress from = new MailAddress("contactform@ashlinallen.com");
+            MailAddress to = new MailAddress("ashlin.allen@gmail.com");
+            MailMessage msg = new MailMessage(from, to);
 
-        msg.Subject = "New contact form submission from ashlinallen.com!";
-        msg.Body = HttpContext.Current.Server.HtmlEncode(sbBody.ToString());
+            sbBody.Append("Name: " + name);
+            sbBody.Append("\n");
+            sbBody.Append("Email: " + email);
+            sbBody.Append("\n");
+            sbBody.Append("Note: " + note);
 
-        //try {
-        client.Send(msg);
+            msg.Subject = "New contact form submission from ashlinallen.com!";
+            msg.Body = HttpContext.Current.Server.HtmlEncode(sbBody.ToString());
 
-        //fail:?
-        //Context.Response.Clear();
-        //Context.Response.ContentType = "application/json";
-        //Context.Response.AddHeader("content-length", strResponse.Length.ToString());
-        //Context.Response.Flush();
-        //
-        //Context.Response.Write(strResponse);
+            client.Send(msg);
+
+            str = "{\"status\" : \"success\"}";
+
+            Context.Response.Flush(); 
+            Context.Response.AddHeader("content-length", str.Length.ToString());
+            Context.Response.Write(str);
+        }
+        catch(Exception ex) 
+        {
+            str = js.Serialize(ex.Message);
+
+            Context.Response.Flush();
+            Context.Response.AddHeader("content-length", str.Length.ToString());
+            Context.Response.Write(str);
+        }
     }
 }
