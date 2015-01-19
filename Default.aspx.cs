@@ -8,8 +8,7 @@ using System.Web.Services;
 
 public partial class _Default : System.Web.UI.Page
 {
-    [WebMethod]
-    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    [WebMethod, ScriptMethod]
     public static void SendEmail(string name, string email, string note, HttpContext context)
     {
         //string str;

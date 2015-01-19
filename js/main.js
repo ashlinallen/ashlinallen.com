@@ -885,7 +885,7 @@
                 page.initFancybox();
                 page.rotateObjects();
 
-                $(topMarginContainer).on("click", function (e) { if (e.target === this) { page.topMarginContainerClicked(e); } });
+                $(topMarginContainer).on("click", function (e) { if (e.target === this) { page.topMarginContainerClicked(); } });
             }
         };
     }());
@@ -1096,7 +1096,7 @@
 
                 $("#infoNext").on("click", function () { interests.jog(); });
                 $("#infoPrev").on("click", function () { interests.jog("prev"); });
-                $("#infoClose").on("click", function (e) { page.topMarginContainerClicked(e); });
+                $("#infoClose").on("click", function () { page.topMarginContainerClicked(); });
             }
         };
     }());
@@ -1237,23 +1237,21 @@
     }());
 
     contactForm = (function () {
-        var contactFormEl, contactAnimating;
+        var contactFormEl, contactAnimating, thanksEl;
 
         return {
-            successCallback : function (data) {
-                //check data for success.
-
+            successCallback : function () {
                 $("#txtName").val("");
                 $("#txtEmail").val("");
                 $("#txtNote").val("");
 
-                //todo: handle ajax success with feedback on earth.
+                contactForm.showThanks();
             },
 
-            errorCallback : function (result) {
-                //For the time being, I'm assuming I won't see any errors.
-                //page.debug("error: " + result.statusText);
-            },
+            //For the time being, I'm assuming I won't see any errors.
+            //errorCallback : function (result) {
+            //    page.debug("error: " + result.statusText);
+            //},
 
             submit : function () {
                 var nameVal, emailVal, noteVal, options;
@@ -1314,12 +1312,6 @@
                 if ((contactFormEl.style.opacity < 0.1) || !contactVisible || contactAnimating) { return; }
 
                 function fn() {
-                    worldTurns = true;
-
-                    page.animBrightness("hide");
-
-                    sprites.update(ashEl, "walking");
-
                     contactAnimating = true;
                     TweenLite.to(contactFormEl, 0.5, {
                         opacity: 0,
@@ -1334,8 +1326,52 @@
                 return fn();
             },
 
+            showThanks : function () {
+                var thanksTop, thanksHeight, thanksMarginLeft;
+
+                function fn() {
+                    thanksTop = (screenDims.height * 0.5) - 13 + "px";
+                    thanksHeight = (planetEarthEl.offsetHeight * 0.7) + "px";
+                    thanksMarginLeft = -Math.abs((planetEarthEl.offsetHeight * 0.7) / 2) + "px";
+
+                    thanksEl.style.display = "block";
+                    thanksEl.style.top = thanksTop;
+                    thanksEl.style.width = thanksHeight;
+                    thanksEl.style.marginLeft = thanksMarginLeft;
+
+                    contactForm.hide();
+
+                    TweenLite.to(thanksEl, 0.5, {
+                        opacity: 1,
+                        onComplete: function () {
+                            setTimeout(function () {
+                                contactForm.hideThanks();
+                            }, 1000);
+                        }
+                    });
+                }
+
+                return fn();
+            },
+
+            hideThanks : function () {
+                function fn() {
+                    TweenLite.to(thanksEl, 0.5, {
+                        opacity: 0,
+                        onComplete: function () {
+                            worldTurns = true;
+                            page.animBrightness("hide");
+                            sprites.update(ashEl, "walking");
+                        }
+                    });
+                }
+
+                return fn();
+            },
+
             init : function () {
                 contactFormEl = getEl("contactForm");
+                thanksEl = getEl("contactThanks");
                 contactAnimating = false;
 
                 $("#contactIcon").on("click", function () { contactForm.show(); });
@@ -1343,16 +1379,13 @@
                 $("form").isHappy({
                     fields: {
                         '#txtName': {
-                            required: true,
                             message: '*'
                         },
                         '#txtEmail': {
-                            required: true,
                             message: '*',
                             test: happy.email
                         },
                         '#txtNote': {
-                            required: true,
                             message: '*'
                         }
                     },

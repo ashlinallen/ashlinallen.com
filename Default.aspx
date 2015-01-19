@@ -77,9 +77,9 @@
                     <span id="earthShadow"></span>
 
                     <span id="contactForm">
-                        <label for="txtName">Name:</label><input type="text" id="txtName"><br>
-                        <label for="txtEmail">E-mail:</label><input type="text" id="txtEmail"><br>
-                        <label for="txtNote">Note:</label><textarea id="txtNote"></textarea><br>
+                        <label for="txtName">Name:</label><input type="text" id="txtName" required><br>
+                        <label for="txtEmail">E-mail:</label><input type="text" id="txtEmail" required><br>
+                        <label for="txtNote">Note:</label><textarea id="txtNote" required></textarea><br>
                         <span id="contactSend" class="fa fa-rocket"></span>
                     </span>
                 </span>
