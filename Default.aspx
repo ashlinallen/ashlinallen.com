@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 <!DOCTYPE html>
     <head>
-        <title>Ashlin Allen - User Experimancer and Front Endinator</title>
+        <title>Ashlin Allen - User Experimancer, Programminator</title>
 
         <meta charset="utf-8" />
         <meta content="IE=edge" http-equiv="X-UA-Compatible" />
