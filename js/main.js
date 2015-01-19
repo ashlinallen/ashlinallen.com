@@ -1301,6 +1301,8 @@
                         onComplete: function () {
                             contactVisible = true;
                             contactAnimating = false;
+
+                            $("#txtName").focus();
                         }
                     });
                 }
