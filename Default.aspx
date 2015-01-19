@@ -82,6 +82,10 @@
                         <label for="txtNote">Note:</label><textarea id="txtNote" required></textarea><br>
                         <span id="contactSend" class="fa fa-rocket"></span>
                     </span>
+
+                    <span id="contactThanks">
+                        Your message was sent. Thanks!
+                    </span>
                 </span>
             </span>
 
