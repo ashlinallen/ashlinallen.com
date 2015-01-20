@@ -13,7 +13,7 @@ public partial class _Default : System.Web.UI.Page
         SmtpClient client = new SmtpClient();
         MailAddress from = new MailAddress("contactform@ashlinallen.com");
         MailAddress to = new MailAddress("ashlin.allen@gmail.com");
-        MailMessage msg = new MailMessage(from, to);
+        MailMessage mailMsg = new MailMessage(from, to);
 
         sbBody.Append("Name: " + name);
         sbBody.Append("\n");
@@ -21,9 +21,9 @@ public partial class _Default : System.Web.UI.Page
         sbBody.Append("\n");
         sbBody.Append("Message: " + msg);
 
-        msg.Subject = "New contact form submission from ashlinallen.com!";
-        msg.Body = HttpContext.Current.Server.HtmlEncode(sbBody.ToString());
+        mailMsg.Subject = "New contact form submission from ashlinallen.com!";
+        mailMsg.Body = HttpContext.Current.Server.HtmlEncode(sbBody.ToString());
 
-        client.Send(msg);
+        client.Send(mailMsg);
     }
 }
