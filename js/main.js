@@ -1243,7 +1243,7 @@
             successCallback : function () {
                 $("#txtName").val("");
                 $("#txtEmail").val("");
-                $("#txtNote").val("");
+                $("#txtMsg").val("");
 
                 contactForm.showThanks();
             },
@@ -1254,16 +1254,16 @@
             //},
 
             submit : function () {
-                var nameVal, emailVal, noteVal, options;
+                var nameVal, emailVal, msgVal, options;
 
                 nameVal = $("#txtName").val();
                 emailVal = $("#txtEmail").val();
-                noteVal = $("#txtNote").val();
+                msgVal = $("#txtMsg").val();
 
                 options = {
                     type: "POST",
                     url: "Default.aspx/SendEmail",
-                    data: '{ "name": "' + nameVal + '", "email": "' + emailVal + '", "note": "' + noteVal + '"}',
+                    data: '{ "name": "' + nameVal + '", "email": "' + emailVal + '", "message": "' + msgVal + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: contactForm.successCallback,
@@ -1385,7 +1385,7 @@
                             message: '*',
                             test: happy.email
                         },
-                        '#txtNote': {
+                        '#txtMsg': {
                             message: '*'
                         }
                     },

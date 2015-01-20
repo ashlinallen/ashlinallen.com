@@ -45,7 +45,7 @@
             <div id="contactInfo">
                 <h1>Ashlin Allen</h1>
                 <h3>Web Developer, Seattle WA</h3>
-                <a class="fa fa-file-pdf-o" href="files/Ashlin-Allen_resume.pdf"></a>
+                <!-- <a class="fa fa-file-pdf-o" href="files/Ashlin-Allen_resume.pdf"></a> -->
                 <a class="fa fa-file-word-o" href="files/Ashlin-Allen_resume.docx"></a>
                 <a class="fa fa-at" href="mailto:me@ashlinallen.com"></a>
                 <a id="contactIcon" class="fa fa-comment" href="#"></a>
@@ -79,7 +79,7 @@
                     <span id="contactForm">
                         <label for="txtName">Name:</label><input type="text" id="txtName" required><br>
                         <label for="txtEmail">E-mail:</label><input type="text" id="txtEmail" required><br>
-                        <label for="txtNote">Note:</label><textarea id="txtNote" required></textarea><br>
+                        <label for="txtMsg">Message:</label><textarea id="txtMsg" required></textarea><br>
                         <span id="contactSend" class="fa fa-rocket"></span>
                     </span>
 

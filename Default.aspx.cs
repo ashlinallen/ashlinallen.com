@@ -7,7 +7,7 @@ using System.Web.Services;
 public partial class _Default : System.Web.UI.Page
 {
     [WebMethod, ScriptMethod]
-    public static void SendEmail(string name, string email, string note)
+    public static void SendEmail(string name, string email, string msg)
     {
         StringBuilder sbBody = new StringBuilder();
         SmtpClient client = new SmtpClient();
@@ -19,7 +19,7 @@ public partial class _Default : System.Web.UI.Page
         sbBody.Append("\n");
         sbBody.Append("Email: " + email);
         sbBody.Append("\n");
-        sbBody.Append("Note: " + note);
+        sbBody.Append("Message: " + msg);
 
         msg.Subject = "New contact form submission from ashlinallen.com!";
         msg.Body = HttpContext.Current.Server.HtmlEncode(sbBody.ToString());
