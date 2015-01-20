@@ -56,25 +56,6 @@ span, a {
     background-repeat: no-repeat;
 }
 
-.interestImage  {
-    a {
-        border: 2px solid #fff;
-        width: 100px;
-        height: 30px;
-        display: inline-block;
-        opacity: 0.75;
-    }
-    
-    a:hover {
-        opacity: 1;
-    }
-    
-    img {
-        width: 100px;
-        height: 30px;
-    }
-}
-
 #contactInfo {
     position: absolute;
     top: 0;
@@ -181,6 +162,7 @@ span, a {
     }
     
     ul {
+        padding-left: 15px;
         float: right;
         margin-top: 4px;
         margin-bottom: 0px;
@@ -208,6 +190,60 @@ span, a {
     
     p {
         text-align:justify;
+    }
+}
+
+#infoContent {
+    .interestImage  {
+        a {
+            border: 2px solid #fff;
+            width: 100px;
+            height: 30px;
+            display: inline-block;
+            opacity: 0.75;
+        }
+        
+        a:hover {
+            opacity: 1;
+        }
+        
+        img {
+            width: 100px;
+            height: 30px;
+        }
+    }
+    
+    p a {
+        color:#B1BBF8;
+    }
+    p a:hover {
+        color:#fff;
+    }
+    
+    &.sheri p a {
+        color:#B1BBF8;
+    }
+    
+    &.sheri p a:hover {
+        color:#FF8FD4;
+    }
+    
+    &.computers ul {
+        width: 75px;
+    }
+    
+    &.computers ul li {
+        margin-left:3px;
+        float:left;
+    }
+    
+    &.computers .interestImage a,
+    &.computers .interestImage img {
+        width:30px;
+    }
+    
+    &.computers .interestImage ul {
+        width: 70px;
     }
 }
 

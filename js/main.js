@@ -9,7 +9,7 @@
         isChrome, isFirefox, isWebkit, interestsArr, worldTurns, earthAnimating,
         zoomYPos, zoomAnimating, zoomed, infoPanelAnimating, curEarthAngle,
         currentInterest, contactVisible, requires, sprites, screenDims, stars,
-        keydown, images, mathHelpers, infoPanel, contactForm,
+        keydown, images, mathHelpers, infoPanel, contactForm, contactFormEl,
         interests, content, page, earth;
 
     requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics", "happyjs", "happymethods"];
@@ -572,12 +572,15 @@
                 }
 
                 if (contactVisible) {
-                    contactForm.hide();
+                    contactForm.hide(true);
                 }
             },
 
             resize : function () {
                 infoPanel.close(true, true);
+
+                currentInterest = '';
+                earthAnimating = false;
 
                 screenDims.update();
                 page.renderGlow();
@@ -947,6 +950,9 @@
                         infoContent.appendChild(galleryList);
                     }
 
+                    $(infoContent).removeClass();
+                    $(infoContent).addClass(interestName);
+
                     infoContent.innerHTML += myInterest.content;
                     infoHeader.innerHTML = myInterest.header;
                 }
@@ -959,11 +965,7 @@
                 interestsArr.about.content =
                     "<p>Hi, I'm Ash and I was born in 1983 and grew up in Savannah, GA.</p>" +
                     "<p>During work hours, I'm a web developer. I specialize in front-end work, but I've got a lot of " +
-                    "experience in back-end languages and work there often. I've worked with PHP, ASP, C# and Ruby, but " +
-                    "of those, I'm most knowledgeable about C# and I use it daily.</p>" +
-                    "<p>I built this site as a sort of 'living resume'. A place where people can review my code and commitment to quality " +
-                    "just by using the site and looking at its code. I strived to write clean, semantic, standard code that is, in " +
-                    "my opinion, as close to perfect as possible. Sloppy, hackish code makes my skin crawl. The code still isn't quite ideal.</p>" +
+                    "experience in back-end languages. I've worked with PHP, ASP, C# and Ruby, but the majority of my skill is with ASP.NET Webforms & C#. " +
                     "<p>In my free time I enjoy hiking, video games, producing music and expanding my skillset toward " +
                     "developing games. You can learn more about my interests by clicking the various items on the globe.</p>";
 
@@ -995,12 +997,10 @@
                     "my uncle in the late 80's. My sister and I would sit and copy lines of code from books " +
                     "for hours, just to hear a little jingle from the internal speaker, or make a shape on the " +
                     "screen that would be gone when the computer was powered down.</p>" +
-                    "<p>My family got online sometime in 1995 and I knew I had to try my hand at building websites. " +
-                    "I built my first site in 1996, and continued to learn as CSS and Javascript were introduced. " +
-                    "I briefly worked with PHP, then ASP over the early 00's. Now I work primarily in HTML, " +
-                    "LESS, Javascript, ASP.NET Webforms and C#, and I'm expanding to ASP.NET MVC and Web API.</p>" +
-                    "<p>For more detail on my experience, please click the PDF or Word icons at the top of the page " +
-                    "to download and view my Resume.";
+                    "<p>This site was built as a 'living resume' to showcase the range of my skillset. For more detail on my experience, " +
+                    "please click the PDF or Word icons at the top of the page to download and view my Resume. I would love for you to have " +
+                    "a look at some source files for this site: <a href='js/main.js' target='_blank'>Javascript</a> & " +
+                    "<a href='less/site.less' target='_blank'>LESS</a>.";
 
                 interestsArr.nature.header = "Nature";
                 interestsArr.nature.content =
@@ -1140,6 +1140,12 @@
                 return fn();
             },
 
+            resume : function () {
+                worldTurns = true;
+                page.animBrightness("hide");
+                sprites.update(ashEl, "walking");
+            },
+
             rotateToAngle : function (targetAngle, interestName) {
                 //Input: (int)targetAngle, (string)interestName
                 //Rotates earth to targetAngle, zooms, shows infoPanel and contact form.
@@ -1195,6 +1201,11 @@
                     earthAnimating = true;
                     targetAngle = earth.getTargetAngle(interestName);
 
+                    if ((contactFormEl.style.opacity > 0.1) || contactVisible) {
+                        contactForm.hide();
+                        page.animBrightness("hide");
+                    }
+
                     if (curEarthAngle !== targetAngle) {
                         //We're not currently at this interest, so we need to 
                         //    go to a new interest.
@@ -1237,7 +1248,7 @@
     }());
 
     contactForm = (function () {
-        var contactFormEl, contactAnimating, thanksEl;
+        var contactAnimating, thanksEl;
 
         return {
             successCallback : function () {
@@ -1279,7 +1290,12 @@
                 var contactTop, contactHeight, contactMarginLeft;
 
                 function fn() {
+                    if (zoomed) {
+                        infoPanel.close(true);
+                    }
+
                     worldTurns = false;
+
                     page.animBrightness("show");
                     sprites.update(ashEl, "standing");
 
@@ -1308,11 +1324,16 @@
                 return fn();
             },
 
-            hide : function () {
+            hide : function (resume) {
                 if ((contactFormEl.style.opacity < 0.1) || !contactVisible || contactAnimating) { return; }
 
                 function fn() {
                     contactAnimating = true;
+
+                    if (resume === true) {
+                        earth.resume();
+                    }
+
                     TweenLite.to(contactFormEl, 0.5, {
                         opacity: 0,
                         onComplete: function () {
@@ -1359,9 +1380,7 @@
                     TweenLite.to(thanksEl, 0.5, {
                         opacity: 0,
                         onComplete: function () {
-                            worldTurns = true;
-                            page.animBrightness("hide");
-                            sprites.update(ashEl, "walking");
+                            earth.resume();
                         }
                     });
                 }
@@ -1370,7 +1389,6 @@
             },
 
             init : function () {
-                contactFormEl = getEl("contactForm");
                 thanksEl = getEl("contactThanks");
                 contactAnimating = false;
 
@@ -1410,9 +1428,20 @@
             },
 
             init : function () {
-                new images.image("Rainier", "photo/rainier_1.jpg", "Rainier with a forboding cloud formation.", "nature");
-                new images.image("Lake Margaret Trail", "photo/margaret_1.jpg", "Lake Margaret Trail.", "nature");
-                new images.image("Snow Lake Trail", "photo/snow_1.jpg", "Snow Lake Trail.", "nature");
+                new images.image("Rainier", "files/photos/rainier_1.jpg", "Rainier with a forboding cloud formation", "nature");
+                new images.image("Lake Margaret Trail", "files/photos/margaret_1.jpg", "Lake Margaret Trail", "nature");
+                new images.image("Snow Lake Trail", "files/photos/snow_1.jpg", "Snow Lake Trail", "nature");
+                new images.image("AutoLoop.us 2013", "files/portfolio/autoloop_1.png", "AutoLoop.us 2013. <a href='http://alturl.com/dtf8x' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_2.png", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_3.png", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_4.png", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_5.png", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_6.png", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_7.png", "AutoLoop Web Application", "computers");
+                new images.image("MandalaySolutions.com 2011", "files/portfolio/mandalay_solutions_1.png", "MandalaySolutions.com 2011. <a href='http://alturl.com/ecn6b' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("MandalaySolutions.com Portfolio 2011", "files/portfolio/mandalay_solutions_2.png", "MandalaySolutions.com Portfolio 2011. <a href='http://alturl.com/77ct4' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("FantasticSamsFlorida.com 2011", "files/portfolio/fantastic_sams.png", "FantasticSamsFlorida.com 2011. <a href='http://alturl.com/9dqi5' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("GlobalSyntheticIce.com 2011", "files/portfolio/global_synthetic_ice.png", "GlobalSyntheticIce.com 2011. <a href='http://alturl.com/cj87t' target='_blank'>Wayback Archive</a>", "computers");
             }
         };
     }());
@@ -1499,6 +1528,7 @@
         win = window;
         planetEarthEl = getEl("planetEarth");
         infoPanelEl = getEl("infoPanel");
+        contactFormEl = getEl("contactForm");
         ashEl = getEl("ash");
         worldTurns = true;
         earthAnimating = false;
