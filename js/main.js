@@ -1431,17 +1431,17 @@
                 new images.image("Rainier", "files/photos/rainier_1.jpg", "Rainier with a forboding cloud formation", "nature");
                 new images.image("Lake Margaret Trail", "files/photos/margaret_1.jpg", "Lake Margaret Trail", "nature");
                 new images.image("Snow Lake Trail", "files/photos/snow_1.jpg", "Snow Lake Trail", "nature");
-                new images.image("AutoLoop.us 2013", "files/portfolio/autoloop_1.png", "AutoLoop.us 2013. <a href='http://alturl.com/dtf8x' target='_blank'>Wayback Archive</a>", "computers");
-                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_2.png", "AutoLoop Web Application", "computers");
-                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_3.png", "AutoLoop Web Application", "computers");
-                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_4.png", "AutoLoop Web Application", "computers");
-                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_5.png", "AutoLoop Web Application", "computers");
-                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_6.png", "AutoLoop Web Application", "computers");
-                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_7.png", "AutoLoop Web Application", "computers");
-                new images.image("MandalaySolutions.com 2011", "files/portfolio/mandalay_solutions_1.png", "MandalaySolutions.com 2011. <a href='http://alturl.com/ecn6b' target='_blank'>Wayback Archive</a>", "computers");
-                new images.image("MandalaySolutions.com Portfolio 2011", "files/portfolio/mandalay_solutions_2.png", "MandalaySolutions.com Portfolio 2011. <a href='http://alturl.com/77ct4' target='_blank'>Wayback Archive</a>", "computers");
-                new images.image("FantasticSamsFlorida.com 2011", "files/portfolio/fantastic_sams.png", "FantasticSamsFlorida.com 2011. <a href='http://alturl.com/9dqi5' target='_blank'>Wayback Archive</a>", "computers");
-                new images.image("GlobalSyntheticIce.com 2011", "files/portfolio/global_synthetic_ice.png", "GlobalSyntheticIce.com 2011. <a href='http://alturl.com/cj87t' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("AutoLoop.us 2013", "files/portfolio/autoloop_1.jpg", "AutoLoop.us 2013. <a href='http://alturl.com/dtf8x' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_2.jpg", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_3.jpg", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_4.jpg", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_5.jpg", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_6.jpg", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_7.jpg", "AutoLoop Web Application", "computers");
+                new images.image("MandalaySolutions.com 2011", "files/portfolio/mandalay_solutions_1.jpg", "MandalaySolutions.com 2011. <a href='http://alturl.com/ecn6b' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("MandalaySolutions.com Portfolio 2011", "files/portfolio/mandalay_solutions_2.jpg", "MandalaySolutions.com Portfolio 2011. <a href='http://alturl.com/77ct4' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("FantasticSamsFlorida.com 2011", "files/portfolio/fantastic_sams.jpg", "FantasticSamsFlorida.com 2011. <a href='http://alturl.com/9dqi5' target='_blank'>Wayback Archive</a>", "computers");
+                new images.image("GlobalSyntheticIce.com 2011", "files/portfolio/global_synthetic_ice.jpg", "GlobalSyntheticIce.com 2011. <a href='http://alturl.com/cj87t' target='_blank'>Wayback Archive</a>", "computers");
             }
         };
     }());
