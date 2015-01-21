@@ -876,6 +876,10 @@
                 return fn();
             },
 
+            show : function () {
+                $("body").removeClass("hidden");
+            },
+
             init : function () {
                 theHeavens = getEl("theHeavens");
                 moon = getEl("moon");
@@ -1552,5 +1556,7 @@
         $(doc).on("keydown", function (e) { keydown(e); });
         $(win).on("resize", function () { page.handleResize(); });
         $(win).on("touchmove", function (e) { e.preventDefault(); });
+
+        page.show();
     });
 }());
