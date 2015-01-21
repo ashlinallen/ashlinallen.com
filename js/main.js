@@ -1004,7 +1004,7 @@
                     "<p>This site was built as a 'living resume' to showcase the range of my skillset. For more detail on my experience, " +
                     "please click the PDF or Word icons at the top of the page to download and view my Resume. I would love for you to have " +
                     "a look at some source files for this site: <a href='js/main.js' target='_blank'>Javascript</a> & " +
-                    "<a href='less/site.less' target='_blank'>LESS</a>.";
+                    "<a href='less/site.less.txt' target='_blank'>LESS</a>.";
 
                 interestsArr.nature.header = "Nature";
                 interestsArr.nature.content =
