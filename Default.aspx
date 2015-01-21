@@ -45,7 +45,7 @@
             <div id="contactInfo">
                 <h1>Ashlin Allen</h1>
                 <h3>Web Developer, Seattle WA</h3>
-                <!-- <a class="fa fa-file-pdf-o" href="files/Ashlin-Allen_resume.pdf"></a> -->
+                <a class="fa fa-file-pdf-o" href="files/Ashlin-Allen_resume.pdf"></a>
                 <a class="fa fa-file-word-o" href="files/Ashlin-Allen_resume.docx"></a>
                 <a class="fa fa-at" href="mailto:me@ashlinallen.com"></a>
                 <a id="contactIcon" class="fa fa-comment" href="#"></a>
