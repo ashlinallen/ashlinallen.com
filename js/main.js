@@ -1278,7 +1278,7 @@
                 options = {
                     type: "POST",
                     url: "Default.aspx/SendEmail",
-                    data: '{ "name": "' + nameVal + '", "email": "' + emailVal + '", "message": "' + msgVal + '"}',
+                    data: '{ "name": "' + nameVal + '", "email": "' + emailVal + '", "msg": "' + msgVal + '"}',
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: contactForm.successCallback,
