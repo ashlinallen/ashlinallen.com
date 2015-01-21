@@ -877,7 +877,7 @@
             },
 
             show : function () {
-                $("body").removeClass("hidden");
+                //$("body").removeClass("hidden");
             },
 
             init : function () {

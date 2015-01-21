@@ -19,7 +19,7 @@
         <script type="text/javascript" data-main="js/app" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.min.js"></script>
         <script type="text/javascript">window.requirejs || document.write('<script type="text/javascript" data-main="js/app" src="js/require.js"><\/script>');</script>
     </head>
-    <body class="hidden">
+    <body>
         <form runat="server">
             <svg xmlns="http://www.w3.org/2000/svg">
                 <style type="text/css" >
