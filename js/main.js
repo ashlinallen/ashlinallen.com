@@ -581,6 +581,10 @@
 
                 currentInterest = '';
                 earthAnimating = false;
+                
+                if ((contactFormEl.style.opacity > 0.1) || contactVisible) {
+                    contactForm.hide(true);
+                }
 
                 screenDims.update();
                 page.renderGlow();
@@ -1442,6 +1446,7 @@
                 new images.image("AutoLoop Web Application", "files/portfolio/autoloop_5.jpg", "AutoLoop Web Application", "computers");
                 new images.image("AutoLoop Web Application", "files/portfolio/autoloop_6.jpg", "AutoLoop Web Application", "computers");
                 new images.image("AutoLoop Web Application", "files/portfolio/autoloop_7.jpg", "AutoLoop Web Application", "computers");
+                new images.image("AutoLoop Web Application", "files/portfolio/autoloop_8.jpg", "AutoLoop Web Application", "computers");
                 new images.image("MandalaySolutions.com 2011", "files/portfolio/mandalay_solutions_1.jpg", "MandalaySolutions.com 2011. <a href='http://goo.gl/NQ3pzY' target='_blank'>Wayback Archive</a>", "computers");
                 new images.image("MandalaySolutions.com Portfolio 2011", "files/portfolio/mandalay_solutions_2.jpg", "MandalaySolutions.com Portfolio 2011. <a href='http://goo.gl/PJcEz0' target='_blank'>Wayback Archive</a>", "computers");
                 new images.image("FantasticSamsFlorida.com 2011", "files/portfolio/fantastic_sams.jpg", "FantasticSamsFlorida.com 2011. <a href='http://goo.gl/pIYJUv' target='_blank'>Wayback Archive</a>", "computers");
