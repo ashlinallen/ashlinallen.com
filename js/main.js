@@ -826,7 +826,12 @@
 
                         return;
                     }
-
+                    
+                    if (isFirefox) {
+                        lins = $(".lin");
+                        alert(JSON.stringify(lins));
+                    }
+                    
                     //Set the start/end values for tweening.
                     if (showHide === "show") {
                         startFloat = parseFloat(1.0).toFixed(1);
@@ -857,8 +862,8 @@
 
                         //If browser is Firefox, we have to animate the filter lin elements
                         //directly, since there is no brightness filter built-in.
+
                         if (isFirefox) {
-                            lins = doc.getElementsByTagName("lin");
                             for (i = 0; i < lins.length; i += 1) {
                                 lins[i].setAttribute("slope", startFloat);
                             }
