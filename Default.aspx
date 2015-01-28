@@ -24,9 +24,6 @@
             <svg xmlns="http://www.w3.org/2000/svg">
                 <style type="text/css" >
                     <![CDATA[
-                        #moon, #lowEarthOrbit, #ash, #planetEarth {
-                            filter:url(#darken);
-                        }
                     ]]>
                 </style>
                 <filter id="darken">
