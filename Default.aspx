@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
-<!DOCTYPE html>
+<!DOCTYPE html xmlns="http://www.w3.org/1999/xhtml"
+                          xmlns:og="http://ogp.me/ns#"
+                          xmlns:fb="https://www.facebook.com/2008/fbml">
     <head>
         <title>Ashlin Allen - User Experimancer, Programminator</title>
 
@@ -8,6 +10,7 @@
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
         <meta content="The online portfolio of Seattle-area Front-End Web Developer, Ashlin Allen." name="description" />
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+        <meta property="og:image" content="http://ashlinallen.com/img/fb_thumb.png" />
 
         <link rel="stylesheet" type="text/css" href="css/normalize.css" />
         <link rel="stylesheet" type="text/css" href="css/main.css" />
