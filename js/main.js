@@ -5,12 +5,12 @@
 (function () {
     "use strict";
 
-    var doc, win, planetEarthEl, ashEl, infoPanelEl, contactFormEl, isMobile, isAndroid, isIE,
-        isChrome, isFirefox, isWebkit, interestsArr, worldTurns, earthAnimating,
+    var doc, win, planetEarthEl, ashEl, infoPanelEl, contactFormEl, isMobile, isAndroid,
+        isDesktop, isIE, isChrome, isFirefox, isWebkit, interestsArr, worldTurns,
         zoomYPos, zoomAnimating, zoomed, infoPanelAnimating, curEarthAngle,
         currentInterest, contactVisible, requires, sprites, screenDims, stars,
         keydown, mathHelpers, images, interests, infoPanel, contactForm,
-        content, page, earth;
+        content, page, earth, earthAnimating;
 
     requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics", "happyjs", "happymethods"];
 
@@ -395,7 +395,25 @@
                 if (starsColl.length === 0) {
                     var starsCount, i, star;
 
-                    starsCount = isMobile ? (isAndroid ? 30 : 10) : (isChrome ? 60 : 40);
+                    if (isMobile) {
+                        starsCount = 10;
+
+                        if (isAndroid) {
+                            starsCount = 30;
+                        }
+                    }
+
+                    if (isDesktop) {
+                        starsCount = 30;
+
+                        if (isChrome) {
+                            starsCount = 60;
+                        }
+
+                        if (isIE) {
+                            starsCount = 20;
+                        }
+                    }
 
                     for (i = 0; i < starsCount;  i += 1) {
                         star = doc.createElement("i");
@@ -689,6 +707,7 @@
                 //Initializes User Agent Detection
                 isMobile = mobileType.any();
                 isAndroid = mobileType.Android();
+                isDesktop = desktopType.any();
                 isIE = desktopType.IE();
                 isChrome = desktopType.Chrome();
                 isFirefox = desktopType.Firefox();
@@ -804,24 +823,28 @@
                 //Input: (string)showHide
                 //Sets the brightness of the key props for showing contact form.
                 var startFloat, endFloat, curFloat, els, anim, i, nature,
-                    sheri, computers, games;
+                    sheri, computers, games, spaceShuttle, satellite;
 
                 nature = getEl("nature");
                 sheri = getEl("sheri");
                 computers = getEl("computers");
                 games = getEl("games");
+                spaceShuttle = getEl("spaceShuttle");
+                satellite = getEl("satellite");
 
                 function fn() {
                     //If the browser is IE we can't depend on CSS filters or SVG, so I just 
                     //swap the images with blacked-out versions once zoomed for a lo-fi 
                     //solution.
                     if (isIE) {
-                        els = [planetEarthEl, ashEl, sheri, nature, computers, games, moon, lowEarthOrbit];
+                        els = [planetEarthEl, ashEl, sheri, nature, computers, games, moon, spaceShuttle, satellite];
+
+                        $(els).removeClass();
 
                         if (showHide === "show") {
-                            els.addClass("dark");
+                            $(els).addClass("dark");
                         } else {
-                            els.removeClass("dark");
+                            $(els).removeClass("dark");
                         }
 
                         return;
@@ -1310,8 +1333,8 @@
 
                     worldTurns = false;
 
-                    page.animBrightness("show");
                     sprites.update(ashEl, "standing");
+                    page.animBrightness("show");
 
                     contactTop = planetEarthEl.offsetTop + (planetEarthEl.offsetHeight * 0.15) + "px";
                     contactHeight = (planetEarthEl.offsetHeight * 0.7) + "px";
@@ -1327,7 +1350,7 @@
 
                     TweenLite.to(contactFormEl, 0.75, {
                         opacity: 1,
-                        ease:Linear.none,
+                        ease: Linear.none,
                         onComplete: function () {
                             contactVisible = true;
                             contactAnimating = false;
@@ -1468,7 +1491,11 @@
                     flip = (hflip === undefined) ? "false" : hflip;
                     cssClass = state;
 
-                    el.className = "";
+                    if ($(el).hasClass("dark")) {
+                        el.className = "dark";
+                    } else {
+                        el.className = "";
+                    }
 
                     if (flip === true) {
                         cssClass += " flipped";

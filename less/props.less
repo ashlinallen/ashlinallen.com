@@ -84,18 +84,17 @@
     }
 }
 
-#lowEarthOrbit {
-    .hCenter(600);
-    .vCenter(600);
-}
-
 #spaceShuttle {
     position: absolute;
     left: 125px;
     height: 40px;
     width: 75px;
-    background-image: url("../img/spaceshuttle.gif");
+    background-image: url("../img/spaceshuttle.png");
     background-size:75px 40px;
+    
+    &.dark {
+        background-image: url("../img/spaceshuttle_dark.png") !important;
+    }
 }
 
 #satellite {
@@ -108,6 +107,15 @@
     background-size:92px 76px;
     
     .rotate(90deg);
+    
+    &.dark {
+            background-image: url("../img/satellite_dark.png") !important;
+    }
+}
+
+#lowEarthOrbit {
+    .hCenter(600);
+    .vCenter(600);
 }
 
 #ash {
