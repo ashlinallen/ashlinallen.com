@@ -273,7 +273,7 @@
                     }
 
                     //Add background-shadow if webkit, since they render it efficiently.
-                    if (!isMobile && isWebkit) {
+                    if ((!isMobile && isWebkit) || (!isMobile && isFirefox)) {
                         bs = "0px 0px 15px 1px " + rgb;
                     }
 
@@ -407,11 +407,11 @@
                         starsCount = 30;
 
                         if (isChrome) {
-                            starsCount = 60;
+                            starsCount = 75;
                         }
 
                         if (isIE) {
-                            starsCount = 20;
+                            starsCount = 30;
                         }
                     }
 
