@@ -1,5 +1,7 @@
 requirejs.config({
     baseUrl: 'js/',
+    waitSeconds: 2,
+
     paths: {
         jquery: [
             'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min',
@@ -27,6 +29,7 @@ requirejs.config({
             'ga'
         ]
     },
+
     shim: {
         fancybox: ['jquery'],
         fancybox_thumbs: ['fancybox'],

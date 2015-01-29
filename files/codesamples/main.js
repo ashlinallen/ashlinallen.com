@@ -830,7 +830,7 @@
                     if (isFirefox) {
                         els = document.getElementsByClassName("lin");
                     }
-
+                    
                     if (isChrome) {
                         els = [planetEarthEl, ashEl, lowEarthOrbit, moon];
                     }
@@ -843,7 +843,7 @@
                         startFloat = parseFloat(0.0).toFixed(1);
                         endFloat = parseFloat(1.0).toFixed(1);
                     }
-
+                    
                     curFloat = startFloat;
 
                     //Since the brightness filter isn't officially implemented,

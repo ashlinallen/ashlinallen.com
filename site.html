@@ -20,80 +20,80 @@
     </head>
     <body>
         <form runat="server">
-        <svg xmlns="http://www.w3.org/2000/svg" height="0" width="0">
-            <style type="text/css" >
-                <![CDATA[
-                    #moon, #lowEarthOrbit, #ash, #planetEarth {
-                        filter:url(#darken);
-                    }
-                ]]>
-            </style>
-            <filter id="darken">
-                <feComponentTransfer>
-                    <feFuncR class="lin" type="linear" slope="1"/>
-                    <feFuncG class="lin" type="linear" slope="1"/>
-                    <feFuncB class="lin" type="linear" slope="1"/>
-                </feComponentTransfer>
-            </filter>
-        </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" height="0" width="0">
+                <style type="text/css" >
+                    <![CDATA[
+                        #moon, #lowEarthOrbit, #ash, #planetEarth {
+                            filter:url(#darken);
+                        }
+                    ]]>
+                </style>
+                <filter id="darken">
+                    <feComponentTransfer>
+                        <feFuncR class="lin" type="linear" slope="1"/>
+                        <feFuncG class="lin" type="linear" slope="1"/>
+                        <feFuncB class="lin" type="linear" slope="1"/>
+                    </feComponentTransfer>
+                </filter>
+            </svg>
 
-        <div id="contactInfo">
-            <h1>Ashlin Allen</h1>
-            <h3>Web Developer, Seattle WA</h3>
-            <a class="fa fa-file-pdf-o" href="files/Ashlin-Allen_resume.pdf" target="_blank"></a>
-            <a class="fa fa-file-word-o" href="files/Ashlin-Allen_resume.docx" target="_blank"></a>
-            <a class="fa fa-at" href="mailto:me@ashlinallen.com"></a>
-            <a id="contactIcon" class="fa fa-comment" href="#"></a>
-            <a class="fa fa-linkedin" href="https://www.linkedin.com/profile/view?id=360485132" target="_blank"></a>
-            <a class="fa fa-github-alt" href="https://github.com/ashlinallen" target="_blank"></a>
-        </div>
+            <div id="contactInfo">
+                <h1>Ashlin Allen</h1>
+                <h3>Web Developer, Seattle WA</h3>
+                <a class="fa fa-file-pdf-o" href="files/Ashlin-Allen_resume.pdf" target="_blank"></a>
+                <a class="fa fa-file-word-o" href="files/Ashlin-Allen_resume.docx" target="_blank"></a>
+                <a class="fa fa-at" href="mailto:me@ashlinallen.com"></a>
+                <a id="contactIcon" class="fa fa-comment" href="#"></a>
+                <a class="fa fa-linkedin" href="https://www.linkedin.com/profile/view?id=360485132" target="_blank"></a>
+                <a class="fa fa-github-alt" href="https://github.com/ashlinallen" target="_blank"></a>
+            </div>
 
-        <span id="theHeavens">
-            <span id="theStars"></span>
+            <span id="theHeavens">
+                <span id="theStars"></span>
 
-            <span id="topMarginContainer">
-                <span id="moon"></span>
+                <span id="topMarginContainer">
+                    <span id="moon"></span>
 
-                <span id="lowEarthOrbit">
-                    <span id="satellite"></span>
-                    <span id="spaceShuttle"></span>
-                </span>
+                    <span id="lowEarthOrbit">
+                        <span id="satellite"></span>
+                        <span id="spaceShuttle"></span>
+                    </span>
 
-                <span id="ash" class="walking">
-                    <span id="status"></span>
-                </span>
+                    <span id="ash" class="walking">
+                        <span id="status"></span>
+                    </span>
 
-                <span id="planetEarth">
-                    <a id="computers"></a>
-                    <a id="nature"></a>
-                    <a id="sheri"></a>
-                    <a id="games"></a>
-                </span>
-                <span id="earthShadow"></span>
+                    <span id="planetEarth">
+                        <a id="computers"></a>
+                        <a id="nature"></a>
+                        <a id="sheri"></a>
+                        <a id="games"></a>
+                    </span>
+                    <span id="earthShadow"></span>
 
-                <span id="contactForm">
-                    <label for="txtName">Name:</label><input type="text" id="txtName" value="Name" required><br>
-                    <label for="txtEmail">E-mail:</label><input type="text" id="txtEmail" value="ashlin.allen@gmail.com" required><br>
-                    <label for="txtMsg">Message:</label><textarea id="txtMsg" required>Test</textarea><br>
-                    <span class="fa fa-rocket" id="contactSend"></span>
-                </span>
-                
-                <span id="contactThanks">
-                    Your message was sent. Thanks!
+                    <span id="contactForm">
+                        <label for="txtName">Name:</label><input type="text" id="txtName" value="Name" required><br>
+                        <label for="txtEmail">E-mail:</label><input type="text" id="txtEmail" value="ashlin.allen@gmail.com" required><br>
+                        <label for="txtMsg">Message:</label><textarea id="txtMsg" required>Test</textarea><br>
+                        <span class="fa fa-rocket" id="contactSend"></span>
+                    </span>
+                    
+                    <span id="contactThanks">
+                        Your message was sent. Thanks!
+                    </span>
                 </span>
             </span>
-        </span>
 
-        <div id="infoPanel">
-            <a id="infoPrev"></a>
-            <a id="infoNext"></a>
-            <div>
-                <a id="infoClose" class="fa fa-close"></a>
-                <h2 id="infoHeader">.</h2>
-                <hr />
-                <span id="infoContent"></span>
+            <div id="infoPanel">
+                <a id="infoPrev"></a>
+                <a id="infoNext"></a>
+                <div>
+                    <a id="infoClose" class="fa fa-close"></a>
+                    <h2 id="infoHeader">.</h2>
+                    <hr />
+                    <span id="infoContent"></span>
+                </div>
             </div>
-        </div>
         </form>
     </body>
 </html>
