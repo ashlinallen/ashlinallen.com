@@ -828,8 +828,7 @@
                     }
                     
                     if (isFirefox) {
-                        lins = $(".lin");
-                        alert(JSON.stringify(lins));
+                        lins = document.getElementsByClassName("lin");
                     }
                     
                     //Set the start/end values for tweening.
