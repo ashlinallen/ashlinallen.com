@@ -1036,8 +1036,9 @@
                     "screen that would be gone when the computer was powered down.</p>" +
                     "<p>This site was built as a 'living resume' to showcase the range of my skillset. For more detail on my experience, " +
                     "please click the PDF or Word icons at the top of the page to download and view my Resume. I would love for you to have " +
-                    "a look at some source files for this site: <a href='js/main.js' target='_blank'>Javascript</a> & " +
-                    "<a href='less/site.less.txt' target='_blank'>LESS</a>.";
+                    "a look at some source files for this site: <a href='files/codesamples/main.js' target='_blank'>Javascript</a>, " +
+                    "<a href='files/codesamples/site.less.txt' target='_blank'>LESS</a>, as well as some " +
+                    "<a href='files/codesamples/ButtonLink.cs.txt' target='_blank'>C#</a> from another project.";
 
                 interestsArr.nature.header = "Nature";
                 interestsArr.nature.content =
