@@ -1,6 +1,6 @@
 /*jshint nonew: false */
 /*jslint browser: true, indent: 4*/
-/*global $, TweenLite, Power1, Sine, define, happy */
+/*global $, TweenLite, Power1, Sine, Linear, define, happy */
 
 (function () {
     "use strict";
@@ -394,7 +394,7 @@
                 //Creates stars then randomizes their attributes.
                 if (starsColl.length === 0) {
                     var starsCount, i, star;
-                    
+
                     starsCount = 30;
 
                     if (isMobile && !isAndroid) {
@@ -404,8 +404,6 @@
                     if (isDesktop && isChrome) {
                         starsCount = 55;
                     }
-                    
-                    console.log(starsCount);
 
                     for (i = 0; i < starsCount;  i += 1) {
                         star = doc.createElement("i");
@@ -707,16 +705,16 @@
             },
 
             preventMobileScale : function () {
-                if ((win.devicePixelRatio !== undefined) && (win.devicePixelRatio > 2)) {
-                    var meta, metaValue;
-
-                    //meta = getEl("viewport");
-                    //
-                    //if ((meta !== undefined) && (meta.value === '')) {
-                    //    metaValue = 'width=device-width, initial-scale=' + (2 / win.devicePixelRatio) + ', user-scalable=no';
-                    //    meta.setAttribute('content', metaValue);
-                    //}
-                }
+                //if ((win.devicePixelRatio !== undefined) && (win.devicePixelRatio > 2)) {
+                //    var meta, metaValue;
+                //
+                //    meta = getEl("viewport");
+                //    
+                //    if ((meta !== undefined) && (meta.value === '')) {
+                //        metaValue = 'width=device-width, initial-scale=' + (2 / win.devicePixelRatio) + ', user-scalable=no';
+                //        meta.setAttribute('content', metaValue);
+                //    }
+                //}
             },
 
             initFancybox : function () {
