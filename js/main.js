@@ -399,21 +399,23 @@
                         starsCount = 10;
 
                         if (isAndroid) {
-                            starsCount = 30;
+                            starsCount = 31;
                         }
                     }
 
                     if (isDesktop) {
-                        starsCount = 30;
+                        starsCount = 32;
 
                         if (isChrome) {
                             starsCount = 75;
                         }
 
                         if (isIE) {
-                            starsCount = 30;
+                            starsCount = 33;
                         }
                     }
+                    
+                    console.log(starsCount);
 
                     for (i = 0; i < starsCount;  i += 1) {
                         star = doc.createElement("i");
