@@ -718,12 +718,12 @@
                 if ((win.devicePixelRatio !== undefined) && (win.devicePixelRatio > 2)) {
                     var meta, metaValue;
 
-                    meta = getEl("viewport");
-
-                    if ((meta !== undefined) && (meta.value === '')) {
-                        metaValue = 'width=device-width, initial-scale=' + (2 / win.devicePixelRatio) + ', user-scalable=no';
-                        meta.setAttribute('content', metaValue);
-                    }
+                    //meta = getEl("viewport");
+                    //
+                    //if ((meta !== undefined) && (meta.value === '')) {
+                    //    metaValue = 'width=device-width, initial-scale=' + (2 / win.devicePixelRatio) + ', user-scalable=no';
+                    //    meta.setAttribute('content', metaValue);
+                    //}
                 }
             },
 
