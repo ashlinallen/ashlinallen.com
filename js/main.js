@@ -394,25 +394,15 @@
                 //Creates stars then randomizes their attributes.
                 if (starsColl.length === 0) {
                     var starsCount, i, star;
+                    
+                    starsCount = 30;
 
-                    if (isMobile) {
-                        starsCount = 10;
-
-                        if (isAndroid) {
-                            starsCount = 31;
-                        }
+                    if (isMobile && !isAndroid) {
+                        starsCount = 15;
                     }
 
-                    if (isDesktop) {
-                        starsCount = 32;
-
-                        if (isChrome) {
-                            starsCount = 75;
-                        }
-
-                        if (isIE) {
-                            starsCount = 33;
-                        }
+                    if (isDesktop && isChrome) {
+                        starsCount = 55;
                     }
                     
                     console.log(starsCount);
