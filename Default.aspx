@@ -56,22 +56,22 @@
                 <span id="theStars"></span>
 
                 <span id="topMarginContainer">
-                    <span id="moon"></span>
+                    <span id="moon" class="sprite"></span>
 
                     <span id="lowEarthOrbit">
-                        <span id="satellite"></span>
-                        <span id="spaceShuttle"></span>
+                        <span id="satellite" class="sprite"></span>
+                        <span id="spaceShuttle" class="sprite"></span>
                     </span>
 
-                    <span id="ash" class="walking">
+                    <span id="ash" class="sprite walking">
                         <span id="status"></span>
                     </span>
 
-                    <span id="planetEarth">
-                        <a id="computers"></a>
-                        <a id="nature"></a>
-                        <a id="sheri"></a>
-                        <a id="games"></a>
+                    <span id="planetEarth" class="sprite">
+                        <a id="computers" class="sprite"></a>
+                        <a id="nature" class="sprite"></a>
+                        <a id="sheri" class="sprite"></a>
+                        <a id="games" class="sprite"></a>
                     </span>
                     <span id="earthShadow"></span>
 
