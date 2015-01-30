@@ -486,7 +486,7 @@
                 return (/IEMobile/i).test(navigator.userAgent);
             },
             any: function () {
-                return (mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows());
+                return ((mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows()) && !isDesktop);
             }
         };
 
@@ -504,7 +504,7 @@
                 return doc.documentMode !== undefined;
             },
             any: function () {
-                return (desktopType.Chrome() || desktopType.Webkit() || desktopType.Firefox() || desktopType.IE());
+                return ((desktopType.Chrome() || desktopType.Webkit() || desktopType.Firefox() || desktopType.IE()) && !isMobile);
             }
         };
 
