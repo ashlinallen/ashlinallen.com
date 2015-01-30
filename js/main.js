@@ -1,6 +1,6 @@
 /*jshint nonew: false */
 /*jslint browser: true, indent: 4*/
-/*global $, TweenLite, Power1, Sine, define, happy */
+/*global $, TweenLite, Power1, Sine, Linear, define, happy */
 
 (function () {
     "use strict";
@@ -395,24 +395,14 @@
                 if (starsColl.length === 0) {
                     var starsCount, i, star;
 
-                    if (isMobile) {
-                        starsCount = 10;
+                    starsCount = 30;
 
-                        if (isAndroid) {
-                            starsCount = 30;
-                        }
+                    if (isMobile && !isAndroid) {
+                        starsCount = 15;
                     }
 
-                    if (isDesktop) {
-                        starsCount = 30;
-
-                        if (isChrome) {
-                            starsCount = 75;
-                        }
-
-                        if (isIE) {
-                            starsCount = 30;
-                        }
+                    if (isDesktop && isChrome) {
+                        starsCount = 55;
                     }
 
                     for (i = 0; i < starsCount;  i += 1) {
@@ -484,7 +474,7 @@
                 return (/IEMobile/i).test(navigator.userAgent);
             },
             any: function () {
-                return (mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows());
+                return ((mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows()) && !isDesktop);
             }
         };
 
@@ -502,7 +492,7 @@
                 return doc.documentMode !== undefined;
             },
             any: function () {
-                return (desktopType.Chrome() || desktopType.Webkit() || desktopType.Firefox() || desktopType.IE());
+                return ((desktopType.Chrome() || desktopType.Webkit() || desktopType.Firefox() || desktopType.IE()) && !isMobile);
             }
         };
 
@@ -715,16 +705,16 @@
             },
 
             preventMobileScale : function () {
-                if ((win.devicePixelRatio !== undefined) && (win.devicePixelRatio > 2)) {
-                    var meta, metaValue;
-
-                    meta = getEl("viewport");
-
-                    if ((meta !== undefined) && (meta.value === '')) {
-                        metaValue = 'width=device-width, initial-scale=' + (2 / win.devicePixelRatio) + ', user-scalable=no';
-                        meta.setAttribute('content', metaValue);
-                    }
-                }
+                //if ((win.devicePixelRatio !== undefined) && (win.devicePixelRatio > 2)) {
+                //    var meta, metaValue;
+                //
+                //    meta = getEl("viewport");
+                //    
+                //    if ((meta !== undefined) && (meta.value === '')) {
+                //        metaValue = 'width=device-width, initial-scale=' + (2 / win.devicePixelRatio) + ', user-scalable=no';
+                //        meta.setAttribute('content', metaValue);
+                //    }
+                //}
             },
 
             initFancybox : function () {
