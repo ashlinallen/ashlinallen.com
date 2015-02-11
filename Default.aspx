@@ -13,7 +13,7 @@
         <meta property="og:type" content="profile"/>
         <meta property="og:url" content="http://ashlinallen.com/"/>
         <meta property="og:image" content="http://ashlinallen.com/img/fb_thumb.png" />
-        <meta property="og:site_name" content="Ashlin Allen.com"/>
+        <meta property="og:site_name" content="http://ashlinallen.com"/>
         <meta property="og:email" content="ashlin.allen@gmail.com"/>
         <meta property="og:description" content="The portfolio site of Seattle-area Web Developer, Ashlin Allen."/>
 
