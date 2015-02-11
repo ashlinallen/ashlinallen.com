@@ -1,7 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
-<!DOCTYPE html xmlns="http://www.w3.org/1999/xhtml"
-                          xmlns:og="http://ogp.me/ns#"
-                          xmlns:fb="https://www.facebook.com/2008/fbml">
+<!DOCTYPE html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xmlns:fb="https://www.facebook.com/2008/fbml">
     <head>
         <title>Ashlin Allen - User Experimancer, Programminator</title>
 
