@@ -1,16 +1,16 @@
 /*jshint nonew: false */
 /*jslint browser: true, indent: 4*/
-/*global $, TweenLite, Power1, Sine, define, happy */
+/*global $, TweenLite, Power1, Sine, Linear, define, happy */
 
 (function () {
     "use strict";
 
-    var doc, win, planetEarthEl, ashEl, infoPanelEl, contactFormEl, isMobile, isAndroid, isIE,
-        isChrome, isFirefox, isWebkit, interestsArr, worldTurns, earthAnimating,
+    var doc, win, planetEarthEl, ashEl, infoPanelEl, contactFormEl, isMobile, isAndroid,
+        isDesktop, isIE, isChrome, isFirefox, isWebkit, interestsArr, worldTurns,
         zoomYPos, zoomAnimating, zoomed, infoPanelAnimating, curEarthAngle,
         currentInterest, contactVisible, requires, sprites, screenDims, stars,
         keydown, mathHelpers, images, interests, infoPanel, contactForm,
-        content, page, earth;
+        content, page, earth, earthAnimating;
 
     requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics", "happyjs", "happymethods"];
 
@@ -273,7 +273,7 @@
                     }
 
                     //Add background-shadow if webkit, since they render it efficiently.
-                    if (!isMobile && isWebkit) {
+                    if ((!isMobile && isWebkit) || (!isMobile && isFirefox)) {
                         bs = "0px 0px 15px 1px " + rgb;
                     }
 
@@ -395,7 +395,15 @@
                 if (starsColl.length === 0) {
                     var starsCount, i, star;
 
-                    starsCount = isMobile ? (isAndroid ? 30 : 10) : (isChrome ? 60 : 40);
+                    starsCount = 30;
+
+                    if (isMobile && !isAndroid) {
+                        starsCount = 15;
+                    }
+
+                    if (isDesktop && isWebkit) {
+                        starsCount = 55;
+                    }
 
                     for (i = 0; i < starsCount;  i += 1) {
                         star = doc.createElement("i");
@@ -466,7 +474,7 @@
                 return (/IEMobile/i).test(navigator.userAgent);
             },
             any: function () {
-                return (mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows());
+                return ((mobileType.Android() || mobileType.BlackBerry() || mobileType.iOS() || mobileType.Windows()) && !isDesktop);
             }
         };
 
@@ -484,7 +492,7 @@
                 return doc.documentMode !== undefined;
             },
             any: function () {
-                return (desktopType.Chrome() || desktopType.Webkit() || desktopType.Firefox() || desktopType.IE());
+                return ((desktopType.Chrome() || desktopType.Webkit() || desktopType.Firefox() || desktopType.IE()) && !isMobile);
             }
         };
 
@@ -689,6 +697,7 @@
                 //Initializes User Agent Detection
                 isMobile = mobileType.any();
                 isAndroid = mobileType.Android();
+                isDesktop = desktopType.any();
                 isIE = desktopType.IE();
                 isChrome = desktopType.Chrome();
                 isFirefox = desktopType.Firefox();
@@ -696,16 +705,16 @@
             },
 
             preventMobileScale : function () {
-                if ((win.devicePixelRatio !== undefined) && (win.devicePixelRatio > 2)) {
-                    var meta, metaValue;
-
-                    meta = getEl("viewport");
-
-                    if ((meta !== undefined) && (meta.value === '')) {
-                        metaValue = 'width=device-width, initial-scale=' + (2 / win.devicePixelRatio) + ', user-scalable=no';
-                        meta.setAttribute('content', metaValue);
-                    }
-                }
+                //if ((win.devicePixelRatio !== undefined) && (win.devicePixelRatio > 2)) {
+                //    var meta, metaValue;
+                //
+                //    meta = getEl("viewport");
+                //    
+                //    if ((meta !== undefined) && (meta.value === '')) {
+                //        metaValue = 'width=device-width, initial-scale=' + (2 / win.devicePixelRatio) + ', user-scalable=no';
+                //        meta.setAttribute('content', metaValue);
+                //    }
+                //}
             },
 
             initFancybox : function () {
@@ -804,34 +813,40 @@
                 //Input: (string)showHide
                 //Sets the brightness of the key props for showing contact form.
                 var startFloat, endFloat, curFloat, els, anim, i, nature,
-                    sheri, computers, games;
+                    sheri, computers, games, spaceShuttle, satellite, fefuncr, fefuncg, fefuncb;
 
                 nature = getEl("nature");
                 sheri = getEl("sheri");
                 computers = getEl("computers");
                 games = getEl("games");
+                spaceShuttle = getEl("spaceShuttle");
+                satellite = getEl("satellite");
 
                 function fn() {
                     //If the browser is IE we can't depend on CSS filters or SVG, so I just 
                     //swap the images with blacked-out versions once zoomed for a lo-fi 
                     //solution.
                     if (isIE) {
-                        els = [planetEarthEl, ashEl, sheri, nature, computers, games, moon, lowEarthOrbit];
+                        els = [planetEarthEl, ashEl, sheri, nature, computers, games, moon, spaceShuttle, satellite];
+
+                        $(els).removeClass();
 
                         if (showHide === "show") {
-                            els.addClass("dark");
+                            $(els).addClass("dark");
                         } else {
-                            els.removeClass("dark");
+                            $(els).removeClass("dark");
                         }
 
                         return;
                     }
-
-                    if (isFirefox) {
-                        els = document.getElementsByClassName("lin");
-                    }
                     
-                    if (isChrome) {
+                    if (isFirefox) {
+                        fefuncr = document.getElementById("fefuncr");
+                        fefuncg = document.getElementById("fefuncg");
+                        fefuncb = document.getElementById("fefuncb");
+                    }
+
+                    if (isWebkit) {
                         els = [planetEarthEl, ashEl, lowEarthOrbit, moon];
                     }
 
@@ -843,7 +858,7 @@
                         startFloat = parseFloat(0.0).toFixed(1);
                         endFloat = parseFloat(1.0).toFixed(1);
                     }
-                    
+
                     curFloat = startFloat;
 
                     //Since the brightness filter isn't officially implemented,
@@ -867,14 +882,14 @@
                         //directly, since there is no brightness filter built-in.
 
                         if (isFirefox) {
-                            for (i = 0; i < els.length; i += 1) {
-                                els[i].setAttribute("slope", curFloat);
-                            }
+                            fefuncr.setAttribute("slope", curFloat);
+                            fefuncg.setAttribute("slope", curFloat);
+                            fefuncb.setAttribute("slope", curFloat);
                         }
 
-                        //If browser is Chrome, we can use the built-in vendor specific prefix
+                        //If browser is Webkit, we can use the built-in vendor specific prefix
                         //and brightness filter.
-                        if (isChrome) {
+                        if (isWebkit) {
                             TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + curFloat + ')' } });
                         }
 
@@ -977,30 +992,32 @@
             init : function () {
                 interestsArr.about.header = "About Me";
                 interestsArr.about.content =
-                    "<p>Hi, I'm Ash and I was born in 1983 and grew up in Savannah, GA.</p>" +
-                    "<p>During work hours, I'm a web developer. I specialize in front-end work, but I've got a lot of " +
-                    "experience in back-end languages. I've worked with PHP, ASP, C# and Ruby, but the majority of my skill is with ASP.NET Webforms & C#. " +
-                    "<p>In my free time I enjoy hiking, video games, producing music and expanding my skillset toward " +
-                    "developing games. You can learn more about my interests by clicking the various items on the globe.</p>";
+                    "<p>Hi, I'm Ash! I was born in 1983 and grew up in Savannah, GA.</p>" +
+                    "<p>During work hours, I'm a web developer. I specialize in front-end work, but I " +
+                    "have a lot of experience in back-end languages. I've worked with PHP, ASP, C# and " +
+                    "Ruby, but the majority of my skill is with ASP.NET Webforms & C#.</p> " +
+                    "<p>In my free time I enjoy hiking, video games, producing music and " +
+                    "expanding my skillset toward developing games. You can learn more about " +
+                    "my interests by clicking the various items on the globe.</p>";
 
                 interestsArr.games.header = "Games";
                 interestsArr.games.content =
-                    "<p>I really enjoy playing video games and discussing game logic and design with like-minded " +
-                    "people.<p>" +
+                    "<p>I really enjoy playing video games and discussing game logic and design " +
+                    "with like-minded people.</p>" +
                     "<p>I started playing games back on the family Atari 2600, and grew up with the NES, SNES and N64.</p>" +
                     "<p>These days I'm more of a PC Gamer (Battlefield, Half Life, Portal, Team Fortress, Command and Conquer,) " +
                     "but I also enjoy Fighters (Smash Bros, Street Fighter, Guilty Gear,) Platformers (Mario, Super " +
                     "Meat Boy,) and artistic milestones like Journey and Shadow of the Colossus. I'm also a big " +
                     "fan of Nintendo franchises and storytelling. I believe gameplay is the most important " +
                     "factor to building a good gaming experience, and I hope to get the opportunity to build " +
-                    "games independently in the future.<p>";
+                    "games independently in the future.</p>";
 
                 interestsArr.sheri.header = "Sheri";
                 interestsArr.sheri.content =
-                    "<p>My girlfriend Sheri and I met many years ago and we've been through thick and thin together.</p>" +
-                    "<p>We and our cat Kuma recently moved to Seattle, WA and are really enjoying the Pacific Northwest!</p>" +
-                    "<p>Sheri is a very talented illustrator and a skilled graphic designer, and she created the graphics for " +
-                    "this site. I encourage you to see more of her work over at her site, " +
+                    "<p>My girlfriend Sheri and I met many years ago; we've been through thick and thin together. " +
+                    "We and our cat Kuma recently moved to Seattle and are really enjoying the Pacific Northwest!</p>" +
+                    "<p>Sheri is a very talented illustrator and a skilled graphic designer. She created the graphics for " +
+                    "this site! I encourage you to see more of her work over at her site, " +
                     "<a href='http://sheribates.com/' target='_blank'>SheriBates.com</a>. <3</p>";
 
                 interestsArr.computers.header = "Computers";
@@ -1008,18 +1025,20 @@
                     "<p>I'm a front-end web developer who works in Javascript, LESS, ASP.NET Webforms and C#, primarily. I " +
                     "started building websites in 1996.</p>" +
                     "<p>My first exposure to programming was on a Commodore Model 4064, a hand-me-down from " +
-                    "my uncle in the late 80's. My sister and I would sit and copy lines of code from books " +
-                    "for hours, just to hear a little jingle from the internal speaker, or make a shape on the " +
-                    "screen that would be gone when the computer was powered down.</p>" +
+                    "my uncle. My sister and I would sit and copy lines of code from books for hours, just to hear a little " +
+                    "jingle from the internal speaker, or make a shape on the screen that would be gone when the " +
+                    "computer was powered down.</p>" +
                     "<p>This site was built as a 'living resume' to showcase the range of my skillset. For more detail on my experience, " +
                     "please click the PDF or Word icons at the top of the page to download and view my Resume. I would love for you to have " +
-                    "a look at some source files for this site: <a href='js/main.js' target='_blank'>Javascript</a> & " +
-                    "<a href='less/site.less.txt' target='_blank'>LESS</a>.";
+                    "a look at the <a href='files/codesamples/site.html.txt' target='_blank'>HTML</a>, " +
+                    "<a href='files/codesamples/main.js' target='_blank'>Javascript</a> and " +
+                    "<a href='files/codesamples/site.less.txt' target='_blank'>LESS</a> for this site, as well as some " +
+                    "<a href='files/codesamples/ButtonLink.cs.txt' target='_blank'>C#</a> from another project.</p>";
 
                 interestsArr.nature.header = "Nature";
                 interestsArr.nature.content =
-                    "<p>I spend a lot time immersed in technology, so I really enjoy taking the opportunity to get " +
-                    "out and hike in the Cascades. I also enjoy photography, and have placed some of my favorite " +
+                    "<p>I spend a lot of time behind a keyboard, so I really enjoy taking the opportunity to get " +
+                    "out and hike in the Cascades. I also enjoy photography. I placed some of my favorite " +
                     "PNW Hiking photos here in the gallery on the right. Have a look! :)</p>";
             }
         };
@@ -1310,8 +1329,8 @@
 
                     worldTurns = false;
 
-                    page.animBrightness("show");
                     sprites.update(ashEl, "standing");
+                    page.animBrightness("show");
 
                     contactTop = planetEarthEl.offsetTop + (planetEarthEl.offsetHeight * 0.15) + "px";
                     contactHeight = (planetEarthEl.offsetHeight * 0.7) + "px";
@@ -1327,7 +1346,7 @@
 
                     TweenLite.to(contactFormEl, 0.75, {
                         opacity: 1,
-                        ease:Linear.none,
+                        ease: Linear.none,
                         onComplete: function () {
                             contactVisible = true;
                             contactAnimating = false;
@@ -1468,7 +1487,11 @@
                     flip = (hflip === undefined) ? "false" : hflip;
                     cssClass = state;
 
-                    el.className = "";
+                    if ($(el).hasClass("dark")) {
+                        el.className = "dark";
+                    } else {
+                        el.className = "";
+                    }
 
                     if (flip === true) {
                         cssClass += " flipped";
@@ -1493,10 +1516,10 @@
                     if (el === ashEl) {
                         if (targetAngle !== undefined) {
                             if (targetAngle < curEarthAngle) {
-                                //Face our hero right if we're rotating counter-clockwise.
+                                //Face ash sprite right if we're rotating counter-clockwise.
                                 sprites.update(el, "walking");
                             } else {
-                                //Face our hero left if we're rotating clockwise.
+                                //Face ash sprite left if we're rotating clockwise.
                                 sprites.update(el, "walking", true);
                             }
 

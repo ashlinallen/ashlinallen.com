@@ -40,9 +40,9 @@
                 </style>
                 <filter id="darken">
                     <feComponentTransfer>
-                        <feFuncR class="lin" type="linear" slope="1"/>
-                        <feFuncG class="lin" type="linear" slope="1"/>
-                        <feFuncB class="lin" type="linear" slope="1"/>
+                        <feFuncR id="fefuncr" type="linear" slope="1"/>
+                        <feFuncG id="fefuncg" type="linear" slope="1"/>
+                        <feFuncB id="fefuncb" type="linear" slope="1"/>
                     </feComponentTransfer>
                 </filter>
             </svg>

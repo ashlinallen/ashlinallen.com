@@ -38,4 +38,4 @@ requirejs.config({
     }
 });
 
-requirejs(["main.min"]);
+requirejs(["main"]);

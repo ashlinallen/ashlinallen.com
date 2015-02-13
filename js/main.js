@@ -813,7 +813,8 @@
                 //Input: (string)showHide
                 //Sets the brightness of the key props for showing contact form.
                 var startFloat, endFloat, curFloat, els, anim, i, nature,
-                    sheri, computers, games, spaceShuttle, satellite;
+                    sheri, computers, games, spaceShuttle, satellite, fefuncr,
+                    fefuncg, fefuncb;
 
                 nature = getEl("nature");
                 sheri = getEl("sheri");
@@ -839,9 +840,11 @@
 
                         return;
                     }
-
+                    
                     if (isFirefox) {
-                        els = document.getElementsByClassName("lin");
+                        fefuncr = document.getElementById("fefuncr");
+                        fefuncg = document.getElementById("fefuncg");
+                        fefuncb = document.getElementById("fefuncb");
                     }
 
                     if (isWebkit) {
@@ -880,9 +883,9 @@
                         //directly, since there is no brightness filter built-in.
 
                         if (isFirefox) {
-                            for (i = 0; i < els.length; i += 1) {
-                                els[i].setAttribute("slope", curFloat);
-                            }
+                            fefuncr.setAttribute("slope", curFloat);
+                            fefuncg.setAttribute("slope", curFloat);
+                            fefuncb.setAttribute("slope", curFloat);
                         }
 
                         //If browser is Webkit, we can use the built-in vendor specific prefix
