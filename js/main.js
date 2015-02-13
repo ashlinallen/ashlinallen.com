@@ -401,7 +401,7 @@
                         starsCount = 15;
                     }
 
-                    if (isDesktop && isChrome) {
+                    if (isDesktop && isWebkit) {
                         starsCount = 55;
                     }
 
@@ -844,7 +844,7 @@
                         els = document.getElementsByClassName("lin");
                     }
 
-                    if (isChrome) {
+                    if (isWebkit) {
                         els = [planetEarthEl, ashEl, lowEarthOrbit, moon];
                     }
 
@@ -885,9 +885,9 @@
                             }
                         }
 
-                        //If browser is Chrome, we can use the built-in vendor specific prefix
+                        //If browser is Webkit, we can use the built-in vendor specific prefix
                         //and brightness filter.
-                        if (isChrome) {
+                        if (isWebkit) {
                             TweenLite.to(els, 0, { css: { '-webkit-filter': 'brightness(' + curFloat + ')' } });
                         }
 
@@ -990,30 +990,32 @@
             init : function () {
                 interestsArr.about.header = "About Me";
                 interestsArr.about.content =
-                    "<p>Hi, I'm Ash and I was born in 1983 and grew up in Savannah, GA.</p>" +
-                    "<p>During work hours, I'm a web developer. I specialize in front-end work, but I've got a lot of " +
-                    "experience in back-end languages. I've worked with PHP, ASP, C# and Ruby, but the majority of my skill is with ASP.NET Webforms & C#. " +
-                    "<p>In my free time I enjoy hiking, video games, producing music and expanding my skillset toward " +
-                    "developing games. You can learn more about my interests by clicking the various items on the globe.</p>";
+                    "<p>Hi, I'm Ash! I was born in 1983 and grew up in Savannah, GA.</p>" +
+                    "<p>During work hours, I'm a web developer. I specialize in front-end work, but I " +
+                    "have a lot of experience in back-end languages. I've worked with PHP, ASP, C# and " +
+                    "Ruby, but the majority of my skill is with ASP.NET Webforms & C#.</p> " +
+                    "<p>In my free time I enjoy hiking, video games, producing music and " +
+                    "expanding my skillset toward developing games. You can learn more about " +
+                    "my interests by clicking the various items on the globe.</p>";
 
                 interestsArr.games.header = "Games";
                 interestsArr.games.content =
-                    "<p>I really enjoy playing video games and discussing game logic and design with like-minded " +
-                    "people.<p>" +
+                    "<p>I really enjoy playing video games and discussing game logic and design " +
+                    "with like-minded people.</p>" +
                     "<p>I started playing games back on the family Atari 2600, and grew up with the NES, SNES and N64.</p>" +
                     "<p>These days I'm more of a PC Gamer (Battlefield, Half Life, Portal, Team Fortress, Command and Conquer,) " +
                     "but I also enjoy Fighters (Smash Bros, Street Fighter, Guilty Gear,) Platformers (Mario, Super " +
                     "Meat Boy,) and artistic milestones like Journey and Shadow of the Colossus. I'm also a big " +
                     "fan of Nintendo franchises and storytelling. I believe gameplay is the most important " +
                     "factor to building a good gaming experience, and I hope to get the opportunity to build " +
-                    "games independently in the future.<p>";
+                    "games independently in the future.</p>";
 
                 interestsArr.sheri.header = "Sheri";
                 interestsArr.sheri.content =
-                    "<p>My girlfriend Sheri and I met many years ago and we've been through thick and thin together.</p>" +
-                    "<p>We and our cat Kuma recently moved to Seattle, WA and are really enjoying the Pacific Northwest!</p>" +
-                    "<p>Sheri is a very talented illustrator and a skilled graphic designer, and she created the graphics for " +
-                    "this site. I encourage you to see more of her work over at her site, " +
+                    "<p>My girlfriend Sheri and I met many years ago; we've been through thick and thin together. " +
+                    "We and our cat Kuma recently moved to Seattle and are really enjoying the Pacific Northwest!</p>" +
+                    "<p>Sheri is a very talented illustrator and a skilled graphic designer. She created the graphics for " +
+                    "this site! I encourage you to see more of her work over at her site, " +
                     "<a href='http://sheribates.com/' target='_blank'>SheriBates.com</a>. <3</p>";
 
                 interestsArr.computers.header = "Computers";
@@ -1021,20 +1023,20 @@
                     "<p>I'm a front-end web developer who works in Javascript, LESS, ASP.NET Webforms and C#, primarily. I " +
                     "started building websites in 1996.</p>" +
                     "<p>My first exposure to programming was on a Commodore Model 4064, a hand-me-down from " +
-                    "my uncle in the late 80's. My sister and I would sit and copy lines of code from books " +
-                    "for hours, just to hear a little jingle from the internal speaker, or make a shape on the " +
-                    "screen that would be gone when the computer was powered down.</p>" +
+                    "my uncle. My sister and I would sit and copy lines of code from books for hours, just to hear a little " +
+                    "jingle from the internal speaker, or make a shape on the screen that would be gone when the " +
+                    "computer was powered down.</p>" +
                     "<p>This site was built as a 'living resume' to showcase the range of my skillset. For more detail on my experience, " +
                     "please click the PDF or Word icons at the top of the page to download and view my Resume. I would love for you to have " +
                     "a look at the <a href='files/codesamples/site.html.txt' target='_blank'>HTML</a>, " +
                     "<a href='files/codesamples/main.js' target='_blank'>Javascript</a> and " +
                     "<a href='files/codesamples/site.less.txt' target='_blank'>LESS</a> for this site, as well as some " +
-                    "<a href='files/codesamples/ButtonLink.cs.txt' target='_blank'>C#</a> from another project.";
+                    "<a href='files/codesamples/ButtonLink.cs.txt' target='_blank'>C#</a> from another project.</p>";
 
                 interestsArr.nature.header = "Nature";
                 interestsArr.nature.content =
-                    "<p>I spend a lot time immersed in technology, so I really enjoy taking the opportunity to get " +
-                    "out and hike in the Cascades. I also enjoy photography, and have placed some of my favorite " +
+                    "<p>I spend a lot of time behind a keyboard, so I really enjoy taking the opportunity to get " +
+                    "out and hike in the Cascades. I also enjoy photography. I placed some of my favorite " +
                     "PNW Hiking photos here in the gallery on the right. Have a look! :)</p>";
             }
         };
@@ -1512,10 +1514,10 @@
                     if (el === ashEl) {
                         if (targetAngle !== undefined) {
                             if (targetAngle < curEarthAngle) {
-                                //Face our hero right if we're rotating counter-clockwise.
+                                //Face ash sprite right if we're rotating counter-clockwise.
                                 sprites.update(el, "walking");
                             } else {
-                                //Face our hero left if we're rotating clockwise.
+                                //Face ash sprite left if we're rotating clockwise.
                                 sprites.update(el, "walking", true);
                             }
 
