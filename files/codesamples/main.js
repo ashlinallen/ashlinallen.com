@@ -812,8 +812,9 @@
             animBrightness : function (showHide) {
                 //Input: (string)showHide
                 //Sets the brightness of the key props for showing contact form.
-                var startFloat, endFloat, curFloat, els, anim, i, nature,
-                    sheri, computers, games, spaceShuttle, satellite, fefuncr, fefuncg, fefuncb;
+                var startFloat, endFloat, curFloat, els, anim, nature,
+                    sheri, computers, games, spaceShuttle, satellite,
+                    fefuncr, fefuncg, fefuncb;
 
                 nature = getEl("nature");
                 sheri = getEl("sheri");
@@ -839,7 +840,7 @@
 
                         return;
                     }
-                    
+
                     if (isFirefox) {
                         fefuncr = document.getElementById("fefuncr");
                         fefuncg = document.getElementById("fefuncg");
