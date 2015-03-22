@@ -29,7 +29,7 @@
     image-rendering: -moz-crisp-edges;
     image-rendering: -o-crisp-edges;
     image-rendering: crisp-edges;
-    image-rendering: pixelated;
+    image-rendering: -webkit-optimize-contrast;
     -ms-interpolation-mode: nearest-neighbor;
     -webkit-font-smoothing: subpixel-antialiased;
 }
@@ -40,6 +40,12 @@ html {
     font-size: 17px;
     min-height:400px;
     min-width:280px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     .fill;
 }
 
@@ -48,9 +54,16 @@ body {
     overflow: hidden;
     background: url("../img/htmlbg.png") no-repeat center center;
     .fill;
-
-    &.hidden {
-        opacity:0;
+    
+    opacity: 0;
+    
+    &.loaded {
+        -webkit-transition: opacity .15s ease-in-out;
+        -moz-transition: opacity .15s ease-in-out;
+        -o-transition: opacity .15s ease-in-out;
+        -ms-transition: opacity .15s ease-in-out;
+        transition: opacity .15s ease-in-out;
+        opacity: 1;
     }
 }
 
@@ -386,7 +399,9 @@ span, a {
     position: absolute;
     z-index: 1;
     overflow: hidden;
-    height: 100%;
+    top:0;
+    left:0;
+    bottom:0;
     width: 200px;
     background-color: #AFAFAF;
 }
