@@ -12,10 +12,10 @@
         mathHelpers, domHelpers, images, interests, infoPanel, contactForm,
         content, page, earth, earthAnimating;
 
-    requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "analytics", "happyjs", "happymethods"];
+    requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "happyjs", "analytics", "happymethods"];
 
     domHelpers = (function () {
-        var _buildEl, _getEl;
+        var _buildEl;
 
         _buildEl = function (type, id, className) {
             //Override createElement to take ID and Class.
@@ -35,8 +35,7 @@
         };
 
         return {
-            buildEl : _buildEl,
-            getEl : _getEl
+            buildEl : _buildEl
         };
     }());
 
