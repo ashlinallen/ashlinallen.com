@@ -90,12 +90,22 @@
     }
 }
 
+.sprite {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    background-repeat:no-repeat;
+    background-image: url("../img/spritesheet.png");
+    background-size:422px 250px;
+    text-indent: -99999px;
+    overflow: hidden;
+    display:block;
+}
+
 #meteor {
     height: 2px;
     width: 400px;
     z-index: 100;
     position: absolute;
-    display: block;
     .rotate(-35deg);
     
     background: -moz-linear-gradient(left,  rgba(255,255,255,0.25) 0%, rgba(30,234,234,1) 3%, rgba(255,255,255,0.25) 6%, rgba(255,255,255,0) 100%);
@@ -115,14 +125,13 @@
 #planetEarth {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    background-image: url("../img/earth.png");
-    background-size:390px 390px;
+    background-image: url("../img/earthSprite.png");
     
     .hCenter(390);
     .vCenter(390);
     
     &.dark {
-        background-image: url("../img/earth_dark.png");
+        background-position:390px 0;
     }
     
     >a {
@@ -134,28 +143,34 @@
 }
 
 #moon {
-    background-position: bottom left;
-    background-image: url("../img/moon.png");
-    background-size: 104px 104px;
-    
     .hCenter(900);
     .vCenter(900);
     
+    >.sprite {
+        width:104px;
+        height:104px;
+        content:'';
+        display:block;
+        background-position:-104px -146px;
+    }
+
     &.dark {
-        background-image:url("../img/moon_dark.png");
+        >.sprite {
+            background-position:0px -146px;
+        }
     }
 }
 
 #spaceShuttle {
     position: absolute;
-    left: 125px;
-    height: 40px;
-    width: 75px;
-    background-image: url("../img/spaceshuttle.png");
-    background-size:75px 40px;
+    left: 65px;
+    height: 44px;
+    width: 94px;
+    background-position: -246px 0px;
+    .rotate(-30deg);
     
     &.dark {
-        background-image: url("../img/spaceshuttle_dark.png") !important;
+        background-position: -152px 0px;
     }
 }
 
@@ -163,15 +178,17 @@
     position: absolute;
     right: 0;
     bottom: 0;
-    height: 76px;
-    width: 92px;
-    background-image: url("../img/satellite.png");
-    background-size:92px 76px;
+    height: 52px;
+    width: 82px;
+    background-image: url("../img/satellite.gif");
+    background-size:82px 52px;
     
-    .rotate(90deg);
+    .rotate(140deg);
     
     &.dark {
-            background-image: url("../img/satellite_dark.png") !important;
+        background-image: url("../img/spritesheet.png") !important;
+        background-size:422px 250px;
+        background-position: -340px 0px;
     }
 }
 
@@ -186,7 +203,6 @@
     cursor:pointer;
     height:76px;
     width: 34px;
-    background-size:34px 76px;
     margin-top: -257px;
     margin-left:-17px;
     position:absolute;
@@ -213,15 +229,14 @@
     }
     
     &.standing {
-        background-image: url("../img/ash_standing.png");
+        background-position: -274px -62px;
     }
     
     &.standing-away {
         margin-left: -11px;
         transform: rotate(0deg);
         width: 30px;
-        background-image: url("../img/ash_standing_away.png");
-        background-size:30px 76px;
+        background-position: -308px -62px;
     }
     
     &.sitting-camp {
@@ -230,8 +245,7 @@
         transform: rotate(0deg);
         height: 58px;
         width: 36px;
-        background-image: url("../img/ash_sitting_camp.png");
-        background-size:36px 58px;
+        background-position: -370px -62px;
     }
     
     &.sitting-vidya {
@@ -240,12 +254,11 @@
         transform: rotate(0deg);
         height: 58px;
         width: 32px;
-        background-image: url(../img/ash_sitting_vidya.png);
-        background-size:32px 58px;
+        background-position: -338px -62px;
     }
     
     &.dark {
-        background-image: url("../img/ash_standing_dark.png");
+        background-position: -240px -62px;
     }
     
     &.flipped {
@@ -263,13 +276,12 @@
     height: 62px;
     bottom: -46px;
     left: 127px;
-    background-image: url("../img/sprite_desk.png");
-    background-size:76px 62px;
+    background-position: -76px 0px;
     
     .rotate(186deg);
     
     &.dark {
-        background-image: url("../img/sprite_desk_dark.png");
+        background-position: 0px 0px;
     }
 }
 
@@ -279,11 +291,13 @@
     top: -24px;
     left: -23px;
     .rotate(-36deg);
-    background-image: url(../img/mountain.gif);
     background-size:176px 98px;
+    background-image: url("../img/mountain.gif");
     
     &.dark {
-        background-image: url("../img/mountain_dark.png");
+        background-image: url("../img/spritesheet.png") !important;
+        background-size:422px 250px;
+        background-position: -208px -146px;
     }
 }
 
@@ -292,13 +306,12 @@
     height: 84px;
     top: -2px;
     right: 0;
-    background-image: url("../img/games.png");
-    background-size:86px 84px;
+    background-position: -86px -62px;
     
     .rotate(47deg);
     
     &.dark {
-        background-image: url("../img/games_dark.png");
+        background-position: 0px -62px;
     }
 }
 
@@ -307,13 +320,12 @@
     height: 70px;
     top: 165px;
     right: -38px;
-    background-image: url("../img/sheri_standing.png");
-    background-size:34px 70px;
+    background-position: -206px -62px;
     
     .rotate(90deg);
     
     &.dark {
-        background-image: url("../img/sheri_standing_dark.png");
+        background-position: -172px -62px;
     }
 }
 
@@ -421,20 +433,16 @@
         left: 125px;
         height: 29px;
         width: 62px;
-        background-image: url("../img/spaceshuttle.png");
-        background-size:62px 29px;
     }
 
     #satellite {
         height: 25px;
         width: 30px;
-        background-size:30px 25px;
     }
 
     #ash {
         height: 38px;
         width: 17px;
-        background-size:17px 38px;
         margin-left:-8px;
         margin-bottom: 73px;
         bottom: 0;
@@ -445,18 +453,15 @@
             height: 21px;
             top: -21px;
             right: -13px;
-            background-size:21px 21px;
         }
 
         &.walking {
             width: 19px;
-            background-size:19px 38px;
         }
 
         &.standing-away {
             margin-left: -5px;
             width: 15px;
-            background-size:15px 38px;
         }
 
         &.sitting-camp {
@@ -464,7 +469,6 @@
             margin-top: -118px;
             height: 29px;
             width: 18px;
-            background-size: 18px 29px;
         }
 
         &.sitting-vidya {
@@ -472,7 +476,6 @@
             margin-top: -117px;
             height: 29px;
             width: 16px;
-            background-size:16px 29px;
         }
     }
 
@@ -481,7 +484,6 @@
         height: 31px;
         bottom: -23px;
         left: 63px;
-        background-size:38px 31px;
     }
 
     #nature {
@@ -489,7 +491,6 @@
         height: 49px;
         top: -12px;
         left: -11px;
-        background-size:88px 49px;
     }
 
     #games {
@@ -497,7 +498,6 @@
         height: 42px;
         top: -1px;
         right: 0;
-        background-size:43px 42px;
     }
 
     #sheri {
@@ -505,155 +505,5 @@
         height: 35px;
         top: 82px;
         right: -19px;
-        background-size: 17px 35px;
     }
-
-/*
-.sprite
-{
-    background-image: url(sprite.png);
-    background-repeat: no-repeat;
-    display: inline-block;
-    text-indent: -99999px;
-    overflow: hidden;
-}
-    .ash_standing_away
-    { 
-    height: 76px; 
-    width:30px; 
-    background-position: -418px 0; 
-    }
-    .ash_standing_dark
-    { 
-    height: 76px; 
-    width:34px; 
-    background-position: -384px -76px; 
-    }
-    .games
-    { 
-    height: 84px; 
-    width:86px; 
-    background-position: -280px -104px; 
-    }
-    .games_dark
-    { 
-    height: 84px; 
-    width:86px; 
-    background-position: -176px -104px; 
-    }
-    .moon
-    { 
-    height: 104px; 
-    width:104px; 
-    background-position: -176px 0; 
-    }
-    .moon_dark
-    { 
-    height: 104px; 
-    width:104px; 
-    background-position: -280px 0; 
-    }
-    .mountain
-    { 
-    height: 98px; 
-    width:176px; 
-    background-position: 0 0; 
-    }
-    .mountain_dark
-    { 
-    height: 98px; 
-    width:172px; 
-    background-position: 0 -98px; 
-    }
-    .satellite
-    { 
-    height: 92px; 
-    width:76px; 
-    background-position: 0 -263px; 
-    }
-    .satellite_dark
-    { 
-    height: 92px; 
-    width:76px; 
-    background-position: -76px -263px; 
-    }
-    .sheri_standing
-    { 
-    height: 70px; 
-    width:34px; 
-    background-position: -384px -152px; 
-    }
-    .sheri_standing_dark
-    { 
-    height: 70px; 
-    width:34px; 
-    background-position: -384px -222px; 
-    }
-    .spaceshuttle
-    { 
-    height: 67px; 
-    width:125px; 
-    background-position: 0 -196px; 
-    }
-    .spaceshuttle_dark
-    { 
-    height: 67px; 
-    width:125px; 
-    background-position: -125px -196px; 
-    }
-    .sprite_desk
-    { 
-    height: 62px; 
-    width:76px; 
-    background-position: -250px -196px; 
-    }
-    .sprite_desk_dark
-    { 
-    height: 62px; 
-    width:76px; 
-    background-position: -152px -263px; 
-    }
-    .arrowleft
-    { 
-    height: 20px; 
-    width:10px; 
-    background-position: -418px -76px; 
-    }
-    .arrowright
-    { 
-    height: 20px; 
-    width:10px; 
-    background-position: -428px -76px; 
-    }
-    .ash_sitting_camp
-    { 
-    height: 58px; 
-    width:36px; 
-    background-position: -326px -196px; 
-    }
-    .ash_sitting_vidya
-    { 
-    height: 58px; 
-    width:32px; 
-    background-position: -384px -292px; 
-    }
-    .ash_standing
-    { 
-    height: 76px; 
-    width:34px; 
-    background-position: -384px 0; 
-    }
-    .earth
-    { 
-    height: 390px; 
-    width:390px; 
-    background-position: 0 0; 
-    }
-    .earth_dark
-    { 
-    height: 390px; 
-    width:390px; 
-    background-position: -390px 0; 
-    }
-    */
 }
