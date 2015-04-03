@@ -8,11 +8,9 @@
     var doc, win, planetEarthEl, ashEl, infoPanelEl, contactFormEl, isMobile, isAndroid,
         isDesktop, isIE, isChrome, isFirefox, isWebkit, interestsArr, worldTurns,
         zoomYPos, zoomAnimating, zoomed, infoPanelAnimating, curEarthAngle,
-        currentInterest, contactVisible, requires, sprites, screenHelper, sky,
+        currentInterest, contactVisible, sprites, screenHelper, sky,
         mathHelper, domHelper, images, interests, infoPanel, contactForm,
         content, page, earth, earthAnimating, mHelp, domHelp, screenHelperInst, interestInst, skyInst, pageInst, contInst, infoPanelInst, earthInst, contactFormInst, imagesInst, spritesInst;
-
-    requires = ["jquery", "tweenmax", "fancybox", "fancybox_thumbs", "happyjs", "happymethods"];// "analytics",
 
     function domHelper() { };
     function mathHelper() {};
@@ -993,7 +991,7 @@
             //if the interest's gallery contains images
             var _interestGallery, _galleryCount, _i, _listItem, _image, _anchor, _imgUrl, _list;
 
-            _list = null;
+            _list = undefined;
             _interestGallery = interestsArr[interestName].gallery;
             _galleryCount = _interestGallery.length;
 
@@ -1006,13 +1004,13 @@
                     _image = domHelp.buildEl("img");
                     _image.src = _imgUrl.replace(".", "_thumb.");
 
-                    _anchor = domHelp.buildEl("a", null, "fancybox");
+                    _anchor = domHelp.buildEl("a", undefined, "fancybox");
                     _anchor.href = _imgUrl;
                     _anchor.setAttribute("title", _interestGallery[_i].description);
                     _anchor.setAttribute("rel", interestName);
                     _anchor.appendChild(_image);
 
-                    _listItem = domHelp.buildEl("li", null, "interestImage");
+                    _listItem = domHelp.buildEl("li", undefined, "interestImage");
                     _listItem.appendChild(_anchor);
 
                     _list.appendChild(_listItem);
@@ -1031,24 +1029,20 @@
             _infoContent = doc.getElementById("infoContent");
             _infoHeader = doc.getElementById("infoHeader");
 
-            function fn() {
-                _myInterest = interestsArr[interestName];
-                _galleryList = _getGalleryMarkup(interestName);
+            _myInterest = interestsArr[interestName];
+            _galleryList = _getGalleryMarkup(interestName);
 
-                _infoContent.innerHTML = "";
+            _infoContent.innerHTML = "";
 
-                if (_galleryList !== undefined) {
-                    _infoContent.appendChild(_galleryList);
-                }
-
-                _infoContent.classList.remove();
-                _infoContent.classList.add(interestName);
-
-                _infoContent.innerHTML += _myInterest.content;
-                _infoHeader.innerHTML = _myInterest.header;
+            if (_galleryList !== undefined) {
+                _infoContent.appendChild(_galleryList);
             }
 
-            return fn();
+            _infoContent.classList.remove();
+            _infoContent.classList.add(interestName);
+
+            _infoContent.innerHTML += _myInterest.content;
+            _infoHeader.innerHTML = _myInterest.header;
         };
 
         _init = function () {
@@ -1641,7 +1635,7 @@
         };
     }());
 
-    define(requires, function () {
+    $(function () {
         //Set up some global variables.
         doc = document;
         win = window;

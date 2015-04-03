@@ -1,5 +1,8 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
-<!DOCTYPE html>
+﻿<%@ Page 
+    Language="C#" 
+    AutoEventWireup="true" 
+    CodeFile="Default.aspx.cs" 
+    Inherits="_Default" %><!DOCTYPE html>
 <html lang="en">
     <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
         <title>Ashlin Allen - Web Developer</title>
@@ -9,24 +12,16 @@
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
         <meta content="The online portfolio of Seattle-area Front-End Web Developer, Ashlin Allen." name="description" />
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-
-        <meta property="og:title" content="Ashlin Allen, Web Developer"/>
-        <meta property="og:type" content="profile"/>
-        <meta property="og:url" content="http://ashlinallen.com/"/>
+        
+        <meta property="og:title" content="Ashlin Allen, Web Developer" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:url" content="http://ashlinallen.com/" />
         <meta property="og:image" content="http://ashlinallen.com/img/fb_thumb.png" />
-        <meta property="og:site_name" content="AshlinAllen.com"/>
-        <meta property="og:email" content="ashlin.allen@gmail.com"/>
-        <meta property="og:description" content="The portfolio site of Seattle-area Web Developer, Ashlin Allen."/>
-
-        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-        <link rel="stylesheet" type="text/css" href="css/main.css" />
-        <link rel="stylesheet" type="text/css" href="css/site.css" />
-        <link rel="stylesheet" type="text/css" href="css/props.css" />
-        <link rel="stylesheet" type="text/css" href="css/jquery.fancybox.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="css/jquery.fancybox-thumbs.css" media="screen" />
-
-        <script type="text/javascript" data-main="js/app" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.15/require.min.js"></script>
-        <script type="text/javascript">window.requirejs || document.write('<script type="text/javascript" data-main="js/app" src="js/require.js"><\/script>');</script>
+        <meta property="og:site_name" content="AshlinAllen.com" />
+        <meta property="og:email" content="ashlin.allen@gmail.com" />
+        <meta property="og:description" content="The portfolio site of Seattle-area Web Developer, Ashlin Allen." />
+        
+        <%: System.Web.Optimization.Styles.Render("~/bundles/css") %>
     </head>
     <body>
         <form runat="server">
@@ -40,9 +35,9 @@
                 </style>
                 <filter id="darken">
                     <feComponentTransfer>
-                        <feFuncR id="fefuncr" type="linear" slope="1"/>
-                        <feFuncG id="fefuncg" type="linear" slope="1"/>
-                        <feFuncB id="fefuncb" type="linear" slope="1"/>
+                        <feFuncR id="fefuncr" type="linear" slope="1"></feFuncR>
+                        <feFuncG id="fefuncg" type="linear" slope="1"></feFuncG>
+                        <feFuncB id="fefuncb" type="linear" slope="1"></feFuncB>
                     </feComponentTransfer>
                 </filter>
             </svg>
@@ -53,50 +48,52 @@
                 <a class="fa fa-file-pdf-o" href="files/Ashlin-Allen_resume.pdf" target="_blank"></a>
                 <a class="fa fa-file-word-o" href="files/Ashlin-Allen_resume.docx" target="_blank"></a>
                 <a class="fa fa-at" href="mailto:me@ashlinallen.com"></a>
-                <a id="contactIcon" class="fa fa-comment" href="#"></a>
+                <a class="fa fa-comment" href="#" id="contactIcon"></a>
                 <a class="fa fa-linkedin" href="https://www.linkedin.com/profile/view?id=360485132" target="_blank"></a>
                 <a class="fa fa-github-alt" href="https://github.com/ashlinallen" target="_blank"></a>
             </div>
 
-            <span id="theHeavens">
-                <span id="theStars"></span>
+            <div id="theHeavens">
+                <div id="theStars"></div>
 
-                <span id="topMarginContainer">
-                    <span id="moon" class="sprite"></span>
+                <div id="topMarginContainer">
+                    <div id="moon">
+                        <div class="sprite"></div>
+                    </div>
 
-                    <span id="lowEarthOrbit">
-                        <span id="satellite" class="sprite"></span>
-                        <span id="spaceShuttle" class="sprite"></span>
-                    </span>
+                    <div id="lowEarthOrbit">
+                        <div id="satellite" class="sprite"></div>
+                        <div id="spaceShuttle" class="sprite"></div>
+                    </div>
 
-                    <span id="ash" class="sprite walking">
-                        <span id="status"></span>
-                    </span>
+                    <div id="ash" class="sprite walking">
+                        <div id="status" class="sprite"></div>
+                    </div>
 
-                    <span id="planetEarth" class="sprite">
+                    <div id="planetEarth">
                         <a id="computers" class="sprite"></a>
                         <a id="nature" class="sprite"></a>
                         <a id="sheri" class="sprite"></a>
                         <a id="games" class="sprite"></a>
-                    </span>
-                    <span id="earthShadow"></span>
+                    </div>
+                    <div id="earthShadow"></div>
 
-                    <span id="contactForm">
-                        <label for="txtName">Name:</label><input type="text" id="txtName" required><br>
-                        <label for="txtEmail">E-mail:</label><input type="text" id="txtEmail" required><br>
-                        <label for="txtMsg">Message:</label><textarea id="txtMsg" required></textarea><br>
-                        <span id="contactSend" class="fa fa-rocket"></span>
-                    </span>
-
-                    <span id="contactThanks">
+                    <div id="contactForm">
+                        <label for="txtName">Name:</label><input type="text" id="txtName" value="Name" required><br>
+                        <label for="txtEmail">E-mail:</label><input type="text" id="txtEmail" value="ashlin.allen@gmail.com" required><br>
+                        <label for="txtMsg">Message:</label><textarea id="txtMsg" required>Test</textarea><br>
+                        <div class="fa fa-rocket" id="contactSend"></div>
+                    </div>
+                    
+                    <div id="contactThanks">
                         Your message was sent. Thanks!
-                    </span>
-                </span>
-            </span>
+                    </div>
+                </div>
+            </div>
 
             <div id="infoPanel">
-                <a id="infoPrev"></a>
-                <a id="infoNext"></a>
+                <a id="infoPrev" class="sprite"></a>
+                <a id="infoNext" class="sprite"></a>
                 <div>
                     <a id="infoClose" class="fa fa-close"></a>
                     <h2 id="infoHeader">.</h2>
@@ -105,5 +102,18 @@
                 </div>
             </div>
         </form>
+        <%: System.Web.Optimization.Scripts.Render("~/bundles/jquery")%>
+
+        <script type="text/javascript">
+            if (typeof jQuery == 'undefined') {
+                var e = document.createElement('script');
+                e.src = '@Url.Content("~/source_files/js/vendor/jquery-1.11.2.min.js")';
+                e.type = 'text/javascript';
+                document.getElementsByTagName("head")[0].appendChild(e);
+            }
+        </script>
+
+        <%: System.Web.Optimization.Scripts.Render("~/bundles/vendorjs")%>
+        <%: System.Web.Optimization.Scripts.Render("~/bundles/customjs")%>
     </body>
 </html>
