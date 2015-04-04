@@ -376,31 +376,20 @@
         };
 
         _animateMeteor = function (startX, startY) {
+            var _rTimeout;
             //Input: (int)startX, (int)startY
             //Create and animate a meteor from position startX, startY
-            _meteor.style.display = "block";
+            _rTimeout = Math.round((Math.random() * (3000 - 1500)) + 100);
             _meteor.style.top = startY + "px";
             _meteor.style.left = startX + "px";
 
-            TweenLite.to(_meteor, 0.5, {
-                css: {
-                    x: "-650px",
-                    y: "+450px",
-                    opacity: 0
-                },
-                ease: Sine.easeInOut,
-                onComplete: function () {
-                    _meteor.style.display = "none";
-                    _meteor.style.opacity = "1";
-                    TweenLite.to(_meteor, 0, {
-                        css: {
-                            x: "0px",
-                            y: "0px"
-                        }
-                    });
-                    _loopMeteor();
-                }
-            });
+            TweenMax.fromTo(_meteor, 0.5,
+                { css: { x: "-325", y: "+225", opacity: 1 } },
+                { css: { x: "-650", y: "+450", opacity: 0 } });
+
+            setTimeout(function () {
+                _loopMeteor();
+            }, _rTimeout);
         };
 
         _loopMeteor = function () {
