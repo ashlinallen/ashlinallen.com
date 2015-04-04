@@ -109,7 +109,7 @@
     <Content Include="favicon.png" />
     <Content Include="files\codesamples\ButtonLink.cs.txt" />
     <Content Include="files\codesamples\main.js" />
-    <Content Include="files\codesamples\site.html.txt" />
+    <Content Include="files\codesamples\default.aspx.txt" />
     <Content Include="files\codesamples\site.less.txt" />
     <Content Include="files\photos\margaret_1.jpg" />
     <Content Include="files\photos\margaret_1_thumb.jpg" />
