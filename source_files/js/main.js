@@ -10,7 +10,9 @@
         zoomYPos, zoomAnimating, zoomed, infoPanelAnimating, curEarthAngle,
         currentInterest, contactVisible, sprites, screenHelper, sky,
         mathHelper, domHelper, images, interests, infoPanel, contactForm,
-        content, page, earth, earthAnimating, mHelp, domHelp, screenHelperInst, interestInst, skyInst, pageInst, contInst, infoPanelInst, earthInst, contactFormInst, imagesInst, spritesInst;
+        content, page, earth, earthAnimating, mHelp, domHelp, screenHelperInst, interestInst,
+        skyInst, pageInst, contInst, infoPanelInst, earthInst, contactFormInst, imagesInst,
+        spritesInst;
 
     function domHelper() { };
     function mathHelper() {};

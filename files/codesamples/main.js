@@ -10,7 +10,9 @@
         zoomYPos, zoomAnimating, zoomed, infoPanelAnimating, curEarthAngle,
         currentInterest, contactVisible, sprites, screenHelper, sky,
         mathHelper, domHelper, images, interests, infoPanel, contactForm,
-        content, page, earth, earthAnimating, mHelp, domHelp, screenHelperInst, interestInst, skyInst, pageInst, contInst, infoPanelInst, earthInst, contactFormInst, imagesInst, spritesInst;
+        content, page, earth, earthAnimating, mHelp, domHelp, screenHelperInst, interestInst,
+        skyInst, pageInst, contInst, infoPanelInst, earthInst, contactFormInst, imagesInst,
+        spritesInst;
 
     function domHelper() { };
     function mathHelper() { };
@@ -1075,8 +1077,8 @@
                 "computer was powered down.</p>" +
                 "<p>This site was built as a 'living resume' to showcase the range of my skillset. For more detail on my experience, " +
                 "please click the PDF or Word icons at the top of the page to download and view my Resume. I would love for you to have " +
-                "a look at the <a href='files/codesamples/site.html.txt' target='_blank'>HTML</a>, " +
-                "<a href='files/codesamples/main.js' target='_blank'>Javascript</a> and " +
+                "a look at the <a href='files/codesamples/default.aspx.txt' target='_blank'>Markup</a>, " +
+                "<a href='files/codesamples/main.js' target='_blank'>JavaScript</a> and " +
                 "<a href='files/codesamples/site.less.txt' target='_blank'>LESS</a> for this site, as well as some " +
                 "<a href='files/codesamples/ButtonLink.cs.txt' target='_blank'>C#</a> from another project.</p>";
 
