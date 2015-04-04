@@ -2,7 +2,7 @@
     Language="C#" 
     AutoEventWireup="true" 
     CodeFile="Default.aspx.cs" 
-    Inherits="_Default" %><!DOCTYPE html>
+    Inherits="_Default" %><!DOCTYPE html> 
 <html lang="en">
     <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
         <title>Ashlin Allen - Web Developer</title>
