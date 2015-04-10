@@ -1,21 +1,23 @@
 .fill {
-    height:100%;
-    width:100%;
+    height: 100%;
+    width: 100%;
+}
+
+.backface-hidden {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .rotate (@deg) {
-    -webkit-transform:rotate(@deg);
-    -moz-transform:rotate(@deg);
-    -ms-transform:rotate(@deg);
-    -o-transform:rotate(@deg);
-    transform:rotate(@deg);
+    -webkit-transform: rotate(@deg);
+    -moz-transform: rotate(@deg);
+    -ms-transform: rotate(@deg);
+    -o-transform: rotate(@deg);
+    transform: rotate(@deg);
 }
 
 .border-radii (@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
-    border-top-right-radius: @topright;
-    border-bottom-right-radius: @bottomright;
-    border-bottom-left-radius: @bottomleft;
-    border-top-left-radius: @topleft;
     -webkit-border-top-right-radius: @topright;
     -webkit-border-bottom-right-radius: @bottomright;
     -webkit-border-bottom-left-radius: @bottomleft;
@@ -24,34 +26,65 @@
     -moz-border-radius-bottomright: @bottomright;
     -moz-border-radius-bottomleft: @bottomleft;
     -moz-border-radius-topleft: @topleft;
+    border-top-right-radius: @topright;
+    border-bottom-right-radius: @bottomright;
+    border-bottom-left-radius: @bottomleft;
+    border-top-left-radius: @topleft;
 }
 
 .hCenter (@width) {
     @halved: (@width / 2);
-    
-    width:@width*(1px);
-    margin-left:@halved*(-1px);
-    left:50%;
+
+    width: @width*(1px);
+    margin-left: @halved*(-1px);
+    left: 50%;
     position: absolute;
 }
 
 .vCenter (@height) {
     @halved: (@height / 2);
-    
-    height:@height*(1px);
-    margin-top:@halved*(-1px);
+
+    height: @height*(1px);
+    margin-top: @halved*(-1px);
     top: 50%;
     position: absolute;
 }
 
 .centered {
-    top:50%;
-    left:50%;
+    top: 50%;
+    left: 50%;
     position: absolute;
 }
 
 .origin (@origin) {
     -ms-transform-origin: percentage(@origin);
     -webkit-transform-origin: percentage(@origin);
+    -moz-transform-origin: percentage(@origin);
+    -o-transform-origin: percentage(@origin);
     transform-origin: percentage(@origin);
+}
+
+.transform (@transform) {
+    -webkit-transform: @transform;
+    -moz-transform: @transform;
+    -ms-transform: @transform;
+    -o-transform: @transform;
+    transform: @transform;
+}
+
+.transition (@transform) {
+    -webkit-transition: @transform;
+    -moz-transition: @transform;
+    -ms-transition: @transform;
+    -o-transition: @transform;
+    transition: @transform;
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

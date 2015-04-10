@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Web;
-using System.Web.Optimization;
-using System.Web.UI;
+﻿using System.Web.Optimization;
 using BundleTransformer.Core.Transformers;
 
 namespace ashlinallen.com
