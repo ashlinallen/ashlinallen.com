@@ -49,7 +49,7 @@
                 <a class="fa fa-file-word-o" href="files/Ashlin-Allen_resume.docx" target="_blank"></a>
                 <a class="fa fa-at" href="mailto:me@ashlinallen.com"></a>
                 <a class="fa fa-comment" href="#" id="contactIcon"></a>
-                <a class="fa fa-linkedin" href="https://www.linkedin.com/profile/view?id=360485132" target="_blank"></a>
+                <a class="fa fa-linkedin" href="https://linkedin.com/in/ashlinallen" target="_blank"></a>
                 <a class="fa fa-github-alt" href="https://github.com/ashlinallen" target="_blank"></a>
             </div>
 
