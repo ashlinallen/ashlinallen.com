@@ -25,23 +25,6 @@
     </head>
     <body>
         <form runat="server">
-            <svg xmlns="http://www.w3.org/2000/svg" height="0" width="0">
-                <style type="text/css" >
-                    <![CDATA[
-                        #moon, #lowEarthOrbit, #ash, #planetEarth {
-                            filter:url(#darken);
-                        }
-                    ]]>
-                </style>
-                <filter id="darken">
-                    <feComponentTransfer>
-                        <feFuncR id="fefuncr" type="linear" slope="1"></feFuncR>
-                        <feFuncG id="fefuncg" type="linear" slope="1"></feFuncG>
-                        <feFuncB id="fefuncb" type="linear" slope="1"></feFuncB>
-                    </feComponentTransfer>
-                </filter>
-            </svg>
-
             <div id="contactInfo">
                 <h1>Ashlin Allen</h1>
                 <h3>Web Developer, Seattle WA</h3>

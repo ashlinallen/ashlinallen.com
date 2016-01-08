@@ -873,15 +873,7 @@
                     return;
                 }
 
-                if (isFirefox) {
-                    _fefuncr = doc.getElementById("fefuncr");
-                    _fefuncg = doc.getElementById("fefuncg");
-                    _fefuncb = doc.getElementById("fefuncb");
-                }
-
-                if (isWebkit) {
-                    _els = [planetEarthEl, ashEl, lowEarthOrbit, moon];
-                }
+                _els = [planetEarthEl, ashEl, lowEarthOrbit, moon];
 
                 //Set the start/end values for tweening.
                 if (showHide === "show") {
@@ -912,17 +904,9 @@
                     //If browser is Firefox, we have to animate the filter lin elements
                     //directly, since there is no brightness filter built-in.
 
-                    if (isFirefox) {
-                        _fefuncr.setAttribute("slope", _curFloat);
-                        _fefuncg.setAttribute("slope", _curFloat);
-                        _fefuncb.setAttribute("slope", _curFloat);
-                    }
-
                     //If browser is Webkit, we can use the built-in vendor specific prefix
                     //and brightness filter.
-                    if (isWebkit) {
-                        TweenLite.to(_els, 0, { css: { '-webkit-filter': 'brightness(' + _curFloat + ')' } });
-                    }
+                    TweenLite.to(_els, 0, { css: { '-webkit-filter': 'brightness(' + _curFloat + ')', 'filter': 'brightness(' + _curFloat + ')' } });
 
                     //Stop the interval if we've reached our target brightness.
                     if (_curFloat === _endFloat) { clearInterval(_anim); }
