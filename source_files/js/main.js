@@ -1013,7 +1013,7 @@
                 _infoContent.appendChild(_galleryList);
             }
 
-            _infoContent.classList.remove();
+            _infoContent.className = "";
             _infoContent.classList.add(interestName);
 
             _infoContent.innerHTML += _myInterest.content;
