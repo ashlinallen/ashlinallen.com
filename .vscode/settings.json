@@ -1,0 +1,26 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"editor.wrappingColumn": 0,
+    "files.exclude": {
+        ".vscode/": true,
+        "node_modules/": true,
+        "dist/": true,
+        "typings/": true
+    },
+    "editor.fontSize": 16,
+    "editor.rulers": [80, 120],
+    "editor.mouseWheelZoom": true,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 5000,
+    "typescript.useCodeSnippetsOnMethodSuggest": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": true,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+    "javascript.format.placeOpenBraceOnNewLineForFunctions": true,
+    "javascript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "telemetry.enableCrashReporter": false,
+    "telemetry.enableTelemetry": false,
+}

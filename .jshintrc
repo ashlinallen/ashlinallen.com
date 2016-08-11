@@ -1,0 +1,10 @@
+{
+    "browser"       : true,
+    "node"          : true,
+    "jquery"        : true,
+    "predef"        : [
+        "angular",
+        "module",
+        "require"
+    ]
+}

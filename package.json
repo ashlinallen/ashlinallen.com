@@ -1,0 +1,53 @@
+{
+  "name": "ashlinallen.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashlinallen/ashlinallen.com.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashlinallen/ashlinallen.com/issues"
+  },
+  "homepage": "https://github.com/ashlinallen/ashlinallen.com#readme",
+  "scripts": {
+    "start": "set NODE_ENV=production && node ./app/server/app",
+    "dev": "set NODE_ENV=development && node ./app/server/app",
+    "build": "webpack --progress --colors --config ./webpack.config.production.js"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.7",
+    "browser-sync": "^2.13.0",
+    "browser-sync-webpack-plugin": "^1.1.0",
+    "clean-webpack-plugin": "^0.1.10",
+    "copy-webpack-plugin": "^3.0.1",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "fs": "0.0.2",
+    "html-loader": "^0.4.3",
+    "html-minify-loader": "^1.1.0",
+    "html-webpack-plugin": "^2.22.0",
+    "jshint": "^2.9.2",
+    "jshint-loader": "^0.8.3",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "ng-cache-loader": "0.0.17",
+    "node-sass": "^3.8.0",
+    "postcss-loader": "^0.9.1",
+    "sass-loader": "^4.0.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.1",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-hot-middleware": "^2.12.2"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "htmlencode": "0.0.4",
+    "request": "^2.74.0",
+    "request-promise": "^4.0.2"
+  }
+}

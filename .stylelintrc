@@ -1,0 +1,29 @@
+{
+  "extends": "stylelint-config-suitcss",
+  "plugins": [
+    "stylelint-selector-bem-pattern"
+  ],
+  "rules": {
+    "block-no-empty": null,
+    "color-no-invalid-hex": true,
+    "comment-empty-line-before": [ "always", {
+      "except": ["first-nested"],
+      "ignore": ["stylelint-commands", "between-comments"]
+    } ],
+    "declaration-colon-space-after": "always",
+    "indentation": 4,
+    "max-empty-lines": 2,
+    "string-quotes": "single",
+    "rule-nested-empty-line-before": [ "always", {
+      "except": ["first-nested"],
+      "ignore": ["after-comment"]
+    } ],
+    "unit-whitelist": ["rem", "%", "s", "px", "deg"],
+    "plugin/selector-bem-pattern": {
+      "preset": "suit",
+      "presetOptions": { 
+        namespace: "tv" 
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Node App",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}\\app\\server\\app.js",
+			"stopOnEntry": false,
+			"args": [],
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": null,
+			"runtimeExecutable": null,
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"env": {
+				"NODE_ENV": "development",
+                "MONGO_URL": "mongodb://tmAfx9amE:U2kd27SRN@olympia.modulusmongo.net:27017/pa8mYvex",
+                "API_YOUTUBE": "AIzaSyBrUjaQlLsZ9oy_LCTf8rTxoZplMPDyUiI"
+			},
+			"externalConsole": false,
+			"sourceMaps": false,
+			"outDir": null
+		},
+		{
+            "name": "Attach to Chrome",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222
+		}
+	]
+}
